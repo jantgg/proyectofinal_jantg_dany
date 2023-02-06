@@ -90,8 +90,8 @@ class Bike(db.Model):
     brand = db.Column(db.String(250), nullable=False, unique=False)
     model = db.Column(db.String(250), nullable=False, unique=True)
     bike_photo = db.Column(db.String(250), nullable=False, unique=True)
-    ask_1_license = db.Column(db.String(250), default=False, nullable=False)
-    ask_11_limitable = db.Column(db.String(250), nullable=False)
+    ask_1_license = db.Column(db.String(250), nullable=False)
+    ask_11_limitable = db.Column(db.String(250), default=False, nullable=False)
     ask_2_wheels = db.Column(db.String(250), nullable=False)
     ask_3_surface = db.Column(db.String(250), nullable=False)
     ask_31_surface_offroad = db.Column(db.String(250), nullable=False)
@@ -135,10 +135,10 @@ class Bike(db.Model):
         }
 
 class Question(db.Model): 
-    id = db.Column(db.Integer, primary_key=True)
-    question = db.Column(db.String(250), nullable=True)
-    text_question = db.Column(db.String(250), nullable=True)
-    answers = db.relationship('Answer', backref='question')
+    id = db.Column(db.String(250), primary_key=True, unique=True)
+    question = db.Column(db.String(250), nullable=False)
+    notes = db.Column(db.String(250), nullable=True)
+
 
     def __repr__(self):
         return f'Question {self.id}: {self.question}'
@@ -152,9 +152,12 @@ class Question(db.Model):
 
 
 class Answer(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    answer = db.Column(db.String(250), nullable=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
+    id = db.Column(db.String(250), primary_key=True, unique=True)
+    answer = db.Column(db.String(250), nullable=False)
+    next_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
+    current_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
+    current_question = db.relationship('Question', foreign_keys=[current_question_id], backref='answers')
+    next_question = db.relationship('Question', foreign_keys=[next_question_id])
 
     def __repr__(self):
         return f'Answer: {self.answer}'
