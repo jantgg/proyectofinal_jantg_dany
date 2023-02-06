@@ -5,7 +5,7 @@ import "../../styles/home.css";
 export const Navbar = () => {
   return (
     <div className="row ">
-      <nav className=" col-11 navbar navbar-expand-lg  bordecito mx-auto">
+      <nav className=" col-11 navbar navbar-expand-lg  bordecito mx-auto ">
         <div className="container-fluid">
           <a className="navbar-brand texto-amarillo" href="#">
             Home

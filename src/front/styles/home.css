@@ -21,3 +21,64 @@
 body {
   background-color: #1c1c1c;
 }
+
+button {
+  position: relative;
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+}
+
+/* BUTTON */
+
+button:hover {
+  background: #f7f8f2;
+  color: #f7f8f2;
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #272822;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px #f7f8f2;
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+
+.card {
+  margin: 0px;
+  padding: 0px;
+}
