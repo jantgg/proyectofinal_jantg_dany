@@ -12,6 +12,12 @@
   border-bottom: 2px solid white;
   padding-bottom: 0px;
 }
+
+.bordecitoup {
+  border-top: 2px solid white;
+  padding-bottom: 0px;
+}
+
 body {
   background-color: #444444;
 }
