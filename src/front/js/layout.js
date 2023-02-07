@@ -8,9 +8,13 @@ import { Result } from "./pages/result";
 import { Bestroutes } from "./pages/bestroutes";
 import { Bestroutesupload } from "./pages/bestroutesupload";
 import { Bestphotographer } from "./pages/bestphotographer";
+import { Bpr } from "./pages/bpr";
 import { Bestphotographerupload } from "./pages/bestphotographerupload";
 import { User } from "./pages/user";
 import { Userphoto } from "./pages/userphoto";
+import { Userregister } from "./pages/userregister";
+import { Login } from "./pages/login";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -28,21 +32,23 @@ const Layout = () => {
       <BrowserRouter basename={basename}>
         <ScrollToTop>
           <Navbar />
-          <Home />
 
           <Routes>
-            <Route element={<Home />} path="/home" />
+            <Route element={<Home />} path="/" />
             <Route element={<Test />} path="/test" />
             <Route element={<Result />} path="/result" />
             <Route element={<Bestroutes />} path="/bestroutes" />
             <Route element={<Bestroutesupload />} path="/bestroutesupload" />
             <Route element={<Bestphotographer />} path="/bestphotographer" />
+            <Route element={<Bpr />} path="/bpr" />
+            <Route element={<Login />} path="/login" />
             <Route
               element={<Bestphotographerupload />}
               path="/bestphotographerupload"
             />
             <Route element={<User />} path="/user" />
             <Route element={<Userphoto />} path="/userphoto" />
+            <Route element={<Userregister />} path="/userregister" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

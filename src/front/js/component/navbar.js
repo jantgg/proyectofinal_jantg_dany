@@ -7,9 +7,9 @@ export const Navbar = () => {
     <div className="row ">
       <nav className=" col-11 navbar navbar-expand-lg  bordecito mx-auto ">
         <div className="container-fluid">
-          <a className="navbar-brand texto-amarillo" href="#">
+          <Link to="/" className="navbar-brand texto-amarillo" href="#">
             Home
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -25,41 +25,53 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link to="/test" className="nav-link texto-amarillo" href="#">
                   Test
-                </a>
+                </Link>
               </div>
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link
+                  to="/bestroutes"
+                  className="nav-link texto-amarillo"
+                  href="#"
+                >
                   Rutas
-                </a>
+                </Link>
               </div>
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link
+                  to="/bestpothographer"
+                  className="nav-link texto-amarillo"
+                  href="#"
+                >
                   Fotógrafos
-                </a>
+                </Link>
               </div>
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link to="/user" className="nav-link texto-amarillo" href="#">
                   Mi Perfil
-                </a>
+                </Link>
               </div>
             </ul>
             <ul className="navbar-nav ms-auto">
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link to="/login" className="nav-link texto-amarillo" href="#">
                   Log in
-                </a>
+                </Link>
               </div>
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link
+                  to="/userregister"
+                  className="nav-link texto-amarillo"
+                  href="#"
+                >
                   Sign in
-                </a>
+                </Link>
               </div>
               <div className="nav-item">
-                <a className="nav-link texto-amarillo" href="#">
+                <Link to="/" className="nav-link texto-amarillo" href="#">
                   Log out
-                </a>
+                </Link>
               </div>
             </ul>
           </div>
