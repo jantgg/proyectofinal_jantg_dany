@@ -5,24 +5,22 @@ import "../../styles/registerform.css";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const sendLogin = async () => {
-    const response = await fetch(
-      "https://3001-jantgg-proyectofinaljan-7wjgeh2oaws.ws-eu85.gitpod.io/api/login",
-      {
-        method: "POST",
-        headers: {
-          "content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      }
-    );
+    const response = await fetch(store.backendurl + "login", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
