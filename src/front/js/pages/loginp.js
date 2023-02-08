@@ -4,21 +4,19 @@ import { Context } from "../store/appContext";
 import "../../styles/registerform.css";
 import { useNavigate } from "react-router-dom";
 
-export const Userregister = () => {
+export const Loginp = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user_name, setUserName] = useState("");
   const [error, setError] = useState(false);
-  const sendRegister = async () => {
-    const response = await fetch(store.backendurl + "register", {
+  const sendLogin = async () => {
+    const response = await fetch(store.backendurl + "loginp", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_name: user_name,
         email: email,
         password: password,
       }),
@@ -26,12 +24,11 @@ export const Userregister = () => {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      navigate("/login");
+      navigate("/");
     } else {
       setError(true);
     }
   };
-
   return (
     <section className="h-100">
       <div className="container py-5 h-100">
@@ -48,76 +45,60 @@ export const Userregister = () => {
                 </div>
                 <div className="col-xl-6">
                   <div className="card-body p-md-5 text-black">
-                    <h3 className="mb-5 text-uppercase ">
-                      OnBikes Registration for Riders or <br />
-                      <Link to="/bpr">click here if you're a photographer</Link>
+                    <h3 className="mb-5 text-uppercase">
+                      OnBikes Log In For Photographers
                     </h3>
                     <div className="row">
                       <div className="col-md-6 mb-4">
-                        <div className="form-outline">
+                        <div className="">
                           <input
-                            className="form-control form-control-lg"
-                            placeholder="Username"
-                            value={user_name}
+                            className=""
+                            name="email"
+                            placeholder="email"
+                            value={email}
                             onChange={(e) => {
                               setError(false);
-                              setUserName(e.target.value);
+                              setEmail(e.target.value);
                             }}
-                          />
-                          <label
-                            className="form-label"
-                            htmlFor="form3Example1m"
-                          >
-                            User name
+                          ></input>
+                          <label className="form-label" htmlFor="email">
+                            Email
                           </label>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
-                        <div className="form-outline">
+                        <div className="">
                           <input
-                            type="password"
-                            className="form-control form-control-lg"
+                            className=""
+                            name="password"
                             placeholder="password"
                             value={password}
                             onChange={(e) => {
                               setError(false);
                               setPassword(e.target.value);
                             }}
-                          />
-                          <label
-                            className="form-label"
-                            htmlFor="form3Example1n"
-                          >
+                          ></input>
+                          <label className="form-label" htmlFor="password">
                             Password
                           </label>
                         </div>
                       </div>
                     </div>
-                    <div className="form-outline mb-4">
-                      <input
-                        type="text"
-                        className="form-control form-control-lg"
-                        placeholder="email"
-                        value={email}
-                        onChange={(e) => {
-                          setError(false);
-                          setEmail(e.target.value);
-                        }}
-                      />
-                      <label className="form-label" htmlFor="form3Example97">
-                        Email
-                      </label>
-                    </div>
-
                     <div className="d-flex justify-content-end pt-3">
                       <button
                         type="button"
+                        className="btn btn-light btn-lg text-white"
+                      >
+                        <span>Reset all</span>
+                      </button>
+                      <button
+                        type="button"
                         className="btn btn-warning btn-lg ms-2 text-white"
-                        onClick={() => sendRegister()}
+                        onClick={() => sendLogin()}
                       >
                         <span>Submit form</span>
                       </button>
-                      {error ? <p>Usuario ya registrado</p> : null}
+                      {error ? <p>ERROR CREDENCIALES</p> : null}
                     </div>
                   </div>
                 </div>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
   return (
     <div className="row ">
       <nav className=" col-11 navbar navbar-expand-lg  bordecito mx-auto ">
@@ -64,6 +66,13 @@ export const Navbar = () => {
                   Sign in
                 </Link>
               </div>
+              {store.userType == null
+                ? "login"
+                : store.userType == "user"
+                ? "navbar user"
+                : store.userType == "photographer"
+                ? "navbar photographer"
+                : null}
               <div className="nav-item">
                 <Link to="/" className="nav-link texto-amarillo" href="#">
                   Log out

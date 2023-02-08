@@ -24,6 +24,7 @@ export const Login = () => {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
+      await actions.syncuser();
       navigate("/");
     } else {
       setError(true);
@@ -45,7 +46,16 @@ export const Login = () => {
                 </div>
                 <div className="col-xl-6">
                   <div className="card-body p-md-5 text-black">
-                    <h3 className="mb-5 text-uppercase">OnBikes Log In</h3>
+                    <h3 className="mb-5 text-uppercase">
+                      OnBikes Log In for Users <br />
+                      <Link
+                        to="/loginp"
+                        className="nav-link texto-amarillo"
+                        href="#"
+                      >
+                        or click here if you're photographer
+                      </Link>
+                    </h3>
                     <div className="row">
                       <div className="col-md-6 mb-4">
                         <div className="">
@@ -83,12 +93,6 @@ export const Login = () => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-end pt-3">
-                      <button
-                        type="button"
-                        className="btn btn-light btn-lg text-white"
-                      >
-                        <span>Reset all</span>
-                      </button>
                       <button
                         type="button"
                         className="btn btn-warning btn-lg ms-2 text-white"

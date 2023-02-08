@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 import "../../styles/registerform.css";
+import { useNavigate } from "react-router-dom";
 
 export const Bpr = () => {
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user_name, setUserName] = useState("");
+  const [location, setLocation] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [sunday, setSunday] = useState("");
+  const [service, setService] = useState("");
+  const [error, setError] = useState(false);
+  const sendBpr = async () => {
+    const response = await fetch(store.backendurl + "bpr", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_name: user_name,
+        email: email,
+        password: password,
+        location: location,
+        instagram: instagram,
+        sunday: sunday,
+        error: error,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      navigate("/login");
+    } else {
+      setError(true);
+    }
+  };
   return (
     <section className="h-100">
       <div className="container py-5 h-100">
@@ -26,9 +62,13 @@ export const Bpr = () => {
                       <div className="col-md-6 mb-4">
                         <div className="form-outline">
                           <input
-                            type="text"
-                            id="form3Example1m"
                             className="form-control form-control-lg"
+                            placeholder="Username"
+                            value={user_name}
+                            onChange={(e) => {
+                              setError(false);
+                              setUserName(e.target.value);
+                            }}
                           />
                           <label
                             className="form-label"
@@ -42,8 +82,13 @@ export const Bpr = () => {
                         <div className="form-outline">
                           <input
                             type="password"
-                            id="form3Example1n"
                             className="form-control form-control-lg"
+                            placeholder="password"
+                            value={password}
+                            onChange={(e) => {
+                              setError(false);
+                              setPassword(e.target.value);
+                            }}
                           />
                           <label
                             className="form-label"
@@ -57,8 +102,13 @@ export const Bpr = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
+                        placeholder="email"
+                        value={email}
+                        onChange={(e) => {
+                          setError(false);
+                          setEmail(e.target.value);
+                        }}
                       />
                       <label className="form-label" htmlFor="form3Example97">
                         Email
@@ -67,8 +117,13 @@ export const Bpr = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
+                        placeholder="Localización"
+                        value={location}
+                        onChange={(e) => {
+                          setError(false);
+                          setLocation(e.target.value);
+                        }}
                       />
                       <label className="form-label" htmlFor="form3Example97">
                         Provincia/Ciudad de trabajo
@@ -77,8 +132,13 @@ export const Bpr = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
+                        placeholder="@instagram"
+                        value={instagram}
+                        onChange={(e) => {
+                          setError(false);
+                          setInstagram(e.target.value);
+                        }}
                       />
                       <label className="form-label" htmlFor="form3Example97">
                         Instagram
@@ -87,8 +147,13 @@ export const Bpr = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
+                        placeholder="Servicios"
+                        value={service}
+                        onChange={(e) => {
+                          setError(false);
+                          setService(e.target.value);
+                        }}
                       />
                       <label className="form-label" htmlFor="form3Example97">
                         Servicios
@@ -97,8 +162,13 @@ export const Bpr = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
+                        placeholder="Lugar Favorito"
+                        value={sunday}
+                        onChange={(e) => {
+                          setError(false);
+                          setSunday(e.target.value);
+                        }}
                       />
                       <label className="form-label" htmlFor="form3Example97">
                         ¿Donde pueden encontrarte los domingos?
@@ -108,15 +178,11 @@ export const Bpr = () => {
                     <div className="d-flex justify-content-end pt-3">
                       <button
                         type="button"
-                        className="btn btn-light btn-lg text-white"
-                      >
-                        <span>Reset all</span>
-                      </button>
-                      <button
-                        type="button"
                         className="btn btn-warning btn-lg ms-2 text-white"
+                        onClick={() => sendBpr()}
                       >
                         <span>Submit form</span>
+                        {error ? <p>Usuario ya registrado</p> : null}
                       </button>
                     </div>
                   </div>
