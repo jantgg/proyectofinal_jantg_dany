@@ -5,7 +5,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(250), nullable=False, unique=True)
-    passsword = db.Column(db.String(250), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     active = db.Column(db.Boolean, default=True)
 
@@ -23,7 +23,7 @@ class User(db.Model):
 class Photographer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(250), nullable=False, unique=True)
-    passsword = db.Column(db.String(250), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     active = db.Column(db.Boolean, default=True)
     location_text = db.Column(db.String(250), nullable=False, unique=True)

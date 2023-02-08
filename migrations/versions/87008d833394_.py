@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8d5e7a3a6443
+Revision ID: 87008d833394
 Revises: 
-Create Date: 2023-02-06 19:07:22.024485
+Create Date: 2023-02-08 11:33:44.440466
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8d5e7a3a6443'
+revision = '87008d833394'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -46,7 +46,7 @@ def upgrade():
     op.create_table('photographer',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_name', sa.String(length=250), nullable=False),
-    sa.Column('passsword', sa.String(length=250), nullable=False),
+    sa.Column('password', sa.String(length=250), nullable=False),
     sa.Column('email', sa.String(length=250), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.Column('location_text', sa.String(length=250), nullable=False),
@@ -92,7 +92,7 @@ def upgrade():
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_name', sa.String(length=250), nullable=False),
-    sa.Column('passsword', sa.String(length=250), nullable=False),
+    sa.Column('password', sa.String(length=250), nullable=False),
     sa.Column('email', sa.String(length=250), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -103,9 +103,9 @@ def upgrade():
     sa.Column('id', sa.String(length=250), nullable=False),
     sa.Column('answer', sa.String(length=250), nullable=False),
     sa.Column('next_question_id', sa.String(length=250), nullable=True),
-    sa.Column('question_id', sa.String(length=250), nullable=True),
+    sa.Column('current_question_id', sa.String(length=250), nullable=True),
+    sa.ForeignKeyConstraint(['current_question_id'], ['question.id'], ),
     sa.ForeignKeyConstraint(['next_question_id'], ['question.id'], ),
-    sa.ForeignKeyConstraint(['question_id'], ['question.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )

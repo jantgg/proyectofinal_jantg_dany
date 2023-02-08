@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 import "../../styles/registerform.css";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const sendLogin = async () => {
+    const response = await fetch(
+      "https://3001-jantgg-proyectofinaljan-7wjgeh2oaws.ws-eu85.gitpod.io/api/login",
+      {
+        method: "POST",
+        headers: {
+          "content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    } else {
+      setError(true);
+    }
+  };
   return (
     <section className="h-100">
       <div className="container py-5 h-100">
@@ -22,31 +50,35 @@ export const Login = () => {
                     <h3 className="mb-5 text-uppercase">OnBikes Log In</h3>
                     <div className="row">
                       <div className="col-md-6 mb-4">
-                        <div className="form-outline">
+                        <div className="">
                           <input
-                            type="text"
-                            id="form3Example1m"
-                            className="form-control form-control-lg"
-                          />
-                          <label
-                            className="form-label"
-                            htmlFor="form3Example1m"
-                          >
-                            User name
+                            className=""
+                            name="email"
+                            placeholder="email"
+                            value={email}
+                            onChange={(e) => {
+                              setError(false);
+                              setPassword(e.target.value);
+                            }}
+                          ></input>
+                          <label className="form-label" htmlFor="email">
+                            Email
                           </label>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
-                        <div className="form-outline">
+                        <div className="">
                           <input
-                            type="password"
-                            id="form3Example1n"
-                            className="form-control form-control-lg"
-                          />
-                          <label
-                            className="form-label"
-                            htmlFor="form3Example1n"
-                          >
+                            className=""
+                            name="password"
+                            placeholder="password"
+                            value={password}
+                            onChange={(e) => {
+                              setError(false);
+                              setPassword(e.target.value);
+                            }}
+                          ></input>
+                          <label className="form-label" htmlFor="password">
                             Password
                           </label>
                         </div>
@@ -62,9 +94,11 @@ export const Login = () => {
                       <button
                         type="button"
                         className="btn btn-warning btn-lg ms-2 text-white"
+                        onClick={() => sendLogin()}
                       >
                         <span>Submit form</span>
                       </button>
+                      {error ? <p>ERROR CREDENCIALES</p> : null}
                     </div>
                   </div>
                 </div>
