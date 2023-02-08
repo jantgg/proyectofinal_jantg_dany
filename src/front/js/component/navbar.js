@@ -39,11 +39,7 @@ export const Navbar = () => {
                 </Link>
               </div>
               <div className="nav-item">
-                <Link
-                  to="/bestpothographer"
-                  className="nav-link texto-amarillo"
-                  href="#"
-                >
+                <Link to="/bp" className="nav-link texto-amarillo" href="#">
                   Fotógrafos
                 </Link>
               </div>

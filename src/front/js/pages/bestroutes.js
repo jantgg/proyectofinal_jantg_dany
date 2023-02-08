@@ -8,7 +8,11 @@ export const Bestroutes = () => {
   return (
     <div className="container">
       <Link to="/">
-        <button className="btn btn-primary">Back home</button>
+        <button>
+          <span className="btn btn-primary btn-lg" href="#" role="button">
+            Back home
+          </span>
+        </button>
       </Link>
     </div>
   );

@@ -58,7 +58,7 @@ export const Login = () => {
                             value={email}
                             onChange={(e) => {
                               setError(false);
-                              setPassword(e.target.value);
+                              setEmail(e.target.value);
                             }}
                           ></input>
                           <label className="form-label" htmlFor="email">

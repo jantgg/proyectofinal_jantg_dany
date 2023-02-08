@@ -28,7 +28,6 @@ export const Userregister = () => {
                         <div className="form-outline">
                           <input
                             type="text"
-                            id="form3Example1m"
                             className="form-control form-control-lg"
                           />
                           <label
@@ -43,7 +42,6 @@ export const Userregister = () => {
                         <div className="form-outline">
                           <input
                             type="password"
-                            id="form3Example1n"
                             className="form-control form-control-lg"
                           />
                           <label
@@ -58,7 +56,6 @@ export const Userregister = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        id="form3Example97"
                         className="form-control form-control-lg"
                       />
                       <label className="form-label" htmlFor="form3Example97">
