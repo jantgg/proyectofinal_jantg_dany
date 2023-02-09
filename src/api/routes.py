@@ -10,32 +10,7 @@ from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
-
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
-
-@api.route('/sync', methods=['GET'])
-@jwt_required()
-def sync_user():
-    email = get_jwt_identity()
-    user = User.query.filter_by(email=email).first()
-    photographer = Photographer.query.filter_by(email=email).first()
-    if not user and not photographer:
-        return jsonify ({"type": None}), 401
-    if user: return jsonify({"type": "user"}), 200
-    if photographer: return jsonify({"type": "photographer"}), 200
-
-
-  
-
-
-
+# LOGIN DE USER --------------------------------------------------------------------------------------->
 @api.route('/login', methods=['POST'])
 def user_login():
     body_email = request.json.get("email")
@@ -47,20 +22,9 @@ def user_login():
     token = None
     if user: token = create_access_token(identity=user.email) 
     if photographer: token = create_access_token(identity=photographer.email) 
-   
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(user)
     return jsonify({"response": "hola", "token": token }), 200
 
-
-
-
-
-
-
-
-
-
+# LOGIN DE FOTOGRAFO ---------------------------------------------------------------------------------->
 @api.route('/loginp', methods=['POST'])
 def photographer_login():
     body_email = request.json.get("email")
@@ -69,13 +33,9 @@ def photographer_login():
     if not user or photographer:
         return jsonify ({"error":"X"}), 401
     token = create_access_token(identity=photographer.id)
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(photographer)
     return jsonify({"response": "hola", "token": token }), 200
 
-
-
-
+# REGISTRO DE USER ------------------------------------------------------------------------------------->
 @api.route('/register', methods=['POST'])
 def user_register():
     body_user_name = request.json.get("user_name")
@@ -90,6 +50,7 @@ def user_register():
     db.session.commit()
     return jsonify({"response": "User registered successfully",}), 200
 
+# REGISTRO DE FOTOGRAFO ------------------------------------------------------------------------------->
 @api.route('/bpr', methods=['POST'])
 def photographer_register():
     body_user_name = request.json.get("user_name")
@@ -107,6 +68,19 @@ def photographer_register():
     db.session.add(new_photographer)
     db.session.commit()
     return jsonify({"response": "Photographer registered successfully",}), 200
+
+# REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------->
+@api.route('/sync', methods=['GET'])
+@jwt_required()
+def sync_user():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    photographer = Photographer.query.filter_by(email=email).first()
+    if not user and not photographer:
+        return jsonify ({"type": None}), 401
+    if user: return jsonify({"type": "user"}), 200
+    if photographer: return jsonify({"type": "photographer"}), 200
+
 
 #Endpoints iniciales de creacion de DB
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
