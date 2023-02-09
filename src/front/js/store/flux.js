@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       userType: null,
       backendurl:
-        "https://3001-jantgg-proyectofinaljan-nbuoufpmcuv.ws-eu85.gitpod.io/api/",
+        "https://3001-jantgg-proyectofinaljan-vbyrdoin260.ws-eu86.gitpod.io/api/",
     },
     actions: {
       syncuser: async () => {
@@ -17,6 +17,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           localStorage.setItem("type", data.type);
           setStore({ userType: data.type });
+        }
+      },
+      logout: () => {
+        try {
+          localStorage.removeItem("token");
+          setStore({ userType: null });
+          return true;
+        } catch (e) {
+          console.log(e);
+          return false;
         }
       },
     },

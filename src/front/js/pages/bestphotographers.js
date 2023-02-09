@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
-export const Bp = () => {
+export const Bestphotographers = () => {
   return (
     <div className="">
       <Link to="/">

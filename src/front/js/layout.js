@@ -7,7 +7,7 @@ import { Test } from "./pages/test";
 import { Result } from "./pages/result";
 import { Bestroutes } from "./pages/bestroutes";
 import { Bestroutesupload } from "./pages/bestroutesupload";
-import { Bp } from "./pages/bp";
+import { Bestphotographers } from "./pages/bestphotographers";
 import { Bpr } from "./pages/bpr";
 import { Bestphotographerupload } from "./pages/bestphotographerupload";
 import { User } from "./pages/user";
@@ -40,7 +40,7 @@ const Layout = () => {
             <Route element={<Result />} path="/result" />
             <Route element={<Bestroutes />} path="/bestroutes" />
             <Route element={<Bestroutesupload />} path="/bestroutesupload" />
-            <Route element={<Bp />} path="/bp" />
+            <Route element={<Bestphotographers />} path="/bestphotographers" />
             <Route element={<Bpr />} path="/bpr" />
             <Route element={<Login />} path="/login" />
             <Route element={<Loginp />} path="/loginp" />

@@ -6,10 +6,10 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   return (
-    <div className="row ">
-      <nav className=" col-11 navbar navbar-expand-lg  bordecito mx-auto ">
+    <div className="row">
+      <nav className=" col-11 navbar navbar-expand-lg bordecito mx-auto">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand texto-amarillo" href="#">
+          <Link to="/" className="navbar-brand texto-amarillo">
             Home
           </Link>
           <button
@@ -23,61 +23,64 @@ export const Navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <div className="nav-item">
-                <Link to="/test" className="nav-link texto-amarillo" href="#">
+                <Link to="/test" className="nav-link texto-amarillo">
                   Test
                 </Link>
               </div>
               <div className="nav-item">
-                <Link
-                  to="/bestroutes"
-                  className="nav-link texto-amarillo"
-                  href="#"
-                >
+                <Link to="/bestroutes" className="nav-link texto-amarillo">
                   Rutas
                 </Link>
               </div>
               <div className="nav-item">
-                <Link to="/bp" className="nav-link texto-amarillo" href="#">
+                <Link
+                  to="/bestphotographers"
+                  className="nav-link texto-amarillo"
+                >
                   Fotógrafos
-                </Link>
-              </div>
-              <div className="nav-item">
-                <Link to="/user" className="nav-link texto-amarillo" href="#">
-                  Mi Perfil
                 </Link>
               </div>
             </ul>
             <ul className="navbar-nav ms-auto">
-              <div className="nav-item">
-                <Link to="/login" className="nav-link texto-amarillo" href="#">
-                  Log in
-                </Link>
-              </div>
-              <div className="nav-item">
-                <Link
-                  to="/userregister"
-                  className="nav-link texto-amarillo"
-                  href="#"
-                >
-                  Sign in
-                </Link>
-              </div>
-              {store.userType == null
-                ? "login"
-                : store.userType == "user"
-                ? "navbar user"
-                : store.userType == "photographer"
-                ? "navbar photographer"
-                : null}
-              <div className="nav-item">
-                <Link to="/" className="nav-link texto-amarillo" href="#">
-                  Log out
-                </Link>
-              </div>
+              {store.userType == "user" || store.userType == "photographer" ? (
+                <>
+                  <div className="nav-item">
+                    <Link to="/user" className="nav-link texto-amarillo">
+                      Mi Perfil
+                    </Link>
+                  </div>
+                  <div className="nav-item">
+                    <Link
+                      to="/"
+                      className="nav-link texto-amarillo"
+                      onClick={() => {
+                        actions.logout();
+                      }}
+                    >
+                      Log out
+                    </Link>
+                  </div>
+                </>
+              ) : store.userType == null ? (
+                <>
+                  <div className="nav-item">
+                    <Link to="/login" className="nav-link texto-amarillo">
+                      Log in
+                    </Link>
+                  </div>
+                  <div className="nav-item">
+                    <Link
+                      to="/userregister"
+                      className="nav-link texto-amarillo"
+                    >
+                      Sign in
+                    </Link>
+                  </div>
+                </>
+              ) : null}
             </ul>
           </div>
         </div>

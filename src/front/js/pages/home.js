@@ -5,6 +5,7 @@ import "../../styles/home.css";
 import "../../styles/images.css";
 import { Card } from "../component/card";
 import { Slider } from "../component/slider";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   return (
@@ -15,9 +16,11 @@ export const Home = () => {
           Responde a una serie de preguntas perfectamente planteadas para
           encontrar la moto de tus sueños
         </div>
-        <button>
-          <span>Quiero hacer el test</span>
-        </button>
+        <Link to="/test">
+          <button>
+            <span>Quiero hacer el test</span>
+          </button>
+        </Link>
       </div>
       <div className="col-11 mx-auto imagen1 text-white">
         <h1>//Rutas</h1>
@@ -25,9 +28,11 @@ export const Home = () => {
           Encuentra las mejoras rutas creadas por y para moteros cerca de ti y
           descubre todo lo que pueden ofrecer nuestras carreteras y pueblos
         </div>
-        <button>
-          <span>Quiero ver las rutas</span>
-        </button>
+        <Link to="/bestroutes">
+          <button>
+            <span>Quiero ver las rutas</span>
+          </button>
+        </Link>
       </div>
       <div className="col-11 mx-auto imagen1 text-white">
         <h1>//Fotógrafos</h1>
@@ -36,9 +41,11 @@ export const Home = () => {
           fotógrafos de nuestro país y únete como profesional a la mejor
           comunidad
         </div>
-        <button>
-          <span>Quiero conocerles</span>
-        </button>
+        <Link to="/bestphotographers">
+          <button>
+            <span>Quiero conocerles</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
