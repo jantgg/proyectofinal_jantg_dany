@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 87008d833394
+Revision ID: ebb98f0ccb5e
 Revises: 
-Create Date: 2023-02-08 11:33:44.440466
+Create Date: 2023-02-10 14:45:01.995471
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '87008d833394'
+revision = 'ebb98f0ccb5e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,18 +49,16 @@ def upgrade():
     sa.Column('password', sa.String(length=250), nullable=False),
     sa.Column('email', sa.String(length=250), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
-    sa.Column('location_text', sa.String(length=250), nullable=False),
-    sa.Column('instagram', sa.String(length=250), nullable=False),
-    sa.Column('services_text', sa.String(length=250), nullable=False),
-    sa.Column('find_me_text', sa.String(length=250), nullable=False),
-    sa.Column('location_name', sa.String(length=250), nullable=False),
-    sa.Column('latitude', sa.String(length=250), nullable=False),
-    sa.Column('longitude', sa.String(length=250), nullable=False),
+    sa.Column('location_text', sa.String(length=250), nullable=True),
+    sa.Column('instagram', sa.String(length=250), nullable=True),
+    sa.Column('services_text', sa.String(length=250), nullable=True),
+    sa.Column('find_me_text', sa.String(length=250), nullable=True),
+    sa.Column('location_name', sa.String(length=250), nullable=True),
+    sa.Column('latitude', sa.String(length=250), nullable=True),
+    sa.Column('longitude', sa.String(length=250), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('find_me_text'),
     sa.UniqueConstraint('instagram'),
-    sa.UniqueConstraint('location_text'),
     sa.UniqueConstraint('services_text'),
     sa.UniqueConstraint('user_name')
     )
@@ -126,13 +124,14 @@ def upgrade():
     sa.Column('name', sa.String(length=250), nullable=False),
     sa.Column('path', sa.String(length=250), nullable=False),
     sa.Column('photo_type', sa.String(length=250), nullable=False),
+    sa.Column('bike_id', sa.Integer(), nullable=True),
     sa.Column('photographer_id', sa.Integer(), nullable=True),
     sa.Column('route_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['bike_id'], ['bike.id'], ),
     sa.ForeignKeyConstraint(['photographer_id'], ['photographer.id'], ),
     sa.ForeignKeyConstraint(['route_id'], ['route.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('path'),
-    sa.UniqueConstraint('photo_type')
+    sa.UniqueConstraint('path')
     )
     # ### end Alembic commands ###
 

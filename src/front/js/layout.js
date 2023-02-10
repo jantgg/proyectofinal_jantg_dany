@@ -14,7 +14,6 @@ import { User } from "./pages/user";
 import { Userphoto } from "./pages/userphoto";
 import { Userregister } from "./pages/userregister";
 import { Login } from "./pages/login";
-import { Loginp } from "./pages/loginp";
 
 import injectContext from "./store/appContext";
 
@@ -43,7 +42,7 @@ const Layout = () => {
             <Route element={<Bestphotographers />} path="/bestphotographers" />
             <Route element={<Bpr />} path="/bpr" />
             <Route element={<Login />} path="/login" />
-            <Route element={<Loginp />} path="/loginp" />
+            <Route element={<Result />} path="/result" />
             <Route
               element={<Bestphotographerupload />}
               path="/bestphotographerupload"

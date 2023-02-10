@@ -47,14 +47,7 @@ export const Login = () => {
                 <div className="col-xl-6">
                   <div className="card-body p-md-5 text-black">
                     <h3 className="mb-5 text-uppercase">
-                      OnBikes Log In for Users <br />
-                      <Link
-                        to="/loginp"
-                        className="nav-link texto-amarillo"
-                        href="#"
-                      >
-                        or click here if you're photographer
-                      </Link>
+                      OnBikes Log In for Users
                     </h3>
                     <div className="row">
                       <div className="col-md-6 mb-4">
