@@ -3,73 +3,34 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import { useNavigate } from "react-router-dom";
 
 export const Test = () => {
   const { store, actions } = useContext(Context);
-  const [currentQuestion, setCurrentQuestion] = useState();
+  const navigate = useNavigate();
+  const [currentQuestion, setCurrentQuestion] = useState("q1");
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [bikesResults, setBikesResults] = useState([]);
 
   useEffect(() => {
     actions.getQuestions();
-    actions.getAnswers();
-    setCurrentQuestion("q2");
-    store.answers.map((x) => {
-      // store.answer[x] = {};
-      currentQuestion == store.answers[x].current_question_id
-        ? setCurrentAnswers(...currentAnswers, store.answers[x])
-        : null;
-    });
+    getAnswers();
   }, []);
 
-  // useEffect(() => {
-  //   setCurrentAnswers(
-  //     store.answers.filter((obj) => obj.current_question_id === currentQuestion)
-  //   );
-  // }, [store.answers, currentQuestion]);
+  const getAnswers = async () => {
+    await actions.getAnswers();
+    setCurrentAnswers(
+      store.answers.map((obj) => {
+        if (obj.current_question_id == currentQuestion) {
+          return obj;
+        }
+      })
+    );
+  };
 
-  console.log(store.answers);
-  console.log(currentAnswers);
   return currentQuestion == "end" ? (
-    <div
-      key="losresultados @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row "
-    >
-      <div className="col-12 mx-auto  text-white">
-        {store.userType != "user" && store.userType != "photographer" ? (
-          <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
-            No vas a poder guardar los resultados en favoritos ya que no te has
-            registrado
-          </div>
-        ) : null}
-        <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
-          //Estas son las mejores motos que hemos encontrado especialmente para
-          ti
-        </div>
-      </div>
-      <div className="col-12 mx-auto d-flex justify-content-evenly text-white text-center border border-danger">
-        {bikesResults.map((bike) => {})}
-      </div>
-      <div className="col-12 mx-auto  text-white text-center">
-        <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
-          Todas estas motos están elegidas en función de como has respondido a
-          las preguntas, si quieres volver a realizar el test pincha aqui. ¡No
-          olvides guardar en favoritos las motos que mas te hayan gustado para
-          poder revisarlas mas adelante!
-        </div>
-        <div className="">
-          <button
-            className="botonaco"
-            onClick={() => {
-              setCurrentQuestion("q1");
-            }}
-          >
-            <span>REPETIR TEST</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    navigate("/result")
   ) : (
     <div
       key="elmismotest @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
@@ -77,7 +38,7 @@ export const Test = () => {
     >
       {store.questions.map((question) => {
         return currentQuestion == question.id ? (
-          <>
+          <div key={question.id}>
             <div className="col-12 mx-auto  text-white">
               {store.userType != "user" && store.userType != "photographer" ? (
                 <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
@@ -85,10 +46,7 @@ export const Test = () => {
                   los resultados
                 </div>
               ) : null}
-              <div
-                key={question.id}
-                className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger"
-              >
+              <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
                 {question.question}
                 <br></br>
                 {currentQuestion == "q1" ? null : (
@@ -115,24 +73,26 @@ export const Test = () => {
             </div>
             <div className="col-12 mx-auto d-flex justify-content-evenly text-white text-center border border-danger">
               {currentAnswers.map((answer) => {
-                <div className="col-3 mx-auto mb-5 fs-3 text-wrap">
-                  <button
-                    className="botonaco"
-                    onClick={() => {
-                      setUserAnswers(...userAnswers, answer.answer);
-                      setCurrentQuestion(answer.next_question);
-                    }}
+                return (
+                  <div
+                    key={answer.id}
+                    className="col-3 mx-auto mb-5 fs-3 text-wrap"
                   >
-                    {answer.answer}
-                  </button>
-                </div>;
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        setUserAnswers(...userAnswers, answer.answer);
+                        setCurrentQuestion(answer.next_question);
+                      }}
+                    >
+                      {answer.answer}
+                    </button>
+                  </div>
+                );
               })}
             </div>
             <div className="col-12 mx-auto  text-white text-center">
-              <div
-                key={question.id}
-                className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger"
-              >
+              <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
                 {question.notes}
               </div>
               <div className="">
@@ -154,7 +114,7 @@ export const Test = () => {
                 </button>
               </div>
             </div>
-          </>
+          </div>
         ) : null;
       })}
     </div>
