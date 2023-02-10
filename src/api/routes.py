@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Photographer, Photo, Route, Favorite, Bike
+from api.models import db, User, Photographer, Photo, Route, Favorite, Bike, Question, Answer
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -116,8 +116,15 @@ def get_all_photos():
     photos_serialized = [x.serialize() for x in photos]
     return jsonify({"body": photos_serialized}), 200
 
-@api.route('/userbikes', methods=['GET'])
-def get_all_userbikes():
-    userbikes = Userbike.query.all()
-    userbikes_serialized = [x.serialize() for x in userbikes]
-    return jsonify({"body": userbikes_serialized}), 200
+@api.route('/questions', methods=['GET'])
+def get_all_questions():
+    questions = Question.query.all()
+    questions_serialized = [x.serialize() for x in questions]
+    return jsonify({"body": questions_serialized}), 200
+
+
+@api.route('/answers', methods=['GET'])
+def get_all_answers():
+    answers = Answer.query.all()
+    answers_serialized = [x.serialize() for x in answers]
+    return jsonify({"body": answers_serialized}), 200

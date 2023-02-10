@@ -5,34 +5,58 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 export const Test = () => {
+  const { store, actions } = useContext(Context);
+  const [currentQuestion, setCurrentQuestion] = useState();
+  const [currentAnswers, setCurrentAnswers] = useState([]);
+  const [userAnswers, setUsertAnswers] = useState([]);
+
+  useEffect(() => {
+    actions.getQuestions();
+    actions.getAnswers();
+    setCurrentQuestion("q1");
+    store.answers.map((x) => {
+      currentQuestion == store.answers[x].current_question_id
+        ? setCurrentAnswers(...currentAnswers, store.answers[x])
+        : null;
+    });
+  }, []);
+  console.log(store.answers);
+  console.log(currentAnswers);
   return (
     <div className="row ">
-      <div className="col-12 mx-auto imagen1 text-white ">
-        <div className="col-4 mx-auto text-center">
-          ESTO ES UNA PREGUNTA DEL TEST<br></br>
-          ESTO ES UNA PREGUNTA DEL TEST<br></br>
-          ESTO ES UNA PREGUNTA DEL TEST<br></br>
-          ESTO ES UNA PREGUNTA DEL TEST<br></br>
-          <button className="text-white ">
-            <span>Pregunta anterior</span>
-          </button>
-        </div>
-      </div>
-      <div className="col-12 mx-auto imagen1 text-white text-center">
-        <div className="col-4 mx-auto">
-          ESTA ES UNA RESPUESTA DEL TEST<br></br>
-          ESTA ES UNA RESPUESTA DEL TEST<br></br>
-          ESTA ES UNA RESPUESTA DEL TEST<br></br>
-        </div>
-      </div>
-      <div className="col-12 mx-auto imagen1 text-white text-center">
-        <div className="col-4 mx-auto">
-          ESTO ES UNA NOTA DEL TEST<br></br>
-          <button>
-            <span>REPETIR TEST</span>
-          </button>
-        </div>
-      </div>
+      {store.questions.map((question) => {
+        return currentQuestion == question.id ? (
+          <>
+            <div className="col-12 mx-auto imagen1 text-white ">
+              {store.userType != "user" && store.userType != "photographer" ? (
+                <div className="col-4 mx-auto text-center mb-5">
+                  Recuerda logearte antes de comenzar el test para poder guardar
+                  los resultados
+                </div>
+              ) : null}
+              <div key={question.id} className="col-4 mx-auto text-center mt-5">
+                {question.question}
+                <button className="text-white ">
+                  <span>Pregunta anterior</span>
+                </button>
+              </div>
+            </div>
+            <div className="col-12 mx-auto imagen1 text-white text-center">
+              <div className="col-4 mx-auto mb-5">
+                ESTA ES UNA RESPUESTA DEL TEST: {store.answers[0].answer}
+              </div>
+            </div>
+            <div className="col-12 mx-auto imagen1 text-white text-center">
+              <div key={question.id} className="col-4 mx-auto">
+                {question.notes}
+                <button>
+                  <span>REPETIR TEST</span>
+                </button>
+              </div>
+            </div>
+          </>
+        ) : null;
+      })}
     </div>
   );
 };

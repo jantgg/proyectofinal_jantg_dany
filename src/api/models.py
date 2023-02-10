@@ -147,7 +147,7 @@ class Question(db.Model):
         return {
             "id": self.id,
             "question": self.question,
-            "text_question": self.text_question
+            "notes": self.notes
         }
 
 
@@ -165,7 +165,9 @@ class Answer(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "answer": self.answer
+            "answer": self.answer,
+            "next_question_id": self.next_question_id,
+            "current_question_id": self.current_question_id,
         }
 
 
