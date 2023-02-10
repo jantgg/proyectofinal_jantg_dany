@@ -14,14 +14,8 @@ export const Test = () => {
     actions.getQuestions();
     actions.getAnswers();
     setCurrentQuestion("q1");
-    store.answers.map((x) => {
-      currentQuestion == store.answers[x].current_question_id
-        ? setCurrentAnswers(...currentAnswers, store.answers[x])
-        : null;
-    });
   }, []);
-  console.log(store.answers);
-  console.log(currentAnswers);
+
   return (
     <div className="row ">
       {store.questions.map((question) => {
@@ -43,7 +37,7 @@ export const Test = () => {
             </div>
             <div className="col-12 mx-auto imagen1 text-white text-center">
               <div className="col-4 mx-auto mb-5">
-                ESTA ES UNA RESPUESTA DEL TEST: {store.answers[0].answer}
+                ESTA ES UNA RESPUESTA DEL TEST:
               </div>
             </div>
             <div className="col-12 mx-auto imagen1 text-white text-center">
