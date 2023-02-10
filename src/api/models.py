@@ -106,6 +106,7 @@ class Bike(db.Model):
     ask_9_reliability = db.Column(db.String(250), nullable=False)
     ask_10_power = db.Column(db.String(250), nullable=False)
     ask_11_armor = db.Column(db.String(250), nullable=False)
+    photos = db.relationship('Photo')
 
     def __repr__(self):
         return f'{self.brand} {self.model}'
@@ -175,7 +176,8 @@ class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
     path = db.Column(db.String(250), nullable=False, unique=True)
-    photo_type = db.Column(db.String(250), nullable=False, unique=True)
+    photo_type = db.Column(db.String(250), nullable=False)
+    bike_id = db.Column(db.Integer, db.ForeignKey('bike.id'))
     photographer_id = db.Column(db.Integer, db.ForeignKey('photographer.id'))
     route_id = db.Column(db.Integer, db.ForeignKey('route.id'))
 
