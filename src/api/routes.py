@@ -24,8 +24,6 @@ def user_login():
     if photographer: token = create_access_token(identity=photographer.email) 
     return jsonify({"response": "hola", "token": token }), 200
 
-# LOGIN DE FOTOGRAFO ---------------------------------------------------------------------------------->
-
 # REGISTRO DE USER ------------------------------------------------------------------------------------->
 @api.route('/register', methods=['POST'])
 def user_register():

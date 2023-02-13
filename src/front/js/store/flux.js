@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       userType: null,
       backendurl:
-        "https://3001-jantgg-proyectofinaljan-62jl8mx492c.ws-eu86.gitpod.io/api/",
+        "https://3001-jantgg-proyectofinaljan-wll5w18f7py.ws-eu86.gitpod.io/api/",
       questions: [],
       answers: [],
       bikes: [],

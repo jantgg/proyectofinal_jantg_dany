@@ -17,7 +17,7 @@ def setup_admin(app):
         form_columns = ('id', 'question', 'notes', 'answers')
 
     class MyAnswerModel(MyModel):
-        form_columns = ('id', 'answer', 'next_question_id', 'current_question_id')
+        form_columns = ('id', 'answer', 'next_question_id', 'current_question_id', 'previous_question_id')
 
     # Add your models here, for example this is how we add a the User model to the admin
     admin.add_view(MyModel(User, db.session))

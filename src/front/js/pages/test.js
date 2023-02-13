@@ -12,6 +12,8 @@ export const Test = () => {
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [bikesResults, setBikesResults] = useState([]);
+  const [previousQuestion, setPreviousQuestion] = useState("q1");
+  const [backButton, setBackButton] = useState(True);
 
   useEffect(() => {
     actions.getQuestions();
@@ -49,19 +51,12 @@ export const Test = () => {
               <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
                 {question.question}
                 <br></br>
-                {currentQuestion == "q1" ? null : (
+                {currentQuestion == "q1" && backButton == False ? null : (
                   <button
                     className="fs-6  ms-auto botonaco p-1 px-2 btn-outline-dark"
                     onClick={() => {
-                      let newQuestion = currentQuestion;
-                      function restar1(initialString) {
-                        let number = parseInt(initialString.substr(1));
-                        number -= 1;
-                        let newQuestion = "q" + number.toString();
-
-                        return newQuestion;
-                      }
-                      setCurrentQuestion(restar1(currentQuestion));
+                      setCurrentQuestion(previousQuestion);
+                      setBackButton(False);
                     }}
                   >
                     <span>
@@ -82,7 +77,10 @@ export const Test = () => {
                       className="btn"
                       onClick={() => {
                         setUserAnswers(...userAnswers, answer.answer);
+                        setPreviousQuestion(answer.current_question_id);
                         setCurrentQuestion(answer.next_question);
+                        setBackButton(True);
+                        localStorage.setItem(...userAnswers, answer);
                       }}
                     >
                       {answer.answer}

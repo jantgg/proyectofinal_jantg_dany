@@ -155,8 +155,10 @@ class Question(db.Model):
 class Answer(db.Model):
     id = db.Column(db.String(250), primary_key=True, unique=True)
     answer = db.Column(db.String(250), nullable=False)
+    previous_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
     next_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
     current_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
+    previous_question = db.relationship('Question', foreign_keys=[previous_question_id])
     current_question = db.relationship('Question', foreign_keys=[current_question_id], backref='answers')
     next_question = db.relationship('Question', foreign_keys=[next_question_id])
 
@@ -169,6 +171,7 @@ class Answer(db.Model):
             "answer": self.answer,
             "next_question_id": self.next_question_id,
             "current_question_id": self.current_question_id,
+            "previous_question_id": self.previous_question_id,
         }
 
 

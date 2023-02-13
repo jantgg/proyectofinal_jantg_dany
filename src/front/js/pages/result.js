@@ -8,10 +8,23 @@ import { Card } from "../component/card";
 export const Result = () => {
   const { store, actions } = useContext(Context);
   const [bikesResults, setBikesResults] = useState();
+
   useEffect(() => {
-    actions.getBikes();
-    setBikesResults(store.bikes);
+    getBikes();
   }, []);
+
+  const getBikes = async () => {
+    await actions.getBikes();
+    setBikesResults(
+      store.bikes
+      // store.bikes.map((obj) => {
+      //   if (obj.current_question_id == currentQuestion) {
+      //     return obj;
+      //   }
+      // })
+    );
+  };
+
   const AddFavoriteBike = async () => {
     const response = await fetch(store.backendurl + "favorite", {
       method: "POST",
