@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         "https://3001-jantgg-proyectofinaljan-pkx7ea6sumt.ws-eu86.gitpod.io/api/",
       questions: [],
       answers: [],
+      routes: [],
     },
     actions: {
       getQuestions: async () => {
@@ -17,6 +18,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         const response = await fetch(getStore().backendurl + "answers");
         const data = await response.json();
         setStore({ answers: data.body });
+      },
+      getRoutes: async () => {
+        const response = await fetch(getStore().backendurl + "routes");
+        const data = await response.json();
+        setStore({ routes: data.body });
       },
       //user status
       syncuser: async () => {

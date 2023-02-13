@@ -56,8 +56,6 @@ class Photographer(db.Model):
 class Route(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False, unique=True)
-    start_location_text = db.Column(db.String(250), nullable=False, unique=True)
-    end_location_text = db.Column(db.String(250), nullable=False, unique=True)
     interest_text = db.Column(db.String(250), nullable=False, unique=True)
     start_location_name = db.Column(db.String(250), nullable=False)
     start_latitude = db.Column(db.String(250), nullable=False)
@@ -74,8 +72,6 @@ class Route(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "start_location_text": self.start_location_text,
-            "end_location_text": self.end_location_text,
             "interest_text": self.interest_text,
             "start_location_name": self.start_location_name,
             "start_latitude": self.start_latitude,

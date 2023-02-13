@@ -99,7 +99,7 @@ export const Login = () => {
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => sendLogin()}
                       >
-                        <span>Submit form</span>
+                        <span>Log in</span>
                       </button>
                       {error ? <p>ERROR CREDENCIALES</p> : null}
                     </div>

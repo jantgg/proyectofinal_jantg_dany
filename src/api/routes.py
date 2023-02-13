@@ -69,7 +69,7 @@ def photographer_register():
     db.session.commit()
     return jsonify({"response": "Photographer registered successfully",}), 200
 
-# REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------->
+# REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------------------------->
 @api.route('/sync', methods=['GET'])
 @jwt_required()
 def sync_user():
@@ -80,6 +80,28 @@ def sync_user():
         return jsonify ({"type": None}), 401
     if user: return jsonify({"type": "user"}), 200
     if photographer: return jsonify({"type": "photographer"}), 200
+# GET DE PREGUNTAS ------------------------------------------------------------------------------------------------------->
+@api.route('/questions', methods=['GET'])
+def get_all_questions():
+    questions = Question.query.all()
+    questions_serialized = [x.serialize() for x in questions]
+    return jsonify({"body": questions_serialized}), 200
+
+# GET DE RESPUESTAS ------------------------------------------------------------------------------------------------------>
+@api.route('/answers', methods=['GET'])
+def get_all_answers():
+    answers = Answer.query.all()
+    answers_serialized = [x.serialize() for x in answers]
+    return jsonify({"body": answers_serialized}), 200
+
+# GET DE RUTAS ----------------------------------------------------------------------------------------------------------->
+@api.route('/routes', methods=['GET'])
+def get_all_routes():
+    routes = Route.query.all()
+    routes_serialized = [x.serialize() for x in routes]
+    return jsonify({"body": routes_serialized}), 200
+
+
 
 
 #Endpoints iniciales de creacion de DB
@@ -103,28 +125,8 @@ def get_all_bikes():
     bikes_serialized = [x.serialize() for x in bikes]
     return jsonify({"body": bikes_serialized}), 200
 
-
-@api.route('/routes', methods=['GET'])
-def get_all_routes():
-    routes = Route.query.all()
-    routes_serialized = [x.serialize() for x in routes]
-    return jsonify({"body": routes_serialized}), 200
-
 @api.route('/photos', methods=['GET'])
 def get_all_photos():
     photos = Photo.query.all()
     photos_serialized = [x.serialize() for x in photos]
     return jsonify({"body": photos_serialized}), 200
-
-@api.route('/questions', methods=['GET'])
-def get_all_questions():
-    questions = Question.query.all()
-    questions_serialized = [x.serialize() for x in questions]
-    return jsonify({"body": questions_serialized}), 200
-
-
-@api.route('/answers', methods=['GET'])
-def get_all_answers():
-    answers = Answer.query.all()
-    answers_serialized = [x.serialize() for x in answers]
-    return jsonify({"body": answers_serialized}), 200
