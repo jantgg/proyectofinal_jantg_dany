@@ -25,6 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ answers: data.body });
       },
       //user status
+
       syncuser: async () => {
         const response = await fetch(getStore().backendurl + "sync", {
           method: "GET",

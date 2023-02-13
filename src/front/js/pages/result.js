@@ -7,10 +7,12 @@ import { Card } from "../component/card";
 
 export const Result = () => {
   const { store, actions } = useContext(Context);
-  const [bikesResults, setBikesResults] = useState();
+  const [bikesResults, setBikesResults] = useState([]);
+  const previousResult = localStorage.getItem(userAnswers);
 
   useEffect(() => {
     getBikes();
+    setBikesResults(JSON.parse(localStorage.getItem(userAnswers)));
   }, []);
 
   const getBikes = async () => {
@@ -34,7 +36,8 @@ export const Result = () => {
       },
       body: JSON.stringify({
         email: email,
-        password: password,
+        favorite_id: bike.id,
+        favorite_type: "bike",
       }),
     });
     if (response.ok) {
@@ -125,7 +128,7 @@ export const Result = () => {
                               store.userType == "photographer" ? (
                                 <button
                                   className=""
-                                  onClick={() => AddFavorite()}
+                                  onClick={() => AddFavoriteBike()}
                                 >
                                   Favorite
                                 </button>
