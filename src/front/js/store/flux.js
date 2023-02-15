@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       questions: [],
       answers: [],
       routes: [],
+      photographers: [],
     },
     actions: {
       getQuestions: async () => {
@@ -23,6 +24,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         const response = await fetch(getStore().backendurl + "routes");
         const data = await response.json();
         setStore({ routes: data.body });
+      },
+      getPhotographers: async () => {
+        const response = await fetch(getStore().backendurl + "photographers");
+        const data = await response.json();
+        setStore({ photographers: data.body });
       },
       //user status
       syncuser: async () => {
