@@ -82,9 +82,11 @@ export const Bestroutes = () => {
                 <li>End latitude: {singleroute.end_latitude}</li>
                 <li>End longitude: {singleroute.end_longitude}</li>
               </ul>
-              <button onClick={() => AddFavoriteRoute()}>
-                <span>♥</span>
-              </button>
+              {store.userType == "user" || store.userType == "photographer" ? (
+                <button onClick={() => AddFavoriteRoute()}>
+                  <span>♥</span>
+                </button>
+              ) : null}
             </div>
           </div>
         </>
