@@ -83,9 +83,11 @@ export const Bestphotographers = () => {
                 <li>Latitud: {singlephotographer.latitude}</li>
                 <li>Longitud: {singlephotographer.longitude}</li>
               </ul>
-              <button onClick={() => AddFavoritePhotographer()}>
-                <span>♥</span>
-              </button>
+              {store.userType == "user" || store.userType == "photographer" ? (
+                <button onClick={() => AddFavoritePhotographer()}>
+                  <span>♥</span>
+                </button>
+              ) : null}
             </div>
           </div>
         </>
