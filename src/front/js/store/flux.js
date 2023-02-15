@@ -3,10 +3,11 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       userType: null,
       backendurl:
-        "https://3001-jantgg-proyectofinaljan-wll5w18f7py.ws-eu86.gitpod.io/api/",
+        "https://3001-jantgg-proyectofinaljan-joelzq5bff1.ws-eu86.gitpod.io/api/",
       questions: [],
       answers: [],
       bikes: [],
+      favorites: [],
     },
     actions: {
       getQuestions: async () => {
@@ -22,10 +23,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       getBikes: async () => {
         const response = await fetch(getStore().backendurl + "bikes");
         const data = await response.json();
-        setStore({ answers: data.body });
+        setStore({ bikes: data.body });
       },
-      //user status
+      getFavorites: async () => {
+        const response = await fetch(getStore().backendurl + "favorites", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setStore({ favorites: data.body });
+          console.log("losfavoritos");
+          console.log(data.body);
+        }
+      },
 
+      //user status
       syncuser: async () => {
         const response = await fetch(getStore().backendurl + "sync", {
           method: "GET",

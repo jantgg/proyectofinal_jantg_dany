@@ -5,13 +5,26 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 export const User = () => {
+  const { store, actions } = useContext(Context);
+  const [userFavoriteBikes, setUserFavoriteBikes] = useState([]);
+  const [userFavoriteRoutes, setUserFavouserFavoriteRoutes] = useState([]);
+  const [userPhotographers, setUserPhotographers] = useState([]);
+
+  const [pPhotos, setPPhoto] = useState([]);
+
   return (
-    <div className="jumbotron">
-      <Link to="/">
-        <span className="btn btn-primary btn-lg" href="#" role="button">
-          Back home
-        </span>
-      </Link>
+    <div className="row ">
+      {store.userType == "user" ? (
+        <>
+          <div key="bikes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
+          <div key="routes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
+          <div key="photographers @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
+        </>
+      ) : (
+        <>
+          <div></div>
+        </>
+      )}
     </div>
   );
 };

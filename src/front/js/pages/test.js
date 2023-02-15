@@ -7,18 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 export const Test = () => {
   const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState("q1");
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [bikesResults, setBikesResults] = useState([]);
   const [previousQuestion, setPreviousQuestion] = useState("q1");
-  const [backButton, setBackButton] = useState(true);
 
   useEffect(() => {
     actions.getQuestions();
     getAnswers();
-    actions.getBikes();
+    getBikes();
+    actions.getFavorites();
   }, []);
 
   useEffect(() => {
@@ -31,6 +30,15 @@ export const Test = () => {
     );
   }, [currentQuestion]);
 
+  const getBikes = async () => {
+    await actions.getBikes();
+    console.log(store.bikes);
+    setBikesResults(
+      store.bikes
+      //store.bikes.filter((obj) => obj.current_question_id == currentQuestion)
+    );
+  };
+
   const getAnswers = async () => {
     await actions.getAnswers();
     setCurrentAnswers(
@@ -42,6 +50,25 @@ export const Test = () => {
     const updatedAnswers = [...userAnswers];
     updatedAnswers.pop();
     setUserAnswers(updatedAnswers);
+  };
+
+  const AddFavoriteBike = async () => {
+    const response = await fetch(store.backendurl + "favorite", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        favorite_id: bike.id,
+        favorite_type: "bike",
+      }),
+    });
+    if (response.ok) {
+      console.log("response ok");
+    } else {
+      console.log("response not ok");
+    }
   };
 
   return currentQuestion == "end" ? (

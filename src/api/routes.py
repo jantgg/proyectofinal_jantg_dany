@@ -39,25 +39,6 @@ def user_register():
     db.session.commit()
     return jsonify({"response": "User registered successfully",}), 200
 
-# REGISTRO DE FOTOGRAFO ------------------------------------------------------------------------------->
-@api.route('/bpr', methods=['POST'])
-def photographer_register():
-    body_user_name = request.json.get("user_name")
-    body_email = request.json.get("email")
-    body_password = request.json.get("password")
-    body_location_text = request.json.get("location")
-    body_instagram = request.json.get("instagram")
-    body_sunday = request.json.get("sunday")
-    body_service = request.json.get("service")
-    user_already_exist = User.query.filter_by(email= body_email).first()
-    photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
-    if user_already_exist or photographer_already_exist:
-        return jsonify({"response": "Email already used"}), 300
-    new_photographer = Photographer(email=body_email, password=body_password, user_name=body_user_name, location_text=body_location_text, instagram=body_instagram, services_text=body_service, find_me_text=body_sunday, active=True)
-    db.session.add(new_photographer)
-    db.session.commit()
-    return jsonify({"response": "Photographer registered successfully",}), 200
-
 # REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------->
 @api.route('/sync', methods=['GET'])
 @jwt_required()
@@ -92,12 +73,65 @@ def get_all_bikes():
     bikes_serialized = [x.serialize() for x in bikes]
     return jsonify({"body": bikes_serialized}), 200
 
+@api.route('/bikes', methods=['POST'])
+def create_bikes():
+    bikes_data = request.get_json()
+    bikes = []
+    for bike_data in bikes_data:
+        bike = Bike(
+            brand=bike_data['brand'],
+            model=bike_data['model'],
+            bike_photo=bike_data['bike_photo'],
+            ask_1_license=bike_data['ask_1_license'],
+            ask_11_limitable=bike_data['ask_11_limitable'],
+            ask_2_wheels=bike_data['ask_2_wheels'],
+            ask_3_surface=bike_data['ask_3_surface'],
+            ask_31_surface_offroad=bike_data['ask_31_surface_offroad'],
+            ask_311_motor_offroad=bike_data['ask_311_motor_offroad'],
+            ask_32_custom=bike_data['ask_32_custom'],
+            ask_321_refrigeration=bike_data['ask_321_refrigeration'],
+            ask_4_comodity=bike_data['ask_4_comodity'],
+            ask_5_style=bike_data['ask_5_style'],
+            ask_6_price=bike_data['ask_6_price'],
+            ask_7_new=bike_data['ask_7_new'],
+            ask_8_response=bike_data['ask_8_response'],
+            ask_9_reliability=bike_data['ask_9_reliability'],
+            ask_10_power=bike_data['ask_10_power'],
+            ask_11_armor=bike_data['ask_11_armor']
+        )
+        bikes.append(bike)
+        db.session.add(bike)
+    db.session.commit()
+    return jsonify([bike.serialize() for bike in bikes])
+
 
 @api.route('/routes', methods=['GET'])
 def get_all_routes():
     routes = Route.query.all()
     routes_serialized = [x.serialize() for x in routes]
     return jsonify({"body": routes_serialized}), 200
+
+@api.route('/routes', methods=['POST'])
+def create_route():
+    data = request.get_json()
+    new_routes = []
+    for route_data in data:
+        new_route = Route(
+            name=route_data['name'],
+            start_location_text=route_data['start_location_text'],
+            end_location_text=route_data['end_location_text'],
+            interest_text=route_data['interest_text'],
+            start_location_name=route_data['start_location_name'],
+            start_latitude=route_data['start_latitude'],
+            start_longitude=route_data['start_longitude'],
+            end_location_name=route_data['end_location_name'],
+            end_latitude=route_data['end_latitude'],
+            end_longitude=route_data['end_longitude']
+        )
+        db.session.add(new_route)
+        new_routes.append(new_route)
+    db.session.commit()
+    return [route.serialize() for route in new_routes], 201
 
 @api.route('/photos', methods=['GET'])
 def get_all_photos():
@@ -110,6 +144,7 @@ def get_all_questions():
     questions = Question.query.all()
     questions_serialized = [x.serialize() for x in questions]
     return jsonify({"body": questions_serialized}), 200
+
 
 
 @api.route('/answers', methods=['GET'])
@@ -127,14 +162,12 @@ def get_favorites():
     user = User.query.filter_by(email=user_email).first()
     if not user:
         return jsonify({'error': 'User not found'}), 404
-    favorites = Favorite.query.filter_by(user_id=user.id).all()
+    favorites = Favorite.query.filter(Favorite.user_id==user.id, Favorite.bike != None)
     favorites_data = []
     for favorite in favorites:
         favorites_data.append({
             'id': favorite.id,
-            'bike': favorite.bike.name,
-            'route': favorite.route.name,
-            'photographer': favorite.photographer.name
+            'bike': favorite.bike.id,
             })
     return jsonify({'favorites': favorites_data}), 200
 
