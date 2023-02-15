@@ -101,7 +101,59 @@ def get_all_routes():
     routes_serialized = [x.serialize() for x in routes]
     return jsonify({"body": routes_serialized}), 200
 
+# GET Y POST DE FAVORITOS ------------------------------------------------------------------------------------------------>
+@api.route('/favorites', methods=['GET'])
+@jwt_required()
+def get_favorites():
+    user_email = get_jwt_identity()
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    favorites = Favorite.query.filter_by(user_id=user.id).all()
+    favorites_data = []
+    for favorite in favorites:
+        favorites_data.append({
+            'id': favorite.id,
+            'bike': favorite.bike.name,
+            'route': favorite.route.name,
+            'photographer': favorite.photographer.name
+            })
+    return jsonify({'favorites': favorites_data}), 200
 
+
+@api.route('/favorite', methods=['POST'])
+@jwt_required()
+def add_favorite():
+    user_email = get_jwt_identity()
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    favorite_type = request.json.get('favorite_type')
+    favorite_id = request.json.get('favorite_id')
+    if not favorite_type or not favorite_id:
+        return jsonify({'error': 'Favorite type or ID not provided'}), 400
+    favorite_obj = None
+    if favorite_type == 'bike':
+        bike = Bike.query.get(favorite_id)
+        if not bike:
+            return jsonify({'error': 'Bike not found'}), 404
+        favorite_obj = Favorite(user_id=user.id, bike_id=bike.id)
+    elif favorite_type == 'route':
+        route = Route.query.get(favorite_id)
+        if not route:
+            return jsonify({'error': 'Route not found'}), 404
+        favorite_obj = Favorite(user_id=user.id, route_id=route.id)
+    elif favorite_type == 'photographer':
+        photographer = Photographer.query.get(favorite_id)
+        if not photographer:
+            return jsonify({'error': 'Photographer not found'}), 404
+        favorite_obj = Favorite(user_id=user.id, photographer_id=photographer.id)
+    if not favorite_obj:
+        return jsonify({'error': 'Invalid favorite type'}), 400
+    db.session.add(favorite_obj)
+    db.session.commit()
+
+    return jsonify({'message': f'{favorite_type.capitalize()} added to favorites'}), 201
 
 
 #Endpoints iniciales de creacion de DB

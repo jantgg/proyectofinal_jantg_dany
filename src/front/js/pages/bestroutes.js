@@ -21,6 +21,25 @@ export const Bestroutes = () => {
     setRoutes(store.routes);
   };
 
+  const AddFavoriteRoute = async () => {
+    const response = await fetch(store.backendurl + "favorite", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        favorite_id: singleroute.id,
+        favorite_type: "route",
+      }),
+    });
+    if (response.ok) {
+      console.log("response ok");
+    } else {
+      console.log("response not ok");
+    }
+  };
+
   return (
     <div className="container">
       <h1 className="text-success">//Las mejores rutas</h1>
@@ -36,6 +55,12 @@ export const Bestroutes = () => {
             >
               <span>Ver detalles</span>
             </button>
+            {store.userType != "user" && store.userType != "photographer" ? (
+              <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
+                No vas a poder guardar los resultados en favoritos ya que no te
+                has registrado
+              </div>
+            ) : null}
           </div>
         );
       })}
@@ -57,6 +82,9 @@ export const Bestroutes = () => {
                 <li>End latitude: {singleroute.end_latitude}</li>
                 <li>End longitude: {singleroute.end_longitude}</li>
               </ul>
+              <button onClick={() => AddFavoriteRoute()}>
+                <span>♥</span>
+              </button>
             </div>
           </div>
         </>
