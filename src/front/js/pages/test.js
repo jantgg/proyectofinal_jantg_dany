@@ -16,7 +16,6 @@ export const Test = () => {
   useEffect(() => {
     actions.getQuestions();
     getAnswers();
-    getBikes();
     actions.getFavorites();
   }, []);
 
@@ -29,15 +28,6 @@ export const Test = () => {
       store.answers.filter((obj) => obj.current_question_id == currentQuestion)
     );
   }, [currentQuestion]);
-
-  const getBikes = async () => {
-    await actions.getBikes();
-    console.log(store.bikes);
-    setBikesResults(
-      store.bikes
-      //store.bikes.filter((obj) => obj.current_question_id == currentQuestion)
-    );
-  };
 
   const getAnswers = async () => {
     await actions.getAnswers();
@@ -52,7 +42,7 @@ export const Test = () => {
     setUserAnswers(updatedAnswers);
   };
 
-  const AddFavoriteBike = async () => {
+  const addFavoriteBike = async () => {
     const response = await fetch(store.backendurl + "favorite", {
       method: "POST",
       headers: {
@@ -66,6 +56,23 @@ export const Test = () => {
     });
     if (response.ok) {
       console.log("response ok");
+    } else {
+      console.log("response not ok");
+    }
+  };
+
+  const sendAnswers = async () => {
+    const response = await fetch(store.backendurl + "answers", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify(userAnswers),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.result);
+      setBikesResults(data.result);
     } else {
       console.log("response not ok");
     }
@@ -150,7 +157,7 @@ export const Test = () => {
                               store.userType == "photographer" ? (
                                 <button
                                   className=""
-                                  onClick={() => AddFavoriteBike()}
+                                  onClick={() => addFavoriteBike()}
                                 >
                                   Favorite
                                 </button>
@@ -287,6 +294,7 @@ export const Test = () => {
                   className="botonaco"
                   onClick={() => {
                     setCurrentQuestion("end");
+                    sendAnswers();
                   }}
                 >
                   <span>ir a resultados</span>
