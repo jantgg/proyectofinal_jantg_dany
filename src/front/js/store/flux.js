@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       bikes: [],
       favorites: [],
       photographers: [],
+      photos: [],
     },
     actions: {
       getQuestions: async () => {
@@ -45,7 +46,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await response.json();
         setStore({ photographers: data.body });
       },
-
+      getPhotos: async () => {
+        const response = await fetch(getStore().backendurl + "photos");
+        const data = await response.json();
+        setStore({ photos: data.body });
+      },
       //user status
       syncuser: async () => {
         const response = await fetch(getStore().backendurl + "sync", {
