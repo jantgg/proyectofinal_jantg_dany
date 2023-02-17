@@ -4,25 +4,57 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
+
 export const User = () => {
   const { store, actions } = useContext(Context);
   const [userFavoriteBikes, setUserFavoriteBikes] = useState([]);
-  const [userFavoriteRoutes, setUserFavouserFavoriteRoutes] = useState([]);
-  const [userPhotographers, setUserPhotographers] = useState([]);
-
+  const [userFavoriteRoutes, setUserFavoriteRoutes] = useState([]);
+  const [userPhotographers, setUserFavoritePhotographers] = useState([]);
   const [pPhotos, setPPhoto] = useState([]);
+  const [currentPhotographer, setCurrentPhotographer] = useState();
+
+  useEffect(() => {
+    getFavorites();
+    getCurrentPhotographer();
+  }, []);
+
+  const getCurrentPhotographer = async () => {
+    await actions.getPhotographers();
+    const photographer = store.photographers.find((obj) => obj.email === localStorage.getItem("email"));
+    setCurrentPhotographer(photographer);
+   // setPPhoto(currentPhotographer.photos)
+  };
+
+
+  const getFavorites = async () => {
+    await actions.getFavorites();
+    console.log(store.favorites);
+    setUserFavoriteBikes(store.favorites.filter((obj) => obj.bike != null));
+    setUserFavoriteRoutes(store.favorites.filter((obj) => obj.route != null));
+    setUserFavoritePhotographers(
+      store.favorites.filter((obj) => obj.photographer != null)
+    );
+  };
 
   return (
-    <div className="row ">
+    <div className="row text-white">
       {store.userType == "user" ? (
         <>
-          <div key="bikes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
-          <div key="routes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
-          <div key="photographers @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"></div>
+          <div key="bikes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@">
+            Hola
+          </div>
+          <div key="routes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@">
+            routes
+          </div>
+          <div key="photographers @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@">
+            photographers
+          </div>
         </>
       ) : (
         <>
-          <div></div>
+          <div key="photos @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@">
+            photos
+          </div>
         </>
       )}
     </div>

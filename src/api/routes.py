@@ -178,15 +178,18 @@ def get_favorites():
     user = User.query.filter_by(email=user_email).first()
     if not user:
         return jsonify({'error': 'User not found'}), 404
-    favorites = Favorite.query.filter(Favorite.user_id==user.id, Favorite.bike != None)
+    favorites = Favorite.query.filter(Favorite.user_id == user.id).all()
     favorites_data = []
     for favorite in favorites:
-        favorites_data.append({
-            'id': favorite.id,
-            'bike': favorite.bike.id,
-            })
-    return jsonify({'favorites': favorites_data}), 200
-
+        favorite_data = {}
+        if favorite.bike is not None:
+            favorite_data['bike'] = favorite.bike.serialize()
+        if favorite.route is not None:
+            favorite_data['route'] = favorite.route.serialize()
+        if favorite.photographer is not None:
+            favorite_data['photographer'] = favorite.photographer.serialize()
+        favorites_data.append(favorite_data)
+    return jsonify({'body': favorites_data}), 200
 
 @api.route('/favorite', methods=['POST'])
 @jwt_required()

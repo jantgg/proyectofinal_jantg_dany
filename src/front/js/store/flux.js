@@ -3,11 +3,12 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       userType: null,
       backendurl:
-        "https://3001-jantgg-proyectofinaljan-joelzq5bff1.ws-eu87.gitpod.io/api/",
+        "https://3001-jantgg-proyectofinaljan-u6mh6u5gbkr.ws-eu87.gitpod.io/api/",
       questions: [],
       answers: [],
       bikes: [],
       favorites: [],
+      photographers: [],
     },
     actions: {
       getQuestions: async () => {
@@ -38,6 +39,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("losfavoritos");
           console.log(data.body);
         }
+      },
+      getPhotographers: async () => {
+        const response = await fetch(getStore().backendurl + "photographers");
+        const data = await response.json();
+        setStore({ photographers: data.body });
       },
 
       //user status

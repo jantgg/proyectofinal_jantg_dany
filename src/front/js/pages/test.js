@@ -16,7 +16,6 @@ export const Test = () => {
   useEffect(() => {
     actions.getQuestions();
     getAnswers();
-    actions.getFavorites();
   }, []);
 
   useEffect(() => {
