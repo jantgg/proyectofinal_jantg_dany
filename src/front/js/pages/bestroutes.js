@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { CardRoutes } from "../component/cardroutes";
-import { Slider } from "../component/slider";
+import { RoutesSlider } from "../component/routesslider";
 import "../../styles/home.css";
+import { CardSliderRoutes } from "../component/cardsliderroutes";
 
 export const Bestroutes = () => {
   const { store, actions } = useContext(Context);
   const [routes, setRoutes] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [singlevision, setSinglevision] = useState(false);
   const [singleroute, setSingleRoute] = useState({});
 
@@ -16,12 +18,21 @@ export const Bestroutes = () => {
     getRoutes();
   }, []);
 
+  useEffect(() => {
+    getPhotos();
+  }, [singleroute]);
+
+  const getPhotos = async () => {
+    await actions.getPhotos();
+    setPhotos(store.photos.filter((obj) => obj.name == singleroute.name));
+  };
+
   const getRoutes = async () => {
     await actions.getRoutes();
     setRoutes(store.routes);
   };
 
-  const AddFavoriteRoute = async () => {
+  const addFavoriteRoute = async () => {
     const response = await fetch(store.backendurl + "favorite", {
       method: "POST",
       headers: {
@@ -83,7 +94,7 @@ export const Bestroutes = () => {
                 <li>End longitude: {singleroute.end_longitude}</li>
               </ul>
               {store.userType == "user" || store.userType == "photographer" ? (
-                <button onClick={() => AddFavoriteRoute()}>
+                <button onClick={() => addFavoriteRoute()}>
                   <span>♥</span>
                 </button>
               ) : null}
@@ -91,7 +102,7 @@ export const Bestroutes = () => {
           </div>
         </>
       ) : null}
-      <Slider />
+      <RoutesSlider images={photos} />
     </div>
   );
 };
