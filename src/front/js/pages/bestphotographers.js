@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { CardRoutes } from "../component/cardroutes";
-import { Slider } from "../component/slider";
+import { PhotographerSlider } from "../component/photographerslider";
 import "../../styles/home.css";
 
 export const Bestphotographers = () => {
   const { store, actions } = useContext(Context);
   const [photographers, setPhotographers] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [singlevision, setSinglevision] = useState(false);
   const [singlephotographer, setSinglePhotographer] = useState({});
 
@@ -16,9 +17,20 @@ export const Bestphotographers = () => {
     getPhotographers();
   }, []);
 
+  useEffect(() => {
+    getPhotos();
+  }, [singlephotographer]);
+
   const getPhotographers = async () => {
     await actions.getPhotographers();
     setPhotographers(store.photographers);
+  };
+
+  const getPhotos = async () => {
+    await actions.getPhotos();
+    setPhotos(
+      store.photos.filter((obj) => obj.name == singlephotographer.email)
+    );
   };
 
   const AddFavoritePhotographer = async () => {
@@ -92,7 +104,7 @@ export const Bestphotographers = () => {
           </div>
         </>
       ) : null}
-      <Slider />
+      <PhotographerSlider images={photos} />
     </div>
   );
 };
