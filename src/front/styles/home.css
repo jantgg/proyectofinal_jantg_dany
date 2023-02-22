@@ -82,3 +82,30 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+@media (min-width: 1024px) {
+  /* Define el tamaño de fuente */
+  .sizehome {
+    font-size: 7vw;
+  }
+  .sizehome2 {
+    font-size: 2vw;
+  }
+  .sizehomet {
+    font-size: 3vw;
+  }
+}
+
+/* Estilos para pantallas medianas y pequeñas */
+@media (max-width: 1023px) {
+  /* Define el tamaño de fuente con unidades de vista de ancho */
+  .sizehome {
+    font-size: 13vw;
+  }
+  .sizehome2 {
+    font-size: 5vw;
+  }
+  .sizehomet {
+    font-size: 6vw;
+  }
+}

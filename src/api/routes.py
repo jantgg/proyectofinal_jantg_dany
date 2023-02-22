@@ -131,7 +131,7 @@ def create_route():
         db.session.add(new_route)
         new_routes.append(new_route)
     db.session.commit()
-    return [route.serialize() for route in new_routes], 201
+    return jsonify({"response": "Route send successfully",}), 200
 
 @api.route('/photos', methods=['GET'])
 def get_all_photos():
