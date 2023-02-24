@@ -221,68 +221,75 @@ export const Test = () => {
   ) : (
     <div
       key="elmismotest @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row "
+      className="row ms-0"
     >
       {store.questions.map((question) => {
         return currentQuestion == question.id ? (
           <div key={question.id}>
-            <div className="col-12 mx-auto  text-white">
+            <div className="col-12 mx-auto text-white">
               {store.userType != "user" && store.userType != "photographer" ? (
-                <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
-                  Recuerda logearte antes de comenzar el test para poder guardar
-                  los resultados
-                </div>
+                <>
+                  <div className="bordecitor col-10 mx-auto heightborders"></div>
+                  <div className="col-11 mx-auto text-center  sizehome2 py-5 bordecitoall">
+                    Recuerda logearte antes de comenzar el test para poder
+                    guardar los resultados
+                  </div>
+                </>
               ) : null}
-              <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
+              <div className="bordecitol col-8 mx-auto heightborder"></div>
+              <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehome2 py-5 mb-5 px-3 text-wrap ">
                 {question.question}
                 <br></br>
                 {currentQuestion == "q1" ? null : (
-                  <button
-                    className="fs-6  ms-auto botonaco p-1 px-2 btn-outline-dark"
-                    onClick={() => {
-                      setCurrentQuestion(
-                        userAnswers[userAnswers.length - 1].current_question_id
-                      );
-
-                      answerPop();
-                      // setBackButton(false);
-                    }}
-                  >
-                    <span>
-                      Haz click aqui para volver a la pregunta anterior
-                    </span>
-                  </button>
+                  <div className="row">
+                    <button
+                      className="botonaco sizehomes px-2 py-3 mx-auto"
+                      onClick={() => {
+                        setCurrentQuestion(
+                          userAnswers[userAnswers.length - 1]
+                            .current_question_id
+                        );
+                        answerPop();
+                      }}
+                    >
+                      <span>Volver a la pregunta anterior</span>
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
-            <div className="col-12 mx-auto d-flex justify-content-evenly text-white text-center border border-danger">
+            <div className=" col-8 mx-auto heightborders"></div>
+            <div className="col-10 mx-auto text-white pb-5 mb-5 row mt-5">
               {currentAnswers.map((answer) => {
                 return (
                   <div
                     key={answer.id}
-                    className="col-3 mx-auto mb-5 fs-3 text-wrap"
+                    className="col-12 col-xxl-4 col-xl-11 col-lg-11 mb-4"
                   >
-                    <button
-                      className="botonaco "
-                      onClick={() => {
-                        setUserAnswers([...userAnswers, answer]);
-                        setPreviousQuestion(answer.current_question_id);
-                        setCurrentQuestion(answer.next_question_id);
-                      }}
-                    >
-                      <span>{answer.answer}</span>
-                    </button>
+                    <div className="row">
+                      <button
+                        className="botonaco3 sizehomet py-5 mx-auto"
+                        onClick={() => {
+                          setUserAnswers([...userAnswers, answer]);
+                          setPreviousQuestion(answer.current_question_id);
+                          setCurrentQuestion(answer.next_question_id);
+                        }}
+                      >
+                        <span className="py-5">{answer.answer}</span>
+                      </button>
+                    </div>
                   </div>
                 );
               })}
             </div>
-            <div className="col-12 mx-auto  text-white text-center">
-              <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
+
+            <div className="col-12 mx-auto text-white text-center">
+              <div className="col-8 mx-auto text-center mt-5 sizehome2 bordecitoall">
                 {question.notes}
               </div>
               <div className="">
                 <button
-                  className="botonaco"
+                  className="botonaco3 col-12"
                   onClick={() => {
                     setCurrentQuestion("q1");
                   }}
@@ -290,7 +297,7 @@ export const Test = () => {
                   <span>REPETIR TEST</span>
                 </button>
                 <button
-                  className="botonaco"
+                  className="botonaco3 col-12"
                   onClick={() => {
                     setCurrentQuestion("end");
                     sendAnswers();
