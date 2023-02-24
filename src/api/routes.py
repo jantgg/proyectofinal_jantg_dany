@@ -34,9 +34,10 @@ def user_register():
     user_already_exist = User.query.filter_by(email= body_email).first()
     user_name_already_exist = User.query.filter_by(user_name= body_user_name).first()
     photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
+    photographer_user_name_already_exist = Photographer.query.filter_by(user_name= body_user_name).first()
     if user_already_exist or photographer_already_exist:
         return jsonify({"response": "Email already in use"}), 409
-    if user_name_already_exist:
+    if user_name_already_exist or photographer_user_name_already_exist:
         return jsonify({"response": "User name already in use"}), 410
     if body_password != body_confirmpassword:
         return jsonify({"response": "Typed passwords are different"}), 411
