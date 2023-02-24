@@ -54,7 +54,7 @@ export const Navbar = () => {
                   </div>
                   <div className="nav-item">
                     <Link
-                      to="/"
+                      to="/login"
                       className="nav-link texto-amarillo"
                       onClick={() => {
                         actions.logout();

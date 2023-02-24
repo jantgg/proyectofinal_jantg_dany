@@ -4,23 +4,28 @@ import { Context } from "../store/appContext";
 import "../../styles/registerform.css";
 import { useNavigate } from "react-router-dom";
 
-export const Userregister = () => {
+export const PhotographerRegister = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [user_name, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [erroremail, setErrorEmail] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [passworderror, setPasswordError] = useState(false);
-  const [erroremail, setErrorEmail] = useState(false);
+  const [user_name, setUserName] = useState("");
   const [errorusername, setErrorUsername] = useState(false);
+  const [location, setLocation] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [sunday, setSunday] = useState("");
+  const [service, setService] = useState("");
+  const [credentialserror, setCredentialsError] = useState(false);
 
   useEffect(() => {
     areEqual();
   }, [confirmpassword]);
 
-  const sendUserRegister = async () => {
-    const response = await fetch(store.backendurl + "register", {
+  const sendPhotographerRegister = async () => {
+    const response = await fetch(store.backendurl + "photographerregister", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -30,12 +35,18 @@ export const Userregister = () => {
         email: email,
         password: password,
         confirmpassword: confirmpassword,
+        location: location,
+        instagram: instagram,
+        sunday: sunday,
+        service: service,
       }),
     });
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       navigate("/login");
+    } else if (response.status == 300) {
+      setErrorEmail(true);
     } else if (response.status == 409) {
       setErrorEmail(true);
     } else if (response.status == 410) {
@@ -57,9 +68,9 @@ export const Userregister = () => {
             <div className="card shadow-sm">
               <div className="card-body">
                 <h1 className="main-heading">
-                  Registrate como usario en OnBikes <br></br> o <br></br>
-                  <Link to={"/photographerregister"} className="text-center">
-                    Registrarte como fotógrafo
+                  Registrarte como fotógrafo en OnBikes<br></br> o <br></br>
+                  <Link to={"/userregister"} className="text-center">
+                    Registrate como usario
                   </Link>
                 </h1>
                 <div>
@@ -72,11 +83,13 @@ export const Userregister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control"
+                        className="form-control form-control-lg"
+                        placeholder="Usuario"
                         type="name"
                         value={user_name}
                         onChange={(e) => {
                           setErrorUsername(false);
+                          setCredentialsError(false);
                           setUserName(e.target.value);
                         }}
                         required
@@ -85,7 +98,7 @@ export const Userregister = () => {
                       {errorusername ? (
                         <p className="text-danger">
                           *El nombre de usuario indicado ya esta siendo
-                          utilizado por otro usuario.
+                          utilizado por otro fotografo.
                         </p>
                       ) : null}
                     </div>
@@ -95,24 +108,26 @@ export const Userregister = () => {
                       htmlFor="email"
                       className="col-md-4 col-form-label text-md-end"
                     >
-                      Email
+                      E-mail
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control"
+                        className="form-control form-control-lg"
+                        placeholder="Correo electronico"
                         type="email"
                         required
                         autoFocus
                         value={email}
                         onChange={(e) => {
-                          setEmail(e.target.value);
                           setErrorEmail(false);
+                          setCredentialsError(false);
+                          setEmail(e.target.value);
                         }}
                       />
                       {erroremail ? (
                         <p className="text-danger">
-                          *El email indicado ya esta siendo utilizado por otro
-                          usuario.
+                          *El email indicado ya esta siendo utilizado por otra
+                          persona.
                         </p>
                       ) : null}
                     </div>
@@ -126,10 +141,12 @@ export const Userregister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control"
+                        className="form-control form-control-lg"
+                        placeholder="Contraseña"
                         type="password"
                         value={password}
                         onChange={(e) => {
+                          setCredentialsError(false);
                           setPassword(e.target.value);
                         }}
                         required
@@ -145,10 +162,12 @@ export const Userregister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control"
+                        className="form-control form-control-lg"
+                        placeholder="Confirmar contraseña"
                         type="password"
                         value={confirmpassword}
                         onChange={(e) => {
+                          setCredentialsError(false);
                           setConfirmPassword(e.target.value);
                         }}
                         required
@@ -158,6 +177,86 @@ export const Userregister = () => {
                           *Las contraseñas no coinciden
                         </p>
                       ) : null}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Provincia / Ciudad de trabajo
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Localización"
+                        type="text"
+                        value={location}
+                        onChange={(e) => {
+                          setLocation(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Instagram
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="@Instagram"
+                        type="text"
+                        value={instagram}
+                        onChange={(e) => {
+                          setInstagram(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Servicios
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Servicios"
+                        type="text"
+                        value={service}
+                        onChange={(e) => {
+                          setService(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Ubicación exacta
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Lugar Favorito"
+                        type="text"
+                        value={sunday}
+                        onChange={(e) => {
+                          setSunday(e.target.value);
+                        }}
+                        required
+                      />
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -180,7 +279,7 @@ export const Userregister = () => {
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => {
                           if (passworderror == false) {
-                            sendUserRegister();
+                            sendPhotographerRegister();
                           }
                         }}
                       >

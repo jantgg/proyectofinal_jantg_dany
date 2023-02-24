@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/registerform.css";
+import "../../styles/loginform.css";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
@@ -9,7 +9,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [credentialserror, setCredentialsError] = useState(false);
 
   const sendLogin = async () => {
     const response = await fetch(store.backendurl + "login", {
@@ -28,88 +28,103 @@ export const Login = () => {
       await actions.syncuser();
       navigate("/");
     } else {
-      setError(true);
+      setCredentialsError(true);
     }
   };
   return (
-    <section className="h-100">
-      <div className="container py-5 h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col">
-            <div className="card card-registration my-4">
-              <div className="row g-0">
-                <div className="col-xl-6 d-none d-xl-block img-registration">
-                  <img
-                    src="https://rare-gallery.com/uploads/posts/388329-4k-wallpaper.jpg"
-                    alt="Sample photo"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="col-xl-6">
-                  <div className="card-body p-md-5 text-black">
-                    <h3 className="mb-5 text-uppercase">
-                      OnBikes Log In for Users <br />
-                      <Link
-                        to="/loginp"
-                        className="nav-link texto-amarillo"
-                        href="#"
-                      >
-                        or click here if you're photographer
-                      </Link>
-                    </h3>
-                    <div className="row">
-                      <div className="col-md-6 mb-4">
-                        <div className="">
-                          <input
-                            className=""
-                            name="email"
-                            placeholder="email"
-                            value={email}
-                            onChange={(e) => {
-                              setError(false);
-                              setEmail(e.target.value);
-                            }}
-                          ></input>
-                          <label className="form-label" htmlFor="email">
-                            Email
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-md-6 mb-4">
-                        <div className="">
-                          <input
-                            className=""
-                            name="password"
-                            placeholder="password"
-                            value={password}
-                            onChange={(e) => {
-                              setError(false);
-                              setPassword(e.target.value);
-                            }}
-                          ></input>
-                          <label className="form-label" htmlFor="password">
-                            Password
-                          </label>
-                        </div>
+    <main className="w-100 m-auto">
+      <div className="container mt-3">
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                <h1 className="main-heading">Iniciar sesión en OnBikes</h1>
+                <form>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="email"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      E-mail
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control"
+                        placeholder="Correo electronico"
+                        type="email"
+                        name="email"
+                        required
+                        autoFocus
+                        value={email}
+                        onChange={(e) => {
+                          setCredentialsError(false);
+                          setEmail(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Contraseña
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control"
+                        placeholder="Contraseña"
+                        type="password"
+                        name="password"
+                        required
+                        value={password}
+                        onChange={(e) => {
+                          setCredentialsError(false);
+                          setPassword(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {credentialserror ? (
+                    <p className="m-auto text-danger">
+                      *El email y/o la contraseña son incorrectos.
+                    </p>
+                  ) : null}
+                  <div className="row mb-3">
+                    <div className="col-md-4 offset-md-4">
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="remember"
+                          id="remember"
+                        />
+                        <label className="form-check-label" htmlFor="remember">
+                          Recordarme
+                        </label>
                       </div>
                     </div>
-                    <div className="d-flex justify-content-end pt-3">
+                  </div>
+                  <div className="row mb-0 mt-4">
+                    <div className="col-md-8 offset-md-3">
                       <button
                         type="button"
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => sendLogin()}
                       >
-                        <span>Submit form</span>
+                        <span>Login</span>
                       </button>
-                      {error ? <p>ERROR CREDENCIALES</p> : null}
+                      <Link to={"/"} className="text-decoration-none ps-4">
+                        Forgot Your Password?
+                      </Link>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 };
