@@ -11,13 +11,27 @@ export const Userregister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const [passworderror, setPasswordError] = useState(false);
+  const [erroruser, setErrorUser] = useState("");
   const [erroremail, setErrorEmail] = useState(false);
-  const [errorusername, setErrorUsername] = useState(false);
+  const [passworderror, setPasswordError] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [inputclickeduser, setInputClickedUser] = useState(false);
+  const [inputclickedemail, setInputClickedEmail] = useState(false);
+  const [inputclickedpassword, setInputClickedPassword] = useState(false);
 
   useEffect(() => {
     areEqual();
   }, [confirmpassword]);
+
+  const areEqual = () => {
+    if (password == confirmpassword) {
+      setPasswordError(false);
+    } else setPasswordError(true);
+  };
+
+  const handleCheckbox = (event) => {
+    setTermsAccepted(event.target.checked);
+  };
 
   const sendUserRegister = async () => {
     const response = await fetch(store.backendurl + "register", {
@@ -36,17 +50,24 @@ export const Userregister = () => {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       navigate("/login");
-    } else if (response.status == 409) {
-      setErrorEmail(true);
-    } else if (response.status == 410) {
-      setErrorUsername(true);
+    } else {
+      const errorMessage = await response.json();
+      if (
+        errorMessage.response ==
+        "*El usuario indicado ya esta siendo utilizado por otro usuario."
+      )
+        setErrorUser(errorMessage.response);
+      if (
+        errorMessage.response ==
+        "*El correo electrónico indicado ya esta siendo utilizado por otro usuario."
+      )
+        setErrorEmail(errorMessage.response);
+      if (
+        errorMessage.response ==
+        "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."
+      )
+        setPasswordError(errorMessage.response);
     }
-  };
-
-  const areEqual = () => {
-    if (password == confirmpassword) {
-      setPasswordError(false);
-    } else setPasswordError(true);
   };
 
   return (
@@ -76,18 +97,30 @@ export const Userregister = () => {
                         type="name"
                         value={user_name}
                         onChange={(e) => {
-                          setErrorUsername(false);
+                          setErrorUser("");
                           setUserName(e.target.value);
+                        }}
+                        onClick={() => {
+                          setInputClickedUser(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedUser(false);
                         }}
                         required
                         autoFocus
                       />
-                      {errorusername ? (
-                        <p className="text-danger">
-                          *El nombre de usuario indicado ya esta siendo
-                          utilizado por otro usuario.
-                        </p>
-                      ) : null}
+                      <div>
+                        {erroruser ==
+                        "*El usuario indicado ya esta siendo utilizado por otro usuario." ? (
+                          <p className="text-danger">erroruser</p>
+                        ) : null}
+                        {inputclickeduser ? (
+                          <p className="text-secondary">
+                            El usuario debe estar comprendido entre 5 y 20
+                            caracteres.
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -105,16 +138,29 @@ export const Userregister = () => {
                         autoFocus
                         value={email}
                         onChange={(e) => {
+                          setErrorEmail("");
                           setEmail(e.target.value);
-                          setErrorEmail(false);
+                          setInputClickedEmail(true);
+                        }}
+                        onClick={() => {
+                          setInputClickedEmail(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedEmail(false);
                         }}
                       />
-                      {erroremail ? (
-                        <p className="text-danger">
-                          *El email indicado ya esta siendo utilizado por otro
-                          usuario.
-                        </p>
-                      ) : null}
+                      <div>
+                        {erroremail ==
+                        "*El correo electrónico indicado ya esta siendo utilizado por otro usuario." ? (
+                          <p className="text-danger">erroremail</p>
+                        ) : null}
+                        {inputclickedemail ? (
+                          <p className="text-secondary">
+                            El correo electrónico debe tener un formato correcto
+                            example@example.es
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -130,10 +176,31 @@ export const Userregister = () => {
                         type="password"
                         value={password}
                         onChange={(e) => {
+                          setPasswordError(false);
                           setPassword(e.target.value);
+                        }}
+                        onClick={() => {
+                          setInputClickedPassword(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedPassword(false);
                         }}
                         required
                       />
+                      <div>
+                        {passworderror ==
+                        "*La contraseña introducida es diferente, por favor, revise la contraseña introducida." ? (
+                          <p className="text-danger">passworderror</p>
+                        ) : null}
+                        {inputclickedpassword ? (
+                          <p className="text-secondary">
+                            *La contraseña debe tener al menos 8 caracteres y
+                            como maximo 50, debe contener al menos una letra
+                            mayúscula, una letra minúscula, un número y un
+                            carácter especial por ejemplo: '! # $ % & * ? @'
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -155,7 +222,7 @@ export const Userregister = () => {
                       />
                       {passworderror == true ? (
                         <p className="text-danger">
-                          *Las contraseñas no coinciden
+                          *La contraseña de confirmación no coincide
                         </p>
                       ) : null}
                     </div>
@@ -163,12 +230,19 @@ export const Userregister = () => {
                   <div className="row mb-3">
                     <div className="col-md-4 offset-md-4">
                       <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="termsAndConditions"
+                          required
+                          checked={termsAccepted}
+                          onChange={handleCheckbox}
+                        />
                         <label
                           className="form-check-label"
-                          htmlFor="temsAndConditions"
+                          htmlFor="termsAndConditions"
                         >
-                          Acepto los terminos y condiciones.
+                          Acepto los terminos y las condiciones.
                         </label>
                       </div>
                     </div>
@@ -179,6 +253,12 @@ export const Userregister = () => {
                         type="submit"
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => {
+                          if (!termsAccepted) {
+                            alert(
+                              "Por favor acepta los términos y condiciones."
+                            );
+                            return;
+                          }
                           if (passworderror == false) {
                             sendUserRegister();
                           }

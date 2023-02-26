@@ -1,14 +1,17 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import re
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Photographer, Photo, Route, Favorite, Bike, Question, Answer
 from api.utils import generate_sitemap, APIException
+from werkzeug.security import (generate_password_hash, check_password_hash)
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
+
 
 # LOGIN DE USER --------------------------------------------------------------------------------------->
 @api.route('/login', methods=['POST'])
@@ -18,11 +21,12 @@ def user_login():
     user = User.query.filter_by(email=body_email, password = body_password).first()
     photographer = Photographer.query.filter_by(email= body_email, password = body_password).first()
     if not user and not photographer:
-        return jsonify ({"error":"X"}), 401
+        return jsonify ({"error":"No existe este usuario/fotógrafo."}), 401
     token = None
     if user: token = create_access_token(identity=user.email) 
     if photographer: token = create_access_token(identity=photographer.email) 
-    return jsonify({"response": "hola", "token": token }), 200
+    return jsonify({"response": token }), 200
+
 
 # REGISTRO DE USER ------------------------------------------------------------------------------------->
 @api.route('/register', methods=['POST'])
@@ -36,15 +40,25 @@ def user_register():
     photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
     photographer_user_name_already_exist = Photographer.query.filter_by(user_name= body_user_name).first()
     if user_already_exist or photographer_already_exist:
-        return jsonify({"response": "Email already in use"}), 409
+        return jsonify({"response": "*El correo electrónico indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 409
     if user_name_already_exist or photographer_user_name_already_exist:
-        return jsonify({"response": "User name already in use"}), 410
+        return jsonify({"response": "*El usuario indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 422
     if body_password != body_confirmpassword:
-        return jsonify({"response": "Typed passwords are different"}), 411
-    new_user = User(email=body_email, password=body_password, user_name=body_user_name, active=True)
+        return jsonify({"response": "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."}), 422
+    def generate_hashed_password(password):
+        if not password:
+            raise AssertionError('*No se ha proporcionado una contraseña')
+        if not re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$', password):
+            raise AssertionError('*La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.')
+        if len(password) < 8 or len(password) > 50:
+            raise AssertionError('*La contraseña debe contener entre 8 y 50 caracteres.')
+        return generate_password_hash(password)
+    hashed_password = generate_hashed_password(body_password)
+    new_user = User(email=body_email, password=hashed_password, user_name=body_user_name, active=True)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"response": "User registered successfully",}), 200
+    return jsonify({"response": "Usuario registrado correctamente!",}), 200
+
 
 # REGISTRO DE FOTOGRAFO ------------------------------------------------------------------------------->
 @api.route('/photographerregister', methods=['POST'])
@@ -62,15 +76,25 @@ def photographer_register():
     photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
     photographer_user_name_already_exist = Photographer.query.filter_by(user_name= body_user_name).first()
     if user_already_exist or photographer_already_exist:
-        return jsonify({"response": "Email already in use"}), 409
+        return jsonify({"response": "*El correo electrónico indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 409
     if user_name_already_exist or photographer_user_name_already_exist:
-        return jsonify({"response": "User name already in use"}), 410
+        return jsonify({"response": "*El usuario indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 422
     if body_password != body_confirmpassword:
-        return jsonify({"response": "Typed passwords are different"}), 411
-    new_photographer = Photographer(email=body_email, password=body_password, user_name=body_user_name, location_text=body_location_text, instagram=body_instagram, services_text=body_service, find_me_text=body_sunday, active=True)
+        return jsonify({"response": "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."}), 422
+    def generate_hashed_password(password):
+        if not password:
+            raise AssertionError('*No se ha proporcionado una contraseña')
+        if not re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$', password):
+            raise AssertionError('*La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.')
+        if len(password) < 8 or len(password) > 50:
+            raise AssertionError('*La contraseña debe contener entre 8 y 50 caracteres.')
+        return generate_password_hash(password)
+    hashed_password = generate_hashed_password(body_password)
+    new_photographer = Photographer(email=body_email, password=hashed_password, user_name=body_user_name, location_text=body_location_text, instagram=body_instagram, services_text=body_service, find_me_text=body_sunday, active=True)
     db.session.add(new_photographer)
     db.session.commit()
-    return jsonify({"response": "Photographer registered successfully",}), 200
+    return jsonify({"response": "Fotógrafo registrado correctamente!",}), 200
+
 
 # REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------->
 @api.route('/sync', methods=['GET'])
@@ -81,8 +105,8 @@ def sync_user():
     photographer = Photographer.query.filter_by(email=email).first()
     if not user and not photographer:
         return jsonify ({"type": None}), 401
-    if user: return jsonify({"type": "user"}), 200
-    if photographer: return jsonify({"type": "photographer"}), 200
+    if user: return jsonify({"type": "Usuario"}), 200
+    if photographer: return jsonify({"type": "Fotógrafo"}), 200
 
 
 #Endpoints iniciales de creacion de DB
