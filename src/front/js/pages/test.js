@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -12,6 +12,21 @@ export const Test = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [bikesResults, setBikesResults] = useState([]);
   const [previousQuestion, setPreviousQuestion] = useState("q1");
+  const [movingQuestion, setMovingQuestion] = useState("q1");
+  const [isMovingOut, setIsMovingOut] = useState(false);
+  const isMounting = useRef(true);
+
+  useEffect(() => {
+    if (isMounting.current) {
+      isMounting.current = false;
+    } else {
+      setIsMovingOut(true);
+      setTimeout(() => {
+        setIsMovingOut(false);
+        setMovingQuestion("q1");
+      }, 500);
+    } // Duración de la animación en milisegundos
+  }, [movingQuestion]);
 
   useEffect(() => {
     actions.getQuestions();
@@ -40,6 +55,16 @@ export const Test = () => {
     updatedAnswers.pop();
     setUserAnswers(updatedAnswers);
   };
+
+  function changeQuestion() {
+    const div = document.querySelector(".entrada");
+    div.classList.add("salida");
+  }
+
+  function showQuestion() {
+    const div = document.querySelector(".entrada");
+    div.classList.remove("salida");
+  }
 
   const addFavoriteBike = async () => {
     const response = await fetch(store.backendurl + "favorite", {
@@ -226,40 +251,54 @@ export const Test = () => {
       {store.questions.map((question) => {
         return currentQuestion == question.id ? (
           <div key={question.id}>
-            <div className="col-12 mx-auto text-white">
+            <div
+              className={`entrada col-12 mx-auto text-white ${
+                isMovingOut ? "salidar" : ""
+              }`}
+            >
               {store.userType != "user" && store.userType != "photographer" ? (
                 <>
-                  <div className="bordecitor col-10 mx-auto heightborders"></div>
-                  <div className="col-11 mx-auto text-center  sizehome2 py-5 bordecitoall">
+                  <div className="bordecitor col-8 mx-auto heightborders "></div>
+
+                  <div className="col-9 mx-auto text-center  sizehome2 py-5 bordecitoall border-danger spartan imagenw">
                     Recuerda logearte antes de comenzar el test para poder
                     guardar los resultados
                   </div>
                 </>
               ) : null}
-              <div className="bordecitol col-8 mx-auto heightborder"></div>
-              <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehome2 py-5 mb-5 px-3 text-wrap ">
-                {question.question}
-                <br></br>
-                {currentQuestion == "q1" ? null : (
-                  <div className="row">
-                    <button
-                      className="botonaco sizehomes px-2 py-3 mx-auto"
-                      onClick={() => {
-                        setCurrentQuestion(
-                          userAnswers[userAnswers.length - 1]
-                            .current_question_id
-                        );
-                        answerPop();
-                      }}
-                    >
-                      <span>Volver a la pregunta anterior</span>
-                    </button>
-                  </div>
-                )}
+              <div className="bordecitol col-7 mx-auto heightborder"></div>
+            </div>
+            <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
+              <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white">
+                <b>{question.question}</b>
               </div>
             </div>
-            <div className=" col-8 mx-auto heightborders"></div>
-            <div className="col-10 mx-auto text-white pb-5 mb-5 row mt-5">
+            {currentQuestion == "q1" ? null : (
+              <div
+                className={`entrada row mt-3 text-white ${
+                  isMovingOut ? "salidal" : ""
+                }`}
+              >
+                <button
+                  className="botonaco sizehomes px-2 py-3 mx-auto"
+                  onClick={() => {
+                    setCurrentQuestion(
+                      userAnswers[userAnswers.length - 1].current_question_id
+                    );
+                    answerPop();
+                    setMovingQuestion(answer.next_question_id);
+                  }}
+                >
+                  <span>Volver a la pregunta anterior</span>
+                </button>
+              </div>
+            )}
+
+            <div
+              className={`entrada col-10 mx-auto text-white pb-5 mb-5 row ma ${
+                isMovingOut ? "salidar" : ""
+              }`}
+            >
               {currentAnswers.map((answer) => {
                 return (
                   <div
@@ -268,11 +307,12 @@ export const Test = () => {
                   >
                     <div className="row">
                       <button
-                        className="botonaco3 sizehomet py-5 mx-auto"
+                        className="botonaco3 sizehomet py-5 mx-auto imagena"
                         onClick={() => {
                           setUserAnswers([...userAnswers, answer]);
                           setPreviousQuestion(answer.current_question_id);
                           setCurrentQuestion(answer.next_question_id);
+                          setMovingQuestion(answer.next_question_id);
                         }}
                       >
                         <span className="py-5">{answer.answer}</span>
@@ -282,30 +322,35 @@ export const Test = () => {
                 );
               })}
             </div>
-
-            <div className="col-12 mx-auto text-white text-center">
-              <div className="col-8 mx-auto text-center mt-5 sizehome2 bordecitoall">
+            <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
+              <div className="entrada col-10 col-xxl-6 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn p-4 spartan text-white">
                 {question.notes}
               </div>
-              <div className="">
-                <button
-                  className="botonaco3 col-12"
-                  onClick={() => {
-                    setCurrentQuestion("q1");
-                  }}
-                >
-                  <span>REPETIR TEST</span>
-                </button>
-                <button
-                  className="botonaco3 col-12"
-                  onClick={() => {
-                    setCurrentQuestion("end");
-                    sendAnswers();
-                  }}
-                >
-                  <span>ir a resultados</span>
-                </button>
-              </div>
+            </div>
+
+            <div className="row col-12 text-center">
+              <button
+                className="botonaco4 col-12 col-xxl-2 col-xl-11 col-lg-11 mb-4 me-5 ms-auto imagena"
+                onClick={() => {
+                  setCurrentQuestion("q1");
+                  setUserAnswers("");
+                }}
+              >
+                <span>
+                  <b>REPETIR TEST</b>
+                </span>
+              </button>
+              <button
+                className="botonaco4 col-12 col-xxl-2 col-xl-12 col-lg-12 mb-4 ms-5 me-auto py-3 imagena"
+                onClick={() => {
+                  setCurrentQuestion("end");
+                  sendAnswers();
+                }}
+              >
+                <span>
+                  <b>RESULTADOS</b>
+                </span>
+              </button>
             </div>
           </div>
         ) : null;

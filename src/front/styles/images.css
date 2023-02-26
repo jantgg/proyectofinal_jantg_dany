@@ -93,3 +93,119 @@
   transform: scale(1.2);
   filter: brightness(80%);
 }
+
+.imagen4 {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+}
+
+.imagen4::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://storage.googleapis.com/blog-prod-files/uploads/sites/11/2020/12/piston-680x350.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: transform 1s, opacity 1s, filter 1s;
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.imagena {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+  border: 1px solid white;
+}
+
+.imagena::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://www.todofondos.net/wp-content/uploads/black-texture-wallpaper-1024x576.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: transform 1s, opacity 1s, filter 1s;
+  filter: brightness(90%);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.imagena:hover::before {
+  transform: scale(1.6);
+  filter: brightness(100%);
+}
+
+.imagenn {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+  border: 1px solid white;
+}
+
+.imagenn::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://img1.goodfon.com/wallpaper/nbig/7/d9/tekstura-chernyy-fon-uzory-fon.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: transform 1s, opacity 1s, filter 1s;
+  filter: brightness(90%);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.imagenn:hover::before {
+  filter: brightness(100%);
+}
+
+.imagenw {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+  border: 1px solid red;
+}
+
+.imagenw::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://w0.peakpx.com/wallpaper/978/125/HD-wallpaper-dark-texture-fence-grass-mesh.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: transform 1s, opacity 1s, filter 1s;
+  filter: brightness(90%);
+  opacity: 0.5;
+  z-index: -1;
+}
