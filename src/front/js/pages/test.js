@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import "../../styles/test.css";
 import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Test = () => {
   const { store, actions } = useContext(Context);
@@ -15,6 +18,34 @@ export const Test = () => {
   const [movingQuestion, setMovingQuestion] = useState("q1");
   const [isMovingOut, setIsMovingOut] = useState(false);
   const isMounting = useRef(true);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray(".revealUp").forEach(function (elem) {
+      ScrollTrigger.create({
+        trigger: elem,
+        start: "top 60%",
+        end: "bottom 35%",
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(
+            elem,
+            { y: 700, autoAlpha: 0 },
+            {
+              duration: 1.25,
+              y: 0,
+              autoAlpha: 1,
+              ease: "power1.out",
+              overwrite: "auto",
+            }
+          );
+        },
+        onLeave: () => {},
+        onEnterBack: () => {},
+        onLeaveBack: () => {},
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (isMounting.current) {
@@ -105,7 +136,7 @@ export const Test = () => {
   return currentQuestion == "end" ? (
     <div
       key="losresultados @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row "
+      className="row revealUp"
     >
       <div className="col-12 mx-auto  text-white">
         {store.userType != "user" && store.userType != "photographer" ? (
@@ -246,20 +277,15 @@ export const Test = () => {
   ) : (
     <div
       key="elmismotest @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row ms-0"
+      className="row ms-0 revealUp"
     >
       {store.questions.map((question) => {
         return currentQuestion == question.id ? (
           <div key={question.id}>
-            <div
-              className={`entrada col-12 mx-auto text-white ${
-                isMovingOut ? "salidar" : ""
-              }`}
-            >
+            <div className="col-12 mx-auto text-white">
               {store.userType != "user" && store.userType != "photographer" ? (
                 <>
                   <div className="bordecitor col-8 mx-auto heightborders "></div>
-
                   <div className="col-9 mx-auto text-center  sizehome2 py-5 bordecitoall border-danger spartan imagenw">
                     Recuerda logearte antes de comenzar el test para poder
                     guardar los resultados
@@ -268,46 +294,44 @@ export const Test = () => {
               ) : null}
               <div className="bordecitol col-7 mx-auto heightborder"></div>
             </div>
-            <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
-              <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white">
+
+            <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white">
+              <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
                 <b>{question.question}</b>
               </div>
+
+              {currentQuestion == "q1" ? null : (
+                <div className="row mt-3 text-white">
+                  <button
+                    className="botonaco sizehomes px-2 py-3 mx-auto"
+                    onClick={() => {
+                      setCurrentQuestion(
+                        userAnswers[userAnswers.length - 1].current_question_id
+                      );
+                      answerPop();
+                      setMovingQuestion(answer.next_question_id);
+                    }}
+                  >
+                    <span>Volver a la pregunta anterior</span>
+                  </button>
+                </div>
+              )}
             </div>
-            {currentQuestion == "q1" ? null : (
-              <div
-                className={`entrada row mt-3 text-white ${
-                  isMovingOut ? "salidal" : ""
-                }`}
-              >
-                <button
-                  className="botonaco sizehomes px-2 py-3 mx-auto"
-                  onClick={() => {
-                    setCurrentQuestion(
-                      userAnswers[userAnswers.length - 1].current_question_id
-                    );
-                    answerPop();
-                    setMovingQuestion(answer.next_question_id);
-                  }}
-                >
-                  <span>Volver a la pregunta anterior</span>
-                </button>
-              </div>
-            )}
 
             <div
               className={`entrada col-10 mx-auto text-white pb-5 mb-5 row ma ${
-                isMovingOut ? "salidar" : ""
+                isMovingOut ? "salidal" : ""
               }`}
             >
               {currentAnswers.map((answer) => {
                 return (
                   <div
                     key={answer.id}
-                    className="col-12 col-xxl-4 col-xl-11 col-lg-11 mb-4"
+                    className="col-12 col-xxl-4 col-xl-11 col-lg-11 mx-auto"
                   >
-                    <div className="row">
+                    <div className="row mx-auto">
                       <button
-                        className="botonaco3 sizehomet py-5 mx-auto imagena"
+                        className="botonaco3 sizehomet py-5 imagena mx-auto"
                         onClick={() => {
                           setUserAnswers([...userAnswers, answer]);
                           setPreviousQuestion(answer.current_question_id);
@@ -322,8 +346,9 @@ export const Test = () => {
                 );
               })}
             </div>
-            <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
-              <div className="entrada col-10 col-xxl-6 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn p-4 spartan text-white">
+
+            <div className="entrada col-10 col-xxl-6 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn p-4 spartan text-white">
+              <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
                 {question.notes}
               </div>
             </div>

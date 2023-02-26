@@ -215,6 +215,9 @@ body {
 .entrada {
   transition: transform 0.2s ease-in;
 }
+.salidab {
+  transform: translateY(100%);
+}
 .salidal {
   transform: translateX(100%);
 }
