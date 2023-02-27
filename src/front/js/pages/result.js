@@ -8,11 +8,9 @@ import { Card } from "../component/card";
 export const Result = () => {
   const { store, actions } = useContext(Context);
   const [bikesResults, setBikesResults] = useState([]);
-  const previousResult = localStorage.getItem(userAnswers);
 
   useEffect(() => {
     getBikes();
-    setBikesResults(JSON.parse(localStorage.getItem(userAnswers)));
   }, []);
 
   const getBikes = async () => {
@@ -27,7 +25,7 @@ export const Result = () => {
     );
   };
 
-  const AddFavoriteBike = async () => {
+  const addFavoriteBike = async () => {
     const response = await fetch(store.backendurl + "favorite", {
       method: "POST",
       headers: {
@@ -47,12 +45,10 @@ export const Result = () => {
     }
   };
 
-  console.log(store.bikes);
-  console.log(bikesResults);
   return (
     <div
       key="losresultados @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row "
+      className="row revealUp"
     >
       <div className="col-12 mx-auto  text-white">
         {store.userType != "user" && store.userType != "photographer" ? (
@@ -81,7 +77,6 @@ export const Result = () => {
           >
             {bikesResults.map((bike, index) => {
               let number = index;
-              let bikeinfo = bike;
               return (
                 <>
                   <button
@@ -128,7 +123,7 @@ export const Result = () => {
                               store.userType == "photographer" ? (
                                 <button
                                   className=""
-                                  onClick={() => AddFavoriteBike()}
+                                  onClick={() => addFavoriteBike()}
                                 >
                                   Favorite
                                 </button>

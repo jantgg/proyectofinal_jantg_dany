@@ -211,7 +211,8 @@ body {
 }
 
 .entrada {
-  transition: transform 0.2s ease-in;
+  opacity: 1;
+  transition: transform 1s, opacity 0.7s;
 }
 .salidab {
   transform: translateY(100%);
@@ -220,7 +221,20 @@ body {
   transform: translateX(100%);
 }
 .salidar {
-  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.tohide {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.reveal {
+  opacity: 1;
+  opacity: 0.3s ease-in;
+}
+.minH {
+  min-height: 25vh;
 }
 
 @keyframes move {

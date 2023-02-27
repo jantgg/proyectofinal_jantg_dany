@@ -21,6 +21,7 @@ export const Test = () => {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+
     gsap.utils.toArray(".revealUp").forEach(function (elem) {
       ScrollTrigger.create({
         trigger: elem,
@@ -40,23 +41,37 @@ export const Test = () => {
             }
           );
         },
-        onLeave: () => {},
-        onEnterBack: () => {},
-        onLeaveBack: () => {},
+      });
+    });
+
+    gsap.utils.toArray(".reveal").forEach(function (elem) {
+      ScrollTrigger.create({
+        trigger: elem,
+        start: "top 80%",
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(
+            elem,
+            { autoAlpha: 0 },
+            {
+              duration: 1,
+              autoAlpha: 1,
+              ease: "power1.out",
+              overwrite: "auto",
+            }
+          );
+        },
       });
     });
   }, []);
 
   useEffect(() => {
-    if (isMounting.current) {
-      isMounting.current = false;
-    } else {
-      setIsMovingOut(true);
-      setTimeout(() => {
-        setIsMovingOut(false);
-        setMovingQuestion("q1");
-      }, 500);
-    } // Duración de la animación en milisegundos
+    setIsMovingOut(true);
+    setTimeout(() => {
+      setIsMovingOut(false);
+      setMovingQuestion("q1");
+    }, 500);
+    // Duración de la animación en milisegundos
   }, [movingQuestion]);
 
   useEffect(() => {
@@ -86,16 +101,6 @@ export const Test = () => {
     updatedAnswers.pop();
     setUserAnswers(updatedAnswers);
   };
-
-  function changeQuestion() {
-    const div = document.querySelector(".entrada");
-    div.classList.add("salida");
-  }
-
-  function showQuestion() {
-    const div = document.querySelector(".entrada");
-    div.classList.remove("salida");
-  }
 
   const addFavoriteBike = async () => {
     const response = await fetch(store.backendurl + "favorite", {
@@ -132,6 +137,17 @@ export const Test = () => {
       console.log("response not ok");
     }
   };
+  //MOSTRAR Y OCULTAR DIVS
+  function ocultarDivs() {
+    // Obtener todos los elementos con la clase ".tohide"
+    const toHide = document.querySelectorAll(".tohide");
+
+    // Iterar sobre cada elemento y establecer su propiedad "opacity" a "0"
+    toHide.forEach((element) => {
+      element.style.opacity = "0";
+      element.style.transition = "opacity 0.2s ease-out";
+    });
+  }
 
   return currentQuestion == "end" ? (
     <div
@@ -295,8 +311,8 @@ export const Test = () => {
               <div className="bordecitol col-7 mx-auto heightborder"></div>
             </div>
 
-            <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white">
-              <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
+            <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white minH">
+              <div className={`tohide ${isMovingOut ? "salidal" : "reveal"}`}>
                 <b>{question.question}</b>
               </div>
 
@@ -309,7 +325,6 @@ export const Test = () => {
                         userAnswers[userAnswers.length - 1].current_question_id
                       );
                       answerPop();
-                      setMovingQuestion(answer.next_question_id);
                     }}
                   >
                     <span>Volver a la pregunta anterior</span>
@@ -319,8 +334,8 @@ export const Test = () => {
             </div>
 
             <div
-              className={`entrada col-10 mx-auto text-white pb-5 mb-5 row ma ${
-                isMovingOut ? "salidal" : ""
+              className={` tohide col-10 mx-auto text-white pb-5 mb-5 row ma ${
+                isMovingOut ? "salidal" : "reveal"
               }`}
             >
               {currentAnswers.map((answer) => {
@@ -335,8 +350,11 @@ export const Test = () => {
                         onClick={() => {
                           setUserAnswers([...userAnswers, answer]);
                           setPreviousQuestion(answer.current_question_id);
-                          setCurrentQuestion(answer.next_question_id);
-                          setMovingQuestion(answer.next_question_id);
+                          ocultarDivs();
+                          setTimeout(() => {
+                            setCurrentQuestion(answer.next_question_id);
+                            setMovingQuestion(answer.next_question_id);
+                          }, 300);
                         }}
                       >
                         <span className="py-5">{answer.answer}</span>
@@ -348,7 +366,7 @@ export const Test = () => {
             </div>
 
             <div className="entrada col-10 col-xxl-6 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn p-4 spartan text-white">
-              <div className={`entrada ${isMovingOut ? "salidar" : ""}`}>
+              <div className={`tohide ${isMovingOut ? "salidal" : "reveal"}`}>
                 {question.notes}
               </div>
             </div>
