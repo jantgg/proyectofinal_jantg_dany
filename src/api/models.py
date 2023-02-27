@@ -24,21 +24,21 @@ class User(db.Model):
     @validates('user_name')
     def validate_user_name(self, key, user_name):
         if not user_name:
-            raise AssertionError('No se ha proporcionado un nombre de usuario.')
+            raise AssertionError('Username not provided')
         if User.query.filter_by(user_name=user_name).first():
-            raise AssertionError('El usuario esta siendo utilizado por otro usuario/fotórafo.')
+            raise AssertionError('The username is being used by another user or photographer')
         if len(user_name) < 5 or len(user_name) > 20:
-            raise AssertionError('El nombre de usuario debe estar comprendido entre 5 y 20 caracteres.')
+            raise AssertionError('The username must be between 5 and 20 characters')
         return user_name 
 
     @validates('email')
     def validate_email(self, key, email):
         if not email:
-            raise AssertionError('No se ha proporcionado un correo electrónico.')
+            raise AssertionError('Email not provided')
         if not re.match("[^@]+@[^@]+\.[^@]+", email):
-            raise AssertionError('El correo electrónico proporcionado no es un correo electrónico valido.')
+            raise AssertionError('The email provided is not a valid email')
         if User.query.filter_by(email=email).first():
-            raise AssertionError('El correo electrónico proporcionado esta siendo utilizado por otro usuario/fotógrafo.')
+            raise AssertionError('The email provided is being used by another user or photographer')
         return email
 
 
@@ -77,21 +77,21 @@ class Photographer(db.Model):
     @validates('user_name')
     def validate_user_name(self, key, user_name):
         if not user_name:
-            raise AssertionError('No se ha proporcionado un nombre de usuario.')
+            raise AssertionError('Username not provided')
         if User.query.filter_by(user_name=user_name).first():
-            raise AssertionError('El usuario esta siendo utilizado por otro usuario/fotórafo.')
+            raise AssertionError('The username is being used by another user or photographer')
         if len(user_name) < 5 or len(user_name) > 20:
-            raise AssertionError('El nombre de usuario debe estar comprendido entre 5 y 20 caracteres.')
+            raise AssertionError('The username must be between 5 and 20 characters')
         return user_name 
 
     @validates('email')
     def validate_email(self, key, email):
         if not email:
-            raise AssertionError('No se ha proporcionado un correo electrónico.')
+            raise AssertionError('Email not provided')
         if not re.match("[^@]+@[^@]+\.[^@]+", email):
-            raise AssertionError('El correo electrónico proporcionado no es un correo electrónico valido.')
+            raise AssertionError('The email provided is not a valid email')
         if User.query.filter_by(email=email).first():
-            raise AssertionError('El correo electrónico proporcionado esta siendo utilizado por otro usuario/fotógrafo.')
+            raise AssertionError('The email provided is being used by another user or photographer')
         return email
 
 

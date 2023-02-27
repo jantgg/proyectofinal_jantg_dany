@@ -14,21 +14,27 @@ api = Blueprint('api', __name__)
 
 
 # LOGIN DE USER --------------------------------------------------------------------------------------->
+
 @api.route('/login', methods=['POST'])
 def user_login():
     body_email = request.json.get("email")
     body_password = request.json.get("password")
-    user = User.query.filter_by(email=body_email, password = body_password).first()
-    photographer = Photographer.query.filter_by(email= body_email, password = body_password).first()
-    if not user and not photographer:
-        return jsonify ({"error":"No existe este usuario/fotógrafo."}), 401
+    user = User.query.filter_by(email=body_email).first()
+    photographer = Photographer.query.filter_by(email=body_email).first()
     token = None
-    if user: token = create_access_token(identity=user.email) 
-    if photographer: token = create_access_token(identity=photographer.email) 
-    return jsonify({"response": token }), 200
+    if not user and not photographer:
+        return jsonify ({"error": "This user or photographer does not exist"}), 401
+    if user and check_password_hash(user.password, body_password):
+        token = create_access_token(identity=user.email) 
+    elif photographer and check_password_hash(photographer.password, body_password):
+        token = create_access_token(identity=photographer.email) 
+    else:
+        return jsonify({"error": "The entered password is incorrect."}), 401
+    return jsonify({"token": token}), 200
 
 
 # REGISTRO DE USER ------------------------------------------------------------------------------------->
+
 @api.route('/register', methods=['POST'])
 def user_register():
     body_user_name = request.json.get("user_name")
@@ -40,27 +46,28 @@ def user_register():
     photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
     photographer_user_name_already_exist = Photographer.query.filter_by(user_name= body_user_name).first()
     if user_already_exist or photographer_already_exist:
-        return jsonify({"response": "*El correo electrónico indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 409
+        return jsonify({"response": "The indicated email is already being used by another user or photographer"}), 409
     if user_name_already_exist or photographer_user_name_already_exist:
-        return jsonify({"response": "*El usuario indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 422
+        return jsonify({"response": "The indicated username is already being used by another user or photographer"}), 422
     if body_password != body_confirmpassword:
-        return jsonify({"response": "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."}), 422
+        return jsonify({"response": "The entered password is different, please check the password"}), 422
     def generate_hashed_password(password):
         if not password:
-            raise AssertionError('*No se ha proporcionado una contraseña')
+            raise AssertionError('No password provided')
         if not re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$', password):
-            raise AssertionError('*La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.')
+            raise AssertionError('The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
         if len(password) < 8 or len(password) > 50:
-            raise AssertionError('*La contraseña debe contener entre 8 y 50 caracteres.')
+            raise AssertionError('Password must contain between 8 and 50 characters')
         return generate_password_hash(password)
     hashed_password = generate_hashed_password(body_password)
     new_user = User(email=body_email, password=hashed_password, user_name=body_user_name, active=True)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"response": "Usuario registrado correctamente!",}), 200
+    return jsonify({"response": "User registered successfully!"}), 200
 
 
 # REGISTRO DE FOTOGRAFO ------------------------------------------------------------------------------->
+
 @api.route('/photographerregister', methods=['POST'])
 def photographer_register():
     body_user_name = request.json.get("user_name")
@@ -76,27 +83,28 @@ def photographer_register():
     photographer_already_exist = Photographer.query.filter_by(email= body_email).first()
     photographer_user_name_already_exist = Photographer.query.filter_by(user_name= body_user_name).first()
     if user_already_exist or photographer_already_exist:
-        return jsonify({"response": "*El correo electrónico indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 409
+        return jsonify({"response": "The indicated email is already being used by another user or photographer"}), 409
     if user_name_already_exist or photographer_user_name_already_exist:
-        return jsonify({"response": "*El usuario indicado ya esta siendo utilizado por otro usuario/fotógrafo."}), 422
+        return jsonify({"response": "The indicated username is already being used by another user or photographer"}), 422
     if body_password != body_confirmpassword:
-        return jsonify({"response": "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."}), 422
+        return jsonify({"response": "The entered password is different, please check the password"}), 422
     def generate_hashed_password(password):
         if not password:
-            raise AssertionError('*No se ha proporcionado una contraseña')
+            raise AssertionError('No password provided')
         if not re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$', password):
-            raise AssertionError('*La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.')
+            raise AssertionError('The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
         if len(password) < 8 or len(password) > 50:
-            raise AssertionError('*La contraseña debe contener entre 8 y 50 caracteres.')
+            raise AssertionError('Password must contain between 8 and 50 characters')
         return generate_password_hash(password)
     hashed_password = generate_hashed_password(body_password)
     new_photographer = Photographer(email=body_email, password=hashed_password, user_name=body_user_name, location_text=body_location_text, instagram=body_instagram, services_text=body_service, find_me_text=body_sunday, active=True)
     db.session.add(new_photographer)
     db.session.commit()
-    return jsonify({"response": "Fotógrafo registrado correctamente!",}), 200
+    return jsonify({"response": "Photographer registered successfully!",}), 200
 
 
 # REVISAR TIPO DE USER/FOTOGRAFO ----------------------------------------------------------------------->
+
 @api.route('/sync', methods=['GET'])
 @jwt_required()
 def sync_user():

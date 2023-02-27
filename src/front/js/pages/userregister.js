@@ -54,17 +54,17 @@ export const Userregister = () => {
       const errorMessage = await response.json();
       if (
         errorMessage.response ==
-        "*El usuario indicado ya esta siendo utilizado por otro usuario."
+        "The indicated username is already being used by another user or photographer"
       )
         setErrorUser(errorMessage.response);
       if (
         errorMessage.response ==
-        "*El correo electrónico indicado ya esta siendo utilizado por otro usuario."
+        "The indicated email is already being used by another user or photographer"
       )
         setErrorEmail(errorMessage.response);
       if (
         errorMessage.response ==
-        "*La contraseña introducida es diferente, por favor, revise la contraseña introducida."
+        "The entered password is different, please check the password"
       )
         setPasswordError(errorMessage.response);
     }
@@ -111,8 +111,11 @@ export const Userregister = () => {
                       />
                       <div>
                         {erroruser ==
-                        "*El usuario indicado ya esta siendo utilizado por otro usuario." ? (
-                          <p className="text-danger">erroruser</p>
+                        "The indicated username is already being used by another user or photographer" ? (
+                          <p className="text-danger">
+                            *El nombre de usuario indicado ya está siendo
+                            utilizado por otro usuario o fotógrafo.
+                          </p>
                         ) : null}
                         {inputclickeduser ? (
                           <p className="text-secondary">
@@ -151,8 +154,11 @@ export const Userregister = () => {
                       />
                       <div>
                         {erroremail ==
-                        "*El correo electrónico indicado ya esta siendo utilizado por otro usuario." ? (
-                          <p className="text-danger">erroremail</p>
+                        "The indicated email is already being used by another user or photographer" ? (
+                          <p className="text-danger">
+                            *El email indicado ya está siendo utilizado por otro
+                            usuario o fotógrafo."
+                          </p>
                         ) : null}
                         {inputclickedemail ? (
                           <p className="text-secondary">
@@ -189,8 +195,11 @@ export const Userregister = () => {
                       />
                       <div>
                         {passworderror ==
-                        "*La contraseña introducida es diferente, por favor, revise la contraseña introducida." ? (
-                          <p className="text-danger">passworderror</p>
+                        "The entered password is different, please check the password" ? (
+                          <p className="text-danger">
+                            *Las contraseñas ingresadas son diferentes,
+                            verifique la contraseña.
+                          </p>
                         ) : null}
                         {inputclickedpassword ? (
                           <p className="text-secondary">
@@ -213,6 +222,7 @@ export const Userregister = () => {
                     <div className="col-md-6">
                       <input
                         className="form-control"
+                        placeholder="Confirmar contraseña"
                         type="password"
                         value={confirmpassword}
                         onChange={(e) => {
@@ -220,11 +230,13 @@ export const Userregister = () => {
                         }}
                         required
                       />
-                      {passworderror == true ? (
-                        <p className="text-danger">
-                          *La contraseña de confirmación no coincide
-                        </p>
-                      ) : null}
+                      <div>
+                        {passworderror == true ? (
+                          <p className="text-danger">
+                            *La contraseña de confirmación no coincide
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">

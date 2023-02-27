@@ -19,10 +19,19 @@ export const PhotographerRegister = () => {
   const [sunday, setSunday] = useState("");
   const [service, setService] = useState("");
   const [credentialserror, setCredentialsError] = useState(false);
+  const [erroruser, setErrorUser] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [inputclickeduser, setInputClickedUser] = useState(false);
+  const [inputclickedemail, setInputClickedEmail] = useState(false);
+  const [inputclickedpassword, setInputClickedPassword] = useState(false);
 
   useEffect(() => {
     areEqual();
   }, [confirmpassword]);
+
+  const handleCheckbox = (event) => {
+    setTermsAccepted(event.target.checked);
+  };
 
   const sendPhotographerRegister = async () => {
     const response = await fetch(store.backendurl + "photographerregister", {
@@ -45,12 +54,23 @@ export const PhotographerRegister = () => {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       navigate("/login");
-    } else if (response.status == 300) {
-      setErrorEmail(true);
-    } else if (response.status == 409) {
-      setErrorEmail(true);
-    } else if (response.status == 410) {
-      setErrorUsername(true);
+    } else {
+      const errorMessage = await response.json();
+      if (
+        errorMessage.response ==
+        "The indicated username is already being used by another user or photographer"
+      )
+        setErrorUser(errorMessage.response);
+      if (
+        errorMessage.response ==
+        "The indicated email is already being used by another user or photographer"
+      )
+        setErrorEmail(errorMessage.response);
+      if (
+        errorMessage.response ==
+        "The entered password is different, please check the password"
+      )
+        setPasswordError(errorMessage.response);
     }
   };
 
@@ -83,24 +103,38 @@ export const PhotographerRegister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control form-control-lg"
-                        placeholder="Usuario"
+                        className="form-control"
                         type="name"
                         value={user_name}
                         onChange={(e) => {
-                          setErrorUsername(false);
+                          setErrorUser("");
                           setCredentialsError(false);
                           setUserName(e.target.value);
+                        }}
+                        onClick={() => {
+                          setInputClickedUser(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedUser(false);
                         }}
                         required
                         autoFocus
                       />
-                      {errorusername ? (
-                        <p className="text-danger">
-                          *El nombre de usuario indicado ya esta siendo
-                          utilizado por otro fotografo.
-                        </p>
-                      ) : null}
+                      <div>
+                        {erroruser ==
+                        "The indicated username is already being used by another user or photographer" ? (
+                          <p className="text-danger">
+                            *El nombre de usuario indicado ya está siendo
+                            utilizado por otro usuario o fotógrafo.
+                          </p>
+                        ) : null}
+                        {inputclickeduser ? (
+                          <p className="text-secondary">
+                            El usuario debe estar comprendido entre 5 y 20
+                            caracteres.
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -112,24 +146,39 @@ export const PhotographerRegister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control form-control-lg"
-                        placeholder="Correo electronico"
+                        className="form-control"
                         type="email"
                         required
                         autoFocus
                         value={email}
                         onChange={(e) => {
-                          setErrorEmail(false);
+                          setErrorEmail("");
                           setCredentialsError(false);
                           setEmail(e.target.value);
+                          setInputClickedEmail(true);
+                        }}
+                        onClick={() => {
+                          setInputClickedEmail(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedEmail(false);
                         }}
                       />
-                      {erroremail ? (
-                        <p className="text-danger">
-                          *El email indicado ya esta siendo utilizado por otra
-                          persona.
-                        </p>
-                      ) : null}
+                      <div>
+                        {erroremail ==
+                        "The indicated email is already being used by another user or photographer" ? (
+                          <p className="text-danger">
+                            *El email indicado ya está siendo utilizado por otro
+                            usuario o fotógrafo."
+                          </p>
+                        ) : null}
+                        {inputclickedemail ? (
+                          <p className="text-secondary">
+                            El correo electrónico debe tener un formato correcto
+                            example@example.es
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -141,16 +190,38 @@ export const PhotographerRegister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control form-control-lg"
-                        placeholder="Contraseña"
+                        className="form-control"
                         type="password"
                         value={password}
                         onChange={(e) => {
-                          setCredentialsError(false);
+                          setPasswordError(false);
                           setPassword(e.target.value);
+                        }}
+                        onClick={() => {
+                          setInputClickedPassword(true);
+                        }}
+                        onBlur={() => {
+                          setInputClickedPassword(false);
                         }}
                         required
                       />
+                      <div>
+                        {passworderror ==
+                        "The entered password is different, please check the password" ? (
+                          <p className="text-danger">
+                            *Las contraseñas ingresadas son diferentes,
+                            verifique la contraseña.
+                          </p>
+                        ) : null}
+                        {inputclickedpassword ? (
+                          <p className="text-secondary">
+                            *La contraseña debe tener al menos 8 caracteres y
+                            como maximo 50, debe contener al menos una letra
+                            mayúscula, una letra minúscula, un número y un
+                            carácter especial por ejemplo: '! # $ % & * ? @'
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -162,21 +233,21 @@ export const PhotographerRegister = () => {
                     </label>
                     <div className="col-md-6">
                       <input
-                        className="form-control form-control-lg"
-                        placeholder="Confirmar contraseña"
+                        className="form-control"
                         type="password"
                         value={confirmpassword}
                         onChange={(e) => {
-                          setCredentialsError(false);
                           setConfirmPassword(e.target.value);
                         }}
                         required
                       />
-                      {passworderror == true ? (
-                        <p className="text-danger">
-                          *Las contraseñas no coinciden
-                        </p>
-                      ) : null}
+                      <div>
+                        {passworderror == true ? (
+                          <p className="text-danger">
+                            *La contraseña de confirmación no coincide
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -262,10 +333,17 @@ export const PhotographerRegister = () => {
                   <div className="row mb-3">
                     <div className="col-md-4 offset-md-4">
                       <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="termsAndConditions"
+                          checked={termsAccepted}
+                          onChange={handleCheckbox}
+                          required
+                        />
                         <label
                           className="form-check-label"
-                          htmlFor="temsAndConditions"
+                          htmlFor="termsAndConditions"
                         >
                           Acepto los terminos y condiciones.
                         </label>
@@ -278,6 +356,12 @@ export const PhotographerRegister = () => {
                         type="submit"
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => {
+                          if (!termsAccepted) {
+                            alert(
+                              "Por favor acepta los términos y condiciones."
+                            );
+                            return;
+                          }
                           if (passworderror == false) {
                             sendPhotographerRegister();
                           }
