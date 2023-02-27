@@ -104,10 +104,15 @@ body {
 }
 
 @keyframes flip {
-  0% {
+  0%,
+  10% {
     transform: rotateY(360deg);
   }
+  40% {
+    transform: rotateY(0deg);
+  }
 }
+
 /* BUTTON */
 .botonaco2 {
   position: relative;
@@ -124,7 +129,7 @@ body {
 .botonaco2:hover {
   background: #f7f8f2;
   color: #f7f8f2;
-  animation: box 3s infinite;
+  animation: box 4s infinite;
   animation-delay: 2s;
 }
 
@@ -144,8 +149,8 @@ body {
   position: relative;
   display: inline-block;
   color: #fff;
-  animation: flip 3s infinite;
-  animation-delay: calc(0.05s * var(--i));
+  animation: flip 4s infinite;
+  animation-delay: calc(0.09s * var(--i));
 }
 
 .botonaco3 {
