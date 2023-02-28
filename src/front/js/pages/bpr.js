@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/registerform.css";
+import "../../styles/forall.css";
 import { useNavigate } from "react-router-dom";
 
 export const Bpr = () => {

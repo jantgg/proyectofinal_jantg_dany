@@ -1,16 +1,43 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/forall.css";
+import "../../styles/test.css";
 import { Card } from "../component/card";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Result = () => {
+  const Navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [bikesResults, setBikesResults] = useState([]);
 
   useEffect(() => {
     getBikes();
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray(".revealUp").forEach(function (elem) {
+      ScrollTrigger.create({
+        trigger: elem,
+        start: "top 60%",
+        end: "bottom 35%",
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(
+            elem,
+            { y: 700, autoAlpha: 0 },
+            {
+              duration: 1.25,
+              y: 0,
+              autoAlpha: 1,
+              ease: "power1.out",
+              overwrite: "auto",
+            }
+          );
+        },
+      });
+    });
   }, []);
 
   const getBikes = async () => {
@@ -177,7 +204,7 @@ export const Result = () => {
           <button
             className="botonaco"
             onClick={() => {
-              setCurrentQuestion("q1");
+              Navigate("/test");
             }}
           >
             <span>REPETIR TEST</span>

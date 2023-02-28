@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/forall.css";
 import "../../styles/test.css";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
@@ -10,18 +10,21 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Test = () => {
   const { store, actions } = useContext(Context);
+  const Navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState("q1");
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [bikesResults, setBikesResults] = useState([]);
-  const [previousQuestion, setPreviousQuestion] = useState("q1");
   const [movingQuestion, setMovingQuestion] = useState("q1");
   const [isMovingOut, setIsMovingOut] = useState(false);
-  const isMounting = useRef(true);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    actions.getQuestions();
+    getAnswers();
+    setIsVisible(true);
 
+    gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray(".revealUp").forEach(function (elem) {
       ScrollTrigger.create({
         trigger: elem,
@@ -43,26 +46,6 @@ export const Test = () => {
         },
       });
     });
-
-    gsap.utils.toArray(".reveal").forEach(function (elem) {
-      ScrollTrigger.create({
-        trigger: elem,
-        start: "top 80%",
-        once: true,
-        onEnter: () => {
-          gsap.fromTo(
-            elem,
-            { autoAlpha: 0 },
-            {
-              duration: 1,
-              autoAlpha: 1,
-              ease: "power1.out",
-              overwrite: "auto",
-            }
-          );
-        },
-      });
-    });
   }, []);
 
   useEffect(() => {
@@ -73,11 +56,6 @@ export const Test = () => {
     }, 500);
     // Duración de la animación en milisegundos
   }, [movingQuestion]);
-
-  useEffect(() => {
-    actions.getQuestions();
-    getAnswers();
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
@@ -102,25 +80,6 @@ export const Test = () => {
     setUserAnswers(updatedAnswers);
   };
 
-  const addFavoriteBike = async () => {
-    const response = await fetch(store.backendurl + "favorite", {
-      method: "POST",
-      headers: {
-        "content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        favorite_id: bike.id,
-        favorite_type: "bike",
-      }),
-    });
-    if (response.ok) {
-      console.log("response ok");
-    } else {
-      console.log("response not ok");
-    }
-  };
-
   const sendAnswers = async () => {
     const response = await fetch(store.backendurl + "answers", {
       method: "POST",
@@ -137,160 +96,17 @@ export const Test = () => {
       console.log("response not ok");
     }
   };
+
   //MOSTRAR Y OCULTAR DIVS
   function ocultarDivs() {
-    // Obtener todos los elementos con la clase ".tohide"
     const toHide = document.querySelectorAll(".tohide");
-
-    // Iterar sobre cada elemento y establecer su propiedad "opacity" a "0"
     toHide.forEach((element) => {
       element.style.opacity = "0";
       element.style.transition = "opacity 0.2s ease-out";
     });
   }
 
-  return currentQuestion == "end" ? (
-    <div
-      key="losresultados @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row revealUp"
-    >
-      <div className="col-12 mx-auto  text-white">
-        {store.userType != "user" && store.userType != "photographer" ? (
-          <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
-            No vas a poder guardar los resultados en favoritos ya que no te has
-            registrado
-          </div>
-        ) : null}
-        <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
-          //Estas son las mejores motos que hemos encontrado especialmente para
-          ti
-        </div>
-      </div>
-      <div
-        key="slider @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-        className="col-12 border border-danger"
-      >
-        <div
-          id="carouselExampleIndicators"
-          className="carousel slide col-12 mx-auto"
-          data-bs-ride="true"
-        >
-          <div
-            key="carousel indicators @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-            className="carousel-indicators"
-          >
-            {bikesResults.map((bike, index) => {
-              let number = index;
-              let bikeinfo = bike;
-              return (
-                <>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to={number}
-                    className={number == 0 ? "active" : ""}
-                    aria-current={number == 0 ? "true" : ""}
-                    aria-label={`Slide ${number + 1}`}
-                  ></button>
-                </>
-              );
-            })}
-          </div>
-          <div className="carousel-inner">
-            {bikesResults.map((bike, index) => {
-              let number = index;
-              return (
-                <>
-                  <div
-                    className={
-                      number == 0 ? "carousel-item active" : "carousel-item"
-                    }
-                  >
-                    <div
-                      key="card @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                      className="container"
-                    >
-                      <div className="row">
-                        <div className="card text-bg-dark col-lg-6 col-md-8 col-sm-10 col-xs-11 mx-auto">
-                          <img
-                            src={bike.bike_photo}
-                            className="card-img"
-                            alt="..."
-                          />
-                          <div className="card-img-overlay mx-auto">
-                            <div className="mx-auto">
-                              <h5 className="mx-auto">{bike.model}</h5>
-                              <p className="">Pedazo pepino e o no</p>
-                              <p className="">
-                                <small>{bike.ask_6_price}</small>
-                              </p>
-                              {store.userType == "user" ||
-                              store.userType == "photographer" ? (
-                                <button
-                                  className=""
-                                  onClick={() => addFavoriteBike()}
-                                >
-                                  Favorite
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-      <div className="col-12 mx-auto  text-white text-center">
-        <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
-          Todas estas motos están elegidas en función de como has respondido a
-          las preguntas, si quieres volver a realizar el test pincha aqui. ¡No
-          olvides guardar en favoritos las motos que mas te hayan gustado para
-          poder revisarlas mas adelante!
-        </div>
-        <div className="">
-          <button
-            className="botonaco"
-            onClick={() => {
-              setCurrentQuestion("q1");
-            }}
-          >
-            <span>REPETIR TEST</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  ) : (
+  return (
     <div
       key="elmismotest @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       className="row ms-0 revealUp"
@@ -312,7 +128,7 @@ export const Test = () => {
             </div>
 
             <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white minH">
-              <div className={`tohide ${isMovingOut ? "salidal" : "reveal"}`}>
+              <div className={`tohide ${isMovingOut ? "salida" : "reveal"}`}>
                 <b>{question.question}</b>
               </div>
 
@@ -335,7 +151,7 @@ export const Test = () => {
 
             <div
               className={` tohide col-10 mx-auto text-white pb-5 mb-5 row ma ${
-                isMovingOut ? "salidal" : "reveal"
+                isMovingOut ? "salida" : "reveal"
               }`}
             >
               {currentAnswers.map((answer) => {
@@ -349,7 +165,6 @@ export const Test = () => {
                         className="botonaco3 sizehomet py-5 imagena mx-auto"
                         onClick={() => {
                           setUserAnswers([...userAnswers, answer]);
-                          setPreviousQuestion(answer.current_question_id);
                           ocultarDivs();
                           setTimeout(() => {
                             setCurrentQuestion(answer.next_question_id);
@@ -366,7 +181,7 @@ export const Test = () => {
             </div>
 
             <div className="entrada col-10 col-xxl-6 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn p-4 spartan text-white">
-              <div className={`tohide ${isMovingOut ? "salidal" : "reveal"}`}>
+              <div className={`tohide ${isMovingOut ? "salida" : "reveal"}`}>
                 {question.notes}
               </div>
             </div>
@@ -386,8 +201,12 @@ export const Test = () => {
               <button
                 className="botonaco4 col-12 col-xxl-2 col-xl-12 col-lg-12 mb-4 ms-5 me-auto py-3 imagena"
                 onClick={() => {
-                  setCurrentQuestion("end");
                   sendAnswers();
+                  setIsVisible(false);
+                  setTimeout(() => {
+                    setCurrentQuestion("end");
+                    Navigate("/result");
+                  }, 500);
                 }}
               >
                 <span>

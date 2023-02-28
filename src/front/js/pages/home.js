@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import "../../styles/images.css";
+import "../../styles/forall.css";
 import { Card } from "../component/card";
 import { Slider } from "../component/slider";
 import { Link, useNavigate } from "react-router-dom";

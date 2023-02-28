@@ -1,317 +1,100 @@
-/*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
-body {
-  font-family: "Roboto Mono", monospace;
-}
-.archivo {
-  font-family: "Archivo+Black", sans-serif;
-}
-.josefin {
-  font-family: "Josefin Sans", sans-serif;
-}
-.spartan {
-  font-family: "League Spartan", sans-serif;
-}
-.texto-amarillo {
-  color: #d0af64;
-}
-.bordecito {
-  border-bottom: 2px solid white;
-  padding-bottom: 0px;
-}
-.texto-rojo {
-  color: red;
-}
-
-.bordecito2 {
-  border-bottom: 2px solid white;
-  padding-bottom: 0px;
-}
-.bordecitoup {
-  border-top: 2px solid white;
-  padding-bottom: 0px;
-}
-.bordecitor {
-  border-right: 2px solid white;
-  padding-bottom: 0px;
-}
-.bordecitol {
-  border-left: 2px solid white;
-  padding-bottom: 0px;
-}
-.bordecitoall {
-  border: 1px solid white;
-  padding-bottom: 0px;
-}
-
-body {
-  background-color: #070707;
-}
-
-.heightborder {
-  height: 150px;
-}
-.heightborder2 {
-  height: 400px;
-}
-.heightborder3 {
-  height: 250px;
-}
-.heightborders {
-  height: 100px;
-}
-
-.botonaco {
-  position: relative;
-  background: rgba(255, 255, 255, 0.5);
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  width: 500px;
-}
-
-.botonaco:hover {
-  background: #f7f8f2;
-  color: #f7f8f2;
-  animation: box 4s infinite;
-}
-
-.botonaco::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: #070707;
-}
-
-.botonaco span {
-  position: relative;
-  z-index: 1;
-}
-
-.botonaco:hover span {
-  position: relative;
-  display: inline-block;
-  color: #fff;
-  animation: flip 4s infinite;
-  animation-delay: calc(0.09s * var(--i));
-}
-
-@keyframes flip {
-  0%,
-  10% {
-    transform: rotateY(360deg);
-  }
-  40% {
-    transform: rotateY(0deg);
-  }
-}
-
-/* BUTTON */
-.botonaco2 {
-  position: relative;
-  background: rgba(255, 255, 255, 0.5);
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  width: 600px;
-  transition: 0.2s;
-}
-
-.botonaco2:hover {
-  background: #f7f8f2;
-  color: #f7f8f2;
-  animation: box 4s infinite;
-  animation-delay: 2s;
-}
-
-.botonaco2::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: #070707;
-}
-
-.botonaco2 span {
-  position: relative;
-  z-index: 1;
-}
-
-.botonaco2:hover span {
-  position: relative;
-  display: inline-block;
-  color: #fff;
-  animation: flip 4s infinite;
-  animation-delay: calc(0.09s * var(--i));
-}
-
-.botonaco3 {
-  position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  width: 400px;
-  transition: 0.2s;
-}
-.botonaco3:hover {
-  animation: box 3s infinite;
-}
-
-.botonaco3::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: #070707;
-}
-.botonaco3 span {
-  position: relative;
-  z-index: 1;
-}
-
-.botonaco4 {
-  position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  text-decoration: none;
-  border: 2px solid white;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  width: 250px;
-  transition: 0.2s;
-}
-.botonaco4:hover {
-  animation: box 3s infinite;
-}
-
-.botonaco4::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: #070707;
-}
-.botonaco4 span {
-  position: relative;
-  z-index: 1;
-}
-
 .ma {
   margin-top: 10vh;
   margin-bottom: 10vh;
 }
 
-.entrada {
-  opacity: 1;
-  transition: transform 1s, opacity 0.7s;
-}
-.salidab {
-  transform: translateY(100%);
-}
-.salidal {
-  transform: translateX(100%);
-}
-.salidar {
-  opacity: 0;
+.imagen1 {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
 }
 
-.tohide {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+.imagen1::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://i.pinimg.com/originals/eb/77/77/eb7777c6015016e3964a78a4b858edb2.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
 }
 
-.reveal {
-  opacity: 1;
-  opacity: 0.3s ease-in;
-}
-.minH {
-  min-height: 25vh;
+.imagen1:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
 }
 
-@keyframes move {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+.imagen2 {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
 }
 
-@keyframes box {
-  0% {
-    box-shadow: #27272c;
-  }
-  50% {
-    box-shadow: 0 0 25px #f7f8f2;
-  }
-  100% {
-    box-shadow: #27272c;
-  }
+.imagen2::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://i.pinimg.com/originals/da/12/1b/da121b15a09d406b4af36ce68eb654f2.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
 }
 
-.card {
-  margin: 0px;
-  padding: 0px;
+.imagen2:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
 }
 
-@media (min-width: 1024px) {
-  /* Define el tamaño de fuente */
-  .sizehome {
-    font-size: 6vw;
-  }
-  .sizehomeq {
-    font-size: 4vw;
-  }
-  .sizehome2 {
-    font-size: 2vw;
-  }
-  .sizehomet {
-    font-size: 2vw;
-  }
-  .sizehomeb {
-    font-size: 1vw;
-  }
-  .sizehomes {
-    font-size: 1vw;
-  }
+.imagen3 {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
 }
 
-/* Estilos para pantallas medianas y pequeñas */
-@media (max-width: 1023px) {
-  /* Define el tamaño de fuente con unidades de vista de ancho */
-  .sizehome {
-    font-size: 12vw;
-  }
-  .sizehomeq {
-    font-size: 5vw;
-  }
-  .sizehome2 {
-    font-size: 5vw;
-  }
-  .sizehomet {
-    font-size: 5vw;
-  }
-  .sizehomeb {
-    font-size: 5vw;
-  }
-  .sizehomes {
-    font-size: 3vw;
-  }
+.imagen3::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://files.fm/thumb_show.php?i=93pw6j96e");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
 }
 
-.revealUp {
-  opacity: 0;
-  visibility: hidden;
+.imagen3:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
 }

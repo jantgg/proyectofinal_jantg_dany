@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/prueba.css";
+import "../../styles/forall.css";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
