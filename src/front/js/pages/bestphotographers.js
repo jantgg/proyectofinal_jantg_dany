@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { CardRoutes } from "../component/cardroutes";
 import { PhotographerSlider } from "../component/photographerslider";
-import "../../styles/home.css";
+import "../../styles/forall.css";
 
 export const Bestphotographers = () => {
   const { store, actions } = useContext(Context);

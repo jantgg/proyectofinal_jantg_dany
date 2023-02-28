@@ -127,25 +127,25 @@ class Route(db.Model):
 
 class Bike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    brand = db.Column(db.String(50), nullable=False, unique=False)
+    brand = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50), nullable=False, unique=True)
     bike_photo = db.Column(db.String(250), nullable=False, unique=True)
-    ask_1_license = db.Column(db.String(5), nullable=False)
-    ask_11_limitable = db.Column(db.String(5), default=False, nullable=False)
-    ask_2_wheels = db.Column(db.String(5), nullable=False)
-    ask_3_surface = db.Column(db.String(5), nullable=False)
-    ask_31_surface_offroad = db.Column(db.String(5), nullable=False)
-    ask_311_motor_offroad = db.Column(db.String(5), nullable=False)
-    ask_32_custom = db.Column(db.String(5), nullable=False)
-    ask_321_refrigeration = db.Column(db.String(5), nullable=False)
-    ask_4_comodity = db.Column(db.String(5), nullable=False)
-    ask_5_style = db.Column(db.String(5), nullable=False)
-    ask_6_price = db.Column(db.String(5), nullable=False)
-    ask_7_new = db.Column(db.String(5), nullable=False)
-    ask_8_response = db.Column(db.String(5), nullable=False)
-    ask_9_reliability = db.Column(db.String(5), nullable=False)
-    ask_10_power = db.Column(db.String(5), nullable=False)
-    ask_11_armor = db.Column(db.String(5), nullable=False)
+    ask_1_license = db.Column(db.String(5))
+    ask_11_limitable = db.Column(db.String(5))
+    ask_2_wheels = db.Column(db.String(5))
+    ask_3_surface = db.Column(db.String(5))
+    ask_31_surface_offroad = db.Column(db.String(5))
+    ask_311_motor_offroad = db.Column(db.String(5))
+    ask_32_custom = db.Column(db.String(5))
+    ask_321_refrigeration = db.Column(db.String(5))
+    ask_4_comodity = db.Column(db.String(5))
+    ask_5_style = db.Column(db.String(5))
+    ask_6_price = db.Column(db.String(5))
+    ask_7_new = db.Column(db.String(5))
+    ask_8_response = db.Column(db.String(5))
+    ask_9_reliability = db.Column(db.String(5))
+    ask_10_power = db.Column(db.String(5))
+    ask_11_armor = db.Column(db.String(5))
     photos = db.relationship('Photo')
 
     def __repr__(self):
@@ -195,8 +195,10 @@ class Question(db.Model):
 class Answer(db.Model):
     id = db.Column(db.String(30), primary_key=True, unique=True)
     answer = db.Column(db.String(250), nullable=False)
+    previous_question_id = db.Column(db.String(30), db.ForeignKey('question.id'))
     next_question_id = db.Column(db.String(30), db.ForeignKey('question.id'))
     current_question_id = db.Column(db.String(30), db.ForeignKey('question.id'))
+    previous_question = db.relationship('Question', foreign_keys=[previous_question_id])
     current_question = db.relationship('Question', foreign_keys=[current_question_id], backref='answers')
     next_question = db.relationship('Question', foreign_keys=[next_question_id])
 
@@ -209,6 +211,7 @@ class Answer(db.Model):
             "answer": self.answer,
             "next_question_id": self.next_question_id,
             "current_question_id": self.current_question_id,
+            "previous_question_id": self.previous_question_id,
         }
 
 

@@ -4,7 +4,8 @@ import { Link, Route } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { CardRoutes } from "../component/cardroutes";
 import { RoutesSlider } from "../component/routesslider";
-import "../../styles/home.css";
+
+import "../../styles/forall.css";
 import { CardSliderRoutes } from "../component/cardsliderroutes";
 
 export const Bestroutes = () => {

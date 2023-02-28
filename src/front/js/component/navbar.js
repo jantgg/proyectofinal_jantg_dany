@@ -7,9 +7,12 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   return (
     <div className="row">
-      <nav className=" col-11 navbar navbar-expand-lg bordecito mx-auto">
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand texto-amarillo">
+      <nav className="col-11 navbar navbar-expand-lg bordecito mx-auto text-white sizehomet pt-2 spartan">
+        <div className="container-fluid ">
+          <Link
+            to="/"
+            className="ms-5 navbar-brand text-white sizehomet mx-5 me-5 "
+          >
             Home
           </Link>
           <button
@@ -23,22 +26,25 @@ export const Navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <div className=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <div className="nav-item">
-                <Link to="/test" className="nav-link texto-amarillo">
+                <Link to="/test" className="nav-link text-white mx-2 me-5">
                   Test
                 </Link>
               </div>
               <div className="nav-item">
-                <Link to="/bestroutes" className="nav-link texto-amarillo">
+                <Link
+                  to="/bestroutes"
+                  className="nav-link text-white mx-2 me-5"
+                >
                   Rutas
                 </Link>
               </div>
               <div className="nav-item">
                 <Link
                   to="/bestphotographers"
-                  className="nav-link texto-amarillo"
+                  className="nav-link text-white mx-2 me-5"
                 >
                   Fotógrafos
                 </Link>
@@ -48,14 +54,14 @@ export const Navbar = () => {
               {store.userType == "user" || store.userType == "photographer" ? (
                 <>
                   <div className="nav-item">
-                    <Link to="/user" className="nav-link texto-amarillo">
+                    <Link to="/user" className="nav-link text-white mx-2 me-5">
                       Mi Perfil
                     </Link>
                   </div>
                   <div className="nav-item">
                     <Link
-                      to="/login"
-                      className="nav-link texto-amarillo"
+                      to="/"
+                      className="nav-link text-white mx-2"
                       onClick={() => {
                         actions.logout();
                       }}
@@ -66,17 +72,9 @@ export const Navbar = () => {
                 </>
               ) : store.userType == null ? (
                 <>
-                  <div className="nav-item">
-                    <Link to="/login" className="nav-link texto-amarillo">
+                  <div className="nav-item me-4">
+                    <Link to="/login" className="nav-link text-white mx-2">
                       Log in
-                    </Link>
-                  </div>
-                  <div className="nav-item">
-                    <Link
-                      to="/userregister"
-                      className="nav-link texto-amarillo"
-                    >
-                      Sign in
                     </Link>
                   </div>
                 </>

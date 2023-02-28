@@ -1,84 +1,100 @@
-/*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
-.texto-amarillo {
-  color: #d0af64;
-}
-.bordecito {
-  border-bottom: 2px solid white;
-  padding-bottom: 0px;
+.ma {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
 }
 
-.bordecitoup {
-  border-top: 2px solid white;
-  padding-bottom: 0px;
-}
-
-body {
-  background-color: #1c1c1c;
-}
-
-button {
+.imagen1 {
   position: relative;
-  background: #444;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  padding: 1rem 3rem;
-  transition: 0.2s;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
 }
 
-/* BUTTON */
-
-button:hover {
-  background: #f7f8f2;
-  color: #f7f8f2;
-  animation: box 3s infinite;
-}
-
-button::before {
+.imagen1::before {
   content: "";
+  display: block;
   position: absolute;
-  inset: 2px;
-  background: #272822;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://i.pinimg.com/originals/eb/77/77/eb7777c6015016e3964a78a4b858edb2.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
 }
 
-button span {
+.imagen1:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
+}
+
+.imagen2 {
   position: relative;
-  z-index: 1;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
 }
 
-@keyframes move {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+.imagen2::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://i.pinimg.com/originals/da/12/1b/da121b15a09d406b4af36ce68eb654f2.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
 }
 
-@keyframes box {
-  0% {
-    box-shadow: #27272c;
-  }
-  50% {
-    box-shadow: 0 0 25px #f7f8f2;
-  }
-  100% {
-    box-shadow: #27272c;
-  }
+.imagen2:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
 }
 
-.card {
-  margin: 0px;
-  padding: 0px;
+.imagen3 {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+}
+
+.imagen3::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://files.fm/thumb_show.php?i=93pw6j96e");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
+}
+
+.imagen3:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
 }
