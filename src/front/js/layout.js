@@ -8,13 +8,12 @@ import { Result } from "./pages/result";
 import { Bestroutes } from "./pages/bestroutes";
 import { Bestroutesupload } from "./pages/bestroutesupload";
 import { Bestphotographers } from "./pages/bestphotographers";
-import { Bpr } from "./pages/bpr";
+import { PhotographerRegister } from "./pages/photographerregister";
 import { Bestphotographerupload } from "./pages/bestphotographerupload";
 import { User } from "./pages/user";
 import { Userphoto } from "./pages/userphoto";
 import { Userregister } from "./pages/userregister";
 import { Login } from "./pages/login";
-import { Loginp } from "./pages/loginp";
 
 import injectContext from "./store/appContext";
 
@@ -41,9 +40,11 @@ const Layout = () => {
             <Route element={<Bestroutes />} path="/bestroutes" />
             <Route element={<Bestroutesupload />} path="/bestroutesupload" />
             <Route element={<Bestphotographers />} path="/bestphotographers" />
-            <Route element={<Bpr />} path="/bpr" />
+            <Route
+              element={<PhotographerRegister />}
+              path="/photographerregister"
+            />
             <Route element={<Login />} path="/login" />
-            <Route element={<Loginp />} path="/loginp" />
             <Route
               element={<Bestphotographerupload />}
               path="/bestphotographerupload"

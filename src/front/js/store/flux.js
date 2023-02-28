@@ -2,8 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       userType: null,
-      backendurl:
-        "https://3001-jantgg-proyectofinaljan-pkx7ea6sumt.ws-eu87.gitpod.io/api/",
+      backendurl: "https://3001-jantgg-proyectofinaljan-8qcrycd9o76.ws-eu88.gitpod.io/api/",
       questions: [],
       answers: [],
       routes: [],
@@ -36,7 +35,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await response.json();
         setStore({ photos: data.body });
       },
-      //user status
       syncuser: async () => {
         const response = await fetch(getStore().backendurl + "sync", {
           method: "GET",

@@ -1,12 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import validates
+import re
 
 db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(250), nullable=False, unique=True)
-    password = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), nullable=False, unique=True)
+    user_name = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(105), nullable=False)
+    email = db.Column(db.String(30), nullable=False, unique=True)
     active = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
@@ -19,20 +21,40 @@ class User(db.Model):
             "email": self.email
         }
 
+    @validates('user_name')
+    def validate_user_name(self, key, user_name):
+        if not user_name:
+            raise AssertionError('Username not provided')
+        if User.query.filter_by(user_name=user_name).first():
+            raise AssertionError('The username is being used by another user or photographer')
+        if len(user_name) < 5 or len(user_name) > 20:
+            raise AssertionError('The username must be between 5 and 20 characters')
+        return user_name 
+
+    @validates('email')
+    def validate_email(self, key, email):
+        if not email:
+            raise AssertionError('Email not provided')
+        if not re.match("[^@]+@[^@]+\.[^@]+", email):
+            raise AssertionError('The email provided is not a valid email')
+        if User.query.filter_by(email=email).first():
+            raise AssertionError('The email provided is being used by another user or photographer')
+        return email
+
 
 class Photographer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(250), nullable=False, unique=True)
-    password = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), nullable=False, unique=True)
+    user_name = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(105), nullable=False)
+    email = db.Column(db.String(30), nullable=False, unique=True)
     active = db.Column(db.Boolean, default=True)
-    location_text = db.Column(db.String(250))
-    instagram = db.Column(db.String(250), unique=True)
-    services_text = db.Column(db.String(250), unique=True)
-    find_me_text = db.Column(db.String(250))
-    location_name = db.Column(db.String(250))
-    latitude = db.Column(db.String(250))
-    longitude = db.Column(db.String(250))
+    location_text = db.Column(db.String(50))
+    instagram = db.Column(db.String(30), unique=True)
+    services_text = db.Column(db.String(100), unique=True)
+    find_me_text = db.Column(db.String(50))
+    location_name = db.Column(db.String(50))
+    latitude = db.Column(db.String(20))
+    longitude = db.Column(db.String(20))
     photos = db.relationship('Photo')
 
     def __repr__(self):
@@ -52,17 +74,39 @@ class Photographer(db.Model):
             "longitude": self.longitude
         }
 
+    @validates('user_name')
+    def validate_user_name(self, key, user_name):
+        if not user_name:
+            raise AssertionError('Username not provided')
+        if User.query.filter_by(user_name=user_name).first():
+            raise AssertionError('The username is being used by another user or photographer')
+        if len(user_name) < 5 or len(user_name) > 20:
+            raise AssertionError('The username must be between 5 and 20 characters')
+        return user_name 
+
+    @validates('email')
+    def validate_email(self, key, email):
+        if not email:
+            raise AssertionError('Email not provided')
+        if not re.match("[^@]+@[^@]+\.[^@]+", email):
+            raise AssertionError('The email provided is not a valid email')
+        if User.query.filter_by(email=email).first():
+            raise AssertionError('The email provided is being used by another user or photographer')
+        return email
+
 
 class Route(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False, unique=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    start_location_text = db.Column(db.String(50), nullable=False, unique=True)
+    end_location_text = db.Column(db.String(50), nullable=False, unique=True)
     interest_text = db.Column(db.String(250), nullable=False, unique=True)
-    start_location_name = db.Column(db.String(250), nullable=False)
-    start_latitude = db.Column(db.String(250), nullable=False)
-    start_longitude = db.Column(db.String(250), nullable=False)
-    end_location_name = db.Column(db.String(250), nullable=False)
-    end_latitude = db.Column(db.String(250), nullable=False)
-    end_longitude = db.Column(db.String(250), nullable=False)
+    start_location_name = db.Column(db.String(50), nullable=False)
+    start_latitude = db.Column(db.String(20), nullable=False)
+    start_longitude = db.Column(db.String(20), nullable=False)
+    end_location_name = db.Column(db.String(50), nullable=False)
+    end_latitude = db.Column(db.String(20), nullable=False)
+    end_longitude = db.Column(db.String(20), nullable=False)
     photos = db.relationship('Photo')
 
     def __repr__(self):
@@ -83,25 +127,25 @@ class Route(db.Model):
 
 class Bike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    brand = db.Column(db.String(250), nullable=False, unique=False)
-    model = db.Column(db.String(250), nullable=False, unique=True)
+    brand = db.Column(db.String(50), nullable=False, unique=False)
+    model = db.Column(db.String(50), nullable=False, unique=True)
     bike_photo = db.Column(db.String(250), nullable=False, unique=True)
-    ask_1_license = db.Column(db.String(250), nullable=False)
-    ask_11_limitable = db.Column(db.String(250), default=False, nullable=False)
-    ask_2_wheels = db.Column(db.String(250), nullable=False)
-    ask_3_surface = db.Column(db.String(250), nullable=False)
-    ask_31_surface_offroad = db.Column(db.String(250), nullable=False)
-    ask_311_motor_offroad = db.Column(db.String(250), nullable=False)
-    ask_32_custom = db.Column(db.String(250), nullable=False)
-    ask_321_refrigeration = db.Column(db.String(250), nullable=False)
-    ask_4_comodity = db.Column(db.String(250), nullable=False)
-    ask_5_style = db.Column(db.String(250), nullable=False)
-    ask_6_price = db.Column(db.String(250), nullable=False)
-    ask_7_new = db.Column(db.String(250), nullable=False)
-    ask_8_response = db.Column(db.String(250), nullable=False)
-    ask_9_reliability = db.Column(db.String(250), nullable=False)
-    ask_10_power = db.Column(db.String(250), nullable=False)
-    ask_11_armor = db.Column(db.String(250), nullable=False)
+    ask_1_license = db.Column(db.String(5), nullable=False)
+    ask_11_limitable = db.Column(db.String(5), default=False, nullable=False)
+    ask_2_wheels = db.Column(db.String(5), nullable=False)
+    ask_3_surface = db.Column(db.String(5), nullable=False)
+    ask_31_surface_offroad = db.Column(db.String(5), nullable=False)
+    ask_311_motor_offroad = db.Column(db.String(5), nullable=False)
+    ask_32_custom = db.Column(db.String(5), nullable=False)
+    ask_321_refrigeration = db.Column(db.String(5), nullable=False)
+    ask_4_comodity = db.Column(db.String(5), nullable=False)
+    ask_5_style = db.Column(db.String(5), nullable=False)
+    ask_6_price = db.Column(db.String(5), nullable=False)
+    ask_7_new = db.Column(db.String(5), nullable=False)
+    ask_8_response = db.Column(db.String(5), nullable=False)
+    ask_9_reliability = db.Column(db.String(5), nullable=False)
+    ask_10_power = db.Column(db.String(5), nullable=False)
+    ask_11_armor = db.Column(db.String(5), nullable=False)
     photos = db.relationship('Photo')
 
     def __repr__(self):
@@ -132,7 +176,7 @@ class Bike(db.Model):
         }
 
 class Question(db.Model): 
-    id = db.Column(db.String(250), primary_key=True, unique=True)
+    id = db.Column(db.String(30), primary_key=True, unique=True)
     question = db.Column(db.String(250), nullable=False)
     notes = db.Column(db.String(250), nullable=True)
 
@@ -149,10 +193,10 @@ class Question(db.Model):
 
 
 class Answer(db.Model):
-    id = db.Column(db.String(250), primary_key=True, unique=True)
+    id = db.Column(db.String(30), primary_key=True, unique=True)
     answer = db.Column(db.String(250), nullable=False)
-    next_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
-    current_question_id = db.Column(db.String(250), db.ForeignKey('question.id'))
+    next_question_id = db.Column(db.String(30), db.ForeignKey('question.id'))
+    current_question_id = db.Column(db.String(30), db.ForeignKey('question.id'))
     current_question = db.relationship('Question', foreign_keys=[current_question_id], backref='answers')
     next_question = db.relationship('Question', foreign_keys=[next_question_id])
 
@@ -170,9 +214,9 @@ class Answer(db.Model):
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     path = db.Column(db.String(250), nullable=False, unique=True)
-    photo_type = db.Column(db.String(250), nullable=False)
+    photo_type = db.Column(db.String(50), nullable=False)
     bike_id = db.Column(db.Integer, db.ForeignKey('bike.id'))
     photographer_id = db.Column(db.Integer, db.ForeignKey('photographer.id'))
     route_id = db.Column(db.Integer, db.ForeignKey('route.id'))

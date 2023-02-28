@@ -4,16 +4,22 @@ import { Context } from "../store/appContext";
 import "../../styles/registerform.css";
 import { useNavigate } from "react-router-dom";
 
-export const Userregister = () => {
+export const PhotographerRegister = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [user_name, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [erroremail, setErrorEmail] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const [erroruser, setErrorUser] = useState("");
-  const [erroremail, setErrorEmail] = useState(false);
   const [passworderror, setPasswordError] = useState(false);
+  const [user_name, setUserName] = useState("");
+  const [errorusername, setErrorUsername] = useState(false);
+  const [location, setLocation] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [sunday, setSunday] = useState("");
+  const [service, setService] = useState("");
+  const [credentialserror, setCredentialsError] = useState(false);
+  const [erroruser, setErrorUser] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [inputclickeduser, setInputClickedUser] = useState(false);
   const [inputclickedemail, setInputClickedEmail] = useState(false);
@@ -23,18 +29,12 @@ export const Userregister = () => {
     areEqual();
   }, [confirmpassword]);
 
-  const areEqual = () => {
-    if (password == confirmpassword) {
-      setPasswordError(false);
-    } else setPasswordError(true);
-  };
-
   const handleCheckbox = (event) => {
     setTermsAccepted(event.target.checked);
   };
 
-  const sendUserRegister = async () => {
-    const response = await fetch(store.backendurl + "register", {
+  const sendPhotographerRegister = async () => {
+    const response = await fetch(store.backendurl + "photographerregister", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -44,6 +44,10 @@ export const Userregister = () => {
         email: email,
         password: password,
         confirmpassword: confirmpassword,
+        location: location,
+        instagram: instagram,
+        sunday: sunday,
+        service: service,
       }),
     });
     if (response.ok) {
@@ -70,6 +74,12 @@ export const Userregister = () => {
     }
   };
 
+  const areEqual = () => {
+    if (password == confirmpassword) {
+      setPasswordError(false);
+    } else setPasswordError(true);
+  };
+
   return (
     <main className="w-100 m-auto">
       <div className="container mt-3">
@@ -78,9 +88,9 @@ export const Userregister = () => {
             <div className="card shadow-sm">
               <div className="card-body">
                 <h1 className="main-heading">
-                  Registrate como usario en OnBikes <br></br> o <br></br>
-                  <Link to={"/photographerregister"} className="text-center">
-                    Registrarte como fotógrafo
+                  Registrarte como fotógrafo en OnBikes<br></br> o <br></br>
+                  <Link to={"/userregister"} className="text-center">
+                    Registrate como usario
                   </Link>
                 </h1>
                 <div>
@@ -98,6 +108,7 @@ export const Userregister = () => {
                         value={user_name}
                         onChange={(e) => {
                           setErrorUser("");
+                          setCredentialsError(false);
                           setUserName(e.target.value);
                         }}
                         onClick={() => {
@@ -131,7 +142,7 @@ export const Userregister = () => {
                       htmlFor="email"
                       className="col-md-4 col-form-label text-md-end"
                     >
-                      Email
+                      E-mail
                     </label>
                     <div className="col-md-6">
                       <input
@@ -142,6 +153,7 @@ export const Userregister = () => {
                         value={email}
                         onChange={(e) => {
                           setErrorEmail("");
+                          setCredentialsError(false);
                           setEmail(e.target.value);
                           setInputClickedEmail(true);
                         }}
@@ -222,7 +234,6 @@ export const Userregister = () => {
                     <div className="col-md-6">
                       <input
                         className="form-control"
-                        placeholder="Confirmar contraseña"
                         type="password"
                         value={confirmpassword}
                         onChange={(e) => {
@@ -240,21 +251,101 @@ export const Userregister = () => {
                     </div>
                   </div>
                   <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Provincia / Ciudad de trabajo
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Localización"
+                        type="text"
+                        value={location}
+                        onChange={(e) => {
+                          setLocation(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Instagram
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="@Instagram"
+                        type="text"
+                        value={instagram}
+                        onChange={(e) => {
+                          setInstagram(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Servicios
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Servicios"
+                        type="text"
+                        value={service}
+                        onChange={(e) => {
+                          setService(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label
+                      htmlFor="password"
+                      className="col-md-4 col-form-label text-md-end"
+                    >
+                      Ubicación exacta
+                    </label>
+                    <div className="col-md-6">
+                      <input
+                        className="form-control form-control-lg"
+                        placeholder="Lugar Favorito"
+                        type="text"
+                        value={sunday}
+                        onChange={(e) => {
+                          setSunday(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
                     <div className="col-md-4 offset-md-4">
                       <div className="form-check">
                         <input
                           className="form-check-input"
                           type="checkbox"
                           id="termsAndConditions"
-                          required
                           checked={termsAccepted}
                           onChange={handleCheckbox}
+                          required
                         />
                         <label
                           className="form-check-label"
                           htmlFor="termsAndConditions"
                         >
-                          Acepto los terminos y las condiciones.
+                          Acepto los terminos y condiciones.
                         </label>
                       </div>
                     </div>
@@ -272,7 +363,7 @@ export const Userregister = () => {
                             return;
                           }
                           if (passworderror == false) {
-                            sendUserRegister();
+                            sendPhotographerRegister();
                           }
                         }}
                       >
