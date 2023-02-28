@@ -114,8 +114,8 @@ def sync_user():
     if not user and not photographer:
         return jsonify ({"type": None}), 401
 
-    if user: return jsonify({"type": "Usuario"}), 200
-    if photographer: return jsonify({"type": "Fotógrafo"}), 200
+    if user: return jsonify({"type": "User"}), 200
+    if photographer: return jsonify({"type": "Photographer"}), 200
 
 #Endpoints iniciales de creacion de DB
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

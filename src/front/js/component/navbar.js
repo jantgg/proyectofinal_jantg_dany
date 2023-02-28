@@ -51,7 +51,7 @@ export const Navbar = () => {
               </div>
             </ul>
             <ul className="navbar-nav ms-auto">
-              {store.userType == "user" || store.userType == "photographer" ? (
+              {store.userType == "User" || store.userType == "Photographer" ? (
                 <>
                   <div className="nav-item">
                     <Link to="/user" className="nav-link text-white mx-2 me-5">

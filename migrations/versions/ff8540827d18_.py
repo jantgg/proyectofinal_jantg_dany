@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6faa548485d0
+Revision ID: ff8540827d18
 Revises: 
-Create Date: 2023-02-28 11:36:39.520424
+Create Date: 2023-02-28 12:53:15.194057
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6faa548485d0'
+revision = 'ff8540827d18'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,22 +23,22 @@ def upgrade():
     sa.Column('brand', sa.String(length=50), nullable=False),
     sa.Column('model', sa.String(length=50), nullable=False),
     sa.Column('bike_photo', sa.String(length=250), nullable=False),
-    sa.Column('ask_1_license', sa.String(length=5), nullable=False),
-    sa.Column('ask_11_limitable', sa.String(length=5), nullable=False),
-    sa.Column('ask_2_wheels', sa.String(length=5), nullable=False),
-    sa.Column('ask_3_surface', sa.String(length=5), nullable=False),
-    sa.Column('ask_31_surface_offroad', sa.String(length=5), nullable=False),
-    sa.Column('ask_311_motor_offroad', sa.String(length=5), nullable=False),
-    sa.Column('ask_32_custom', sa.String(length=5), nullable=False),
-    sa.Column('ask_321_refrigeration', sa.String(length=5), nullable=False),
-    sa.Column('ask_4_comodity', sa.String(length=5), nullable=False),
-    sa.Column('ask_5_style', sa.String(length=5), nullable=False),
-    sa.Column('ask_6_price', sa.String(length=5), nullable=False),
-    sa.Column('ask_7_new', sa.String(length=5), nullable=False),
-    sa.Column('ask_8_response', sa.String(length=5), nullable=False),
-    sa.Column('ask_9_reliability', sa.String(length=5), nullable=False),
-    sa.Column('ask_10_power', sa.String(length=5), nullable=False),
-    sa.Column('ask_11_armor', sa.String(length=5), nullable=False),
+    sa.Column('ask_1_license', sa.String(length=5), nullable=True),
+    sa.Column('ask_11_limitable', sa.String(length=5), nullable=True),
+    sa.Column('ask_2_wheels', sa.String(length=5), nullable=True),
+    sa.Column('ask_3_surface', sa.String(length=5), nullable=True),
+    sa.Column('ask_31_surface_offroad', sa.String(length=5), nullable=True),
+    sa.Column('ask_311_motor_offroad', sa.String(length=5), nullable=True),
+    sa.Column('ask_32_custom', sa.String(length=5), nullable=True),
+    sa.Column('ask_321_refrigeration', sa.String(length=5), nullable=True),
+    sa.Column('ask_4_comodity', sa.String(length=5), nullable=True),
+    sa.Column('ask_5_style', sa.String(length=5), nullable=True),
+    sa.Column('ask_6_price', sa.String(length=5), nullable=True),
+    sa.Column('ask_7_new', sa.String(length=5), nullable=True),
+    sa.Column('ask_8_response', sa.String(length=5), nullable=True),
+    sa.Column('ask_9_reliability', sa.String(length=5), nullable=True),
+    sa.Column('ask_10_power', sa.String(length=5), nullable=True),
+    sa.Column('ask_11_armor', sa.String(length=5), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('bike_photo'),
     sa.UniqueConstraint('model')
@@ -100,10 +100,12 @@ def upgrade():
     op.create_table('answer',
     sa.Column('id', sa.String(length=30), nullable=False),
     sa.Column('answer', sa.String(length=250), nullable=False),
+    sa.Column('previous_question_id', sa.String(length=30), nullable=True),
     sa.Column('next_question_id', sa.String(length=30), nullable=True),
     sa.Column('current_question_id', sa.String(length=30), nullable=True),
     sa.ForeignKeyConstraint(['current_question_id'], ['question.id'], ),
     sa.ForeignKeyConstraint(['next_question_id'], ['question.id'], ),
+    sa.ForeignKeyConstraint(['previous_question_id'], ['question.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
