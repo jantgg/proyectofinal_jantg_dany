@@ -7,8 +7,8 @@ import { Test } from "./pages/test";
 import { Result } from "./pages/result";
 import { Bestroutes } from "./pages/bestroutes";
 import { Bestroutesupload } from "./pages/bestroutesupload";
-import { Bestphotographer } from "./pages/bestphotographer";
-import { Bpr } from "./pages/bpr";
+import { Bestphotographers } from "./pages/bestphotographers";
+import { PhotographerRegister } from "./pages/photographerregister";
 import { Bestphotographerupload } from "./pages/bestphotographerupload";
 import { User } from "./pages/user";
 import { Userphoto } from "./pages/userphoto";
@@ -39,8 +39,11 @@ const Layout = () => {
             <Route element={<Result />} path="/result" />
             <Route element={<Bestroutes />} path="/bestroutes" />
             <Route element={<Bestroutesupload />} path="/bestroutesupload" />
-            <Route element={<Bestphotographer />} path="/bestphotographer" />
-            <Route element={<Bpr />} path="/bpr" />
+            <Route element={<Bestphotographers />} path="/bestphotographers" />
+            <Route
+              element={<PhotographerRegister />}
+              path="/photographerregister"
+            />
             <Route element={<Login />} path="/login" />
             <Route
               element={<Bestphotographerupload />}

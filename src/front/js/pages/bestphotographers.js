@@ -4,13 +4,15 @@ import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
-export const Bestphotographer = () => {
+export const Bestphotographers = () => {
   return (
-    <div className="jumbotron">
+    <div className="">
       <Link to="/">
-        <span className="btn btn-primary btn-lg" href="#" role="button">
-          Back home
-        </span>
+        <button>
+          <span className="btn btn-primary btn-lg" href="#" role="button">
+            Back home
+          </span>
+        </button>
       </Link>
     </div>
   );
