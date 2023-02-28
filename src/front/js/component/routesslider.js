@@ -1,47 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
-import { Card } from "../component/card";
+import { CardSliderRoutes } from "./cardsliderroutes";
 
-export const Slider = () => {
+export const RoutesSlider = ({ images }) => {
   return (
     <div
       id="carouselExampleIndicators"
       className="carousel slide col-12 mx-auto"
       data-bs-ride="true"
     >
-      <div className="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="0"
-          className="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
+      <div key="carousel indicators" className="carousel-indicators">
+        {images.map((image, index) => {
+          let number = index;
+          return (
+            <div key={`${number + 1}`}>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to={number}
+                className={number == 0 ? "active" : ""}
+                aria-current={number == 0 ? "true" : ""}
+                aria-label={`Slide ${number + 1}`}
+              ></button>
+            </div>
+          );
+        })}
       </div>
       <div className="carousel-inner">
-        <div className="carousel-item active">
-          <Card />
-        </div>
-        <div className="carousel-item">
-          <Card />
-        </div>
-        <div className="carousel-item">
-          <Card />
-        </div>
+        {images.map((image) => {
+          return (
+            <div key={image.id} className="carousel-item active">
+              <img src={image.path} />
+            </div>
+          );
+        })}
       </div>
       <button
         className="carousel-control-prev"

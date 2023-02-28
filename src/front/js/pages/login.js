@@ -112,7 +112,7 @@ export const Login = () => {
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => sendLogin()}
                       >
-                        <span>Login</span>
+                        <span>Log in</span>
                       </button>
                       <Link to={"/"} className="text-decoration-none ps-4">
                         Forgot Your Password?
