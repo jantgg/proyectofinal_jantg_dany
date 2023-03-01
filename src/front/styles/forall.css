@@ -158,7 +158,6 @@ body {
   text-decoration: none;
   border: none;
   letter-spacing: 0.1rem;
-  font-size: 1rem;
   width: 600px;
   transition: 0.2s;
 }
@@ -197,7 +196,7 @@ body {
   text-decoration: none;
   border: none;
   letter-spacing: 0.1rem;
-  font-size: 1rem;
+
   width: 400px;
   transition: 0.2s;
 }
@@ -223,7 +222,7 @@ body {
   text-decoration: none;
   border: 2px solid white;
   letter-spacing: 0.1rem;
-  font-size: 1rem;
+
   width: 250px;
   transition: 0.2s;
 }

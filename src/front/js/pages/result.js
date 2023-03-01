@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/result.css";
 import "../../styles/forall.css";
-import "../../styles/test.css";
-import { Card } from "../component/card";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -73,10 +71,7 @@ export const Result = () => {
   };
 
   return (
-    <div
-      key="losresultados @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      className="row revealUp"
-    >
+    <div className="row revealUp">
       <div className="col-12 mx-auto  text-white">
         {store.userType != "user" && store.userType != "photographer" ? (
           <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
@@ -93,106 +88,63 @@ export const Result = () => {
         key="slider @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         className="col-12 border border-danger"
       >
-        <div
-          id="carouselExampleIndicators"
-          className="carousel slide col-12 mx-auto"
-          data-bs-ride="true"
-        >
-          <div
-            key="carousel indicators @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-            className="carousel-indicators"
-          >
-            {bikesResults.map((bike, index) => {
-              let number = index;
-              return (
-                <>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to={number}
-                    className={number == 0 ? "active" : ""}
-                    aria-current={number == 0 ? "true" : ""}
-                    aria-label={`Slide ${number + 1}`}
-                  ></button>
-                </>
-              );
-            })}
-          </div>
-          <div className="carousel-inner">
-            {bikesResults.map((bike, index) => {
-              let number = index;
-              return (
-                <>
-                  <div
-                    className={
-                      number == 0 ? "carousel-item active" : "carousel-item"
-                    }
-                  >
-                    <div
-                      key="card @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                      className="container"
-                    >
-                      <div className="row">
-                        <div className="card text-bg-dark col-lg-6 col-md-8 col-sm-10 col-xs-11 mx-auto">
-                          <img
-                            src={bike.bike_photo}
-                            className="card-img"
-                            alt="..."
-                          />
-                          <div className="card-img-overlay mx-auto">
-                            <div className="mx-auto">
-                              <h5 className="mx-auto">{bike.model}</h5>
-                              <p className="">Pedazo pepino e o no</p>
-                              <p className="">
-                                <small>{bike.ask_6_price}</small>
-                              </p>
-                              {store.userType == "user" ||
-                              store.userType == "photographer" ? (
-                                <button
-                                  className=""
-                                  onClick={() => addFavoriteBike()}
-                                >
-                                  Favorite
-                                </button>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
+        {bikesResults.map((bike, index) => {
+          return (
+            <>
+              <div
+                key={index}
+                className="motocard text-white col-3 bordecitoall mx-auto"
+                style={{ backgroundImage: `url(${bike.bike_photo})` }}
+              >
+                <div className="imagen">
+                  <div className="free">
+                    <div className="headcontent bordecitoall bg-black ">
+                      <div className="sizehomet spartan text-center">
+                        {bike.model}
                       </div>
                     </div>
                   </div>
-                </>
-              );
-            })}
-          </div>
 
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
+                  <div className="content bordecitoup container d-flex flex-column justify-content-between align-items-center">
+                    <div className="ms-3 sizehomes">
+                      Hola esto es el texto emergente
+                    </div>
+                    <div className="row mb-3">
+                      {store.userType == "User" ||
+                      store.userType == "photographer" ? (
+                        <button
+                          className="botonfavs sizehomes mx-auto pt-auto"
+                          onClick={() => addFavoriteBike()}
+                        >
+                          <span style={{ "--i": 1 }}>A</span>
+                          <span style={{ "--i": 2 }}>ñ</span>
+                          <span style={{ "--i": 3 }}>a</span>
+                          <span style={{ "--i": 4 }}>d</span>
+                          <span style={{ "--i": 5 }}>i</span>
+                          <span style={{ "--i": 6 }}>r</span>
+                          <span style={{ "--i": 7 }}>&nbsp;</span>
+                          <span style={{ "--i": 8 }}>a</span>
+                          <span style={{ "--i": 9 }}>&nbsp;</span>
+                          <span style={{ "--i": 10 }}>f</span>
+                          <span style={{ "--i": 11 }}>a</span>
+                          <span style={{ "--i": 12 }}>v</span>
+                          <span style={{ "--i": 13 }}>o</span>
+                          <span style={{ "--i": 14 }}>r</span>
+                          <span style={{ "--i": 15 }}>i</span>
+                          <span style={{ "--i": 16 }}>t</span>
+                          <span style={{ "--i": 17 }}>o</span>
+                          <span style={{ "--i": 18 }}>s</span>
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })}
       </div>
+
       <div className="col-12 mx-auto  text-white text-center">
         <div className="col-8 mx-auto text-center mt-5 fs-1 text-wrap lh-sm border border-danger">
           Todas estas motos están elegidas en función de como has respondido a
@@ -202,7 +154,7 @@ export const Result = () => {
         </div>
         <div className="">
           <button
-            className="botonaco"
+            className="botonaco2"
             onClick={() => {
               Navigate("/test");
             }}

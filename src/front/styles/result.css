@@ -1,0 +1,111 @@
+.motocard {
+  position: relative;
+  height: 40vh;
+  transition: filter 1s, brackground 1s;
+}
+.free {
+  height: 40%;
+}
+.content {
+  height: 60%;
+  position: absolute;
+  opacity: 1;
+  transition: transform 0.8s;
+  width: 100%;
+  transform-origin: bottom;
+  transform: scaleY(0);
+}
+
+.motocard:hover .content {
+  transform: scaleY(1);
+  background: rgba(0, 0, 0, 0.5);
+}
+.motocard:hover {
+  filter: grayscale(30%);
+}
+.imagen {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.botonfavs {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  letter-spacing: 0.1rem;
+  width: 300px;
+}
+
+.botonfavs:hover {
+  background: #f7f8f2;
+  color: #f7f8f2;
+  animation: box 4s infinite;
+}
+
+.botonfavs::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #070707;
+}
+
+.botonfavs span {
+  position: relative;
+  z-index: 1;
+}
+
+.botonfavs:hover span {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  animation: flip 4s infinite;
+  animation-delay: calc(0.09s * var(--i));
+}
+
+@keyframes flip {
+  0%,
+  10% {
+    transform: rotateY(360deg);
+  }
+  40% {
+    transform: rotateY(0deg);
+  }
+}
+
+.imagen {
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+  filter: grayscale(100%);
+}
+
+.imagen::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  filter: brightness(50%);
+  opacity: 0.5;
+  z-index: -1;
+  transition: transform 1s, opacity 1s, filter 1s;
+}
+
+.imagen:hover::before {
+  transform: scale(1.2);
+  filter: brightness(80%);
+}

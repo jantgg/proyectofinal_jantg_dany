@@ -57,7 +57,7 @@ export const Home = () => {
 
           <div className="row">
             <button
-              className="botonaco mx-auto py-3 mt-3 mb-5 sizehomet waviy"
+              className="botonaco mx-auto py-3 mt-3 mb-5 sizehomet"
               onClick={() => {
                 Navigate("/test");
               }}
