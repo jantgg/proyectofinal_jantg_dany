@@ -59,7 +59,7 @@ export const Bestroutesupload = () => {
   return (
     <>
       {routeSend == false ? (
-        <div>
+        <div className="mx-auto">
           <div>
             <h1 className="text-white">Mis rutas</h1>
             <div className="text-white">
@@ -124,9 +124,10 @@ export const Bestroutesupload = () => {
           <div className="text-white">Foto</div>
           <input
             onChange={(e) => {
-              setRoutePhoto(e.target.value);
+              setRoutePhoto(e.target.files);
             }}
-          ></input>
+            type="file"
+          />
 
           <button
             onClick={() => {
