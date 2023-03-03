@@ -338,3 +338,36 @@ def create_bikes():
         db.session.add(bike)
     db.session.commit()
     return jsonify([bike.serialize() for bike in bikes])
+
+
+@api.route('/questions', methods=['POST'])
+def create_questions():
+    questions_data = request.get_json()
+    questions = []
+    for question_data in questions_data:
+        question = Question(
+            id=question_data['id'],
+            question=question_data['question'],
+            notes=question_data['notes'],
+        )
+        questions.append(question)
+        db.session.add(question)
+    db.session.commit()
+    return jsonify([question.serialize() for question in questions])
+
+@api.route('/answer', methods=['POST'])
+def create_answers():
+    answers_data = request.get_json()
+    answers = []
+    for answer_data in answers_data:
+        answer = Answer(
+            id=answer_data['id'],
+            answer=answer_data['answer'],
+            previous_question_id=answer_data['previous_question_id'],
+            next_question_id=answer_data['next_question_id'],
+            current_question_id=answer_data['current_question_id'],
+        )
+        answers.append(answer)
+        db.session.add(answer)
+    db.session.commit()
+    return jsonify([answer.serialize() for answer in answers])
