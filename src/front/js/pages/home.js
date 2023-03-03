@@ -19,7 +19,7 @@ export const Home = () => {
     gsap.utils.toArray(".revealUp").forEach(function (elem) {
       ScrollTrigger.create({
         trigger: elem,
-        start: "top 60%",
+        start: "top 85%",
         end: "bottom 35%",
         once: true,
         onEnter: () => {
@@ -79,9 +79,9 @@ export const Home = () => {
             </button>
           </div>
         </div>
+        <div className="bordecitor col-6 mx-auto heightborder"></div>
       </div>
       <div className="col-12 row revealUp">
-        <div className="bordecitor col-6 mx-auto heightborder3"></div>
         <div className="col-11 imagen2 mx-auto py-5 bordecitoall ">
           <br></br>
           <div className="col-10 text-white sizehome mx-auto text-center mt-5 spartan">
@@ -115,9 +115,9 @@ export const Home = () => {
             </button>
           </div>
         </div>
+        <div className="bordecitol col-5 mx-auto heightborder"></div>
       </div>
       <div className="col-12 row revealUp">
-        <div className="bordecitol col-5 mx-auto heightborder3"></div>
         <div className="col-11 imagen3 mx-auto py-5 bordecitoall ">
           <br></br>
           <div className="col-10 text-white sizehome mx-auto text-center mt-5 spartan">
@@ -156,7 +156,7 @@ export const Home = () => {
             </button>
           </div>
         </div>
-        <div className="bordecitor col-5 mx-auto mb-0 heightborder2"></div>
+        <div className="bordecitor col-5 mx-auto mb-0 heightborder"></div>
       </div>
     </div>
   );

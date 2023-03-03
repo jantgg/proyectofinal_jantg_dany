@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/forall.css";
 import "../../styles/test.css";
+import "../../styles/spiner.css";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -54,8 +55,13 @@ export const Test = () => {
       setIsMovingOut(false);
       setMovingQuestion("q1");
     }, 500);
-    // Duración de la animación en milisegundos
   }, [movingQuestion]);
+
+  useEffect(() => {
+    if (currentQuestion === "end") {
+      sendAnswers();
+    }
+  }, [currentQuestion]);
 
   useEffect(() => {
     localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
@@ -90,8 +96,12 @@ export const Test = () => {
     });
     if (response.ok) {
       const data = await response.json();
+      await new Promise((resolve) => {
+        localStorage.setItem("Results", data.result);
+        resolve();
+      });
       console.log(data.result);
-      setBikesResults(data.result);
+      Navigate("/result");
     } else {
       console.log("response not ok");
     }
@@ -111,11 +121,37 @@ export const Test = () => {
       key="elmismotest @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       className="row ms-0 revealUp"
     >
+      {currentQuestion === "end" ? (
+        <div className="revealUp">
+          <div className="bordecitol col-7 mx-auto heightborder"></div>
+          <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-5 px-3 text-wrap spartan imagen4 text-white minH">
+            <div className="reveal">
+              Estamos buscando las mejores motos
+              <br />
+              <div class="lds-spinner mt-5">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div className="bordecitor col-8 mx-auto heightborders "></div>
+        </div>
+      ) : null}
       {store.questions.map((question) => {
         return currentQuestion == question.id ? (
           <div key={question.id}>
             <div className="col-12 mx-auto text-white">
-              {store.userType != "user" && store.userType != "photographer" ? (
+              {store.userType != "User" && store.userType != "Photographer" ? (
                 <>
                   <div className="bordecitor col-8 mx-auto heightborders "></div>
                   <div className="col-9 mx-auto text-center  sizehome2 py-5 bordecitoall border-danger spartan imagenw">
@@ -201,12 +237,8 @@ export const Test = () => {
               <button
                 className="botonaco4 col-12 col-xxl-2 col-xl-12 col-lg-12 mb-4 ms-5 me-auto py-3 imagena"
                 onClick={() => {
-                  sendAnswers();
                   setIsVisible(false);
-                  setTimeout(() => {
-                    setCurrentQuestion("end");
-                    Navigate("/result");
-                  }, 500);
+                  setCurrentQuestion("end");
                 }}
               >
                 <span>

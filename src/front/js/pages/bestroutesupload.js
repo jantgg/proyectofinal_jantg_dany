@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/forall.css";
+import axios from "axios";
 
 export const Bestroutesupload = () => {
   const { store, actions } = useContext(Context);
@@ -15,7 +16,7 @@ export const Bestroutesupload = () => {
   const [startName, setStartName] = useState([]);
   const [interest, setInterest] = useState([]);
   const [endName, setEndName] = useState([]);
-  const [routePhoto, setRoutePhoto] = useState([]);
+  const [photo, setRoutePhoto] = useState([]);
   const [routeSend, setRouteSend] = useState(false);
 
   useEffect(() => {
@@ -50,9 +51,29 @@ export const Bestroutesupload = () => {
       ]),
     });
     if (response.ok) {
-      setRouteSend(true);
+      const responseData = await response.json();
+      const newRouteId = responseData.route_ids[0]; // obtenemos la primera ID de la lista
+      uploadPhoto(photo, newRouteId);
     } else {
       setError(true);
+    }
+  };
+
+  const uploadPhoto = async (photo, newRouteId) => {
+    const formData = new FormData();
+    formData.append("photo", photo[0]);
+    formData.append("photo_type", "route");
+    formData.append("id", newRouteId);
+    console.log(formData);
+    const response = await fetch(store.backendurl + "photos", {
+      method: "POST",
+      body: formData,
+    });
+    if (response.ok) {
+      console.log(response.data);
+      setRouteSend(true);
+    } else {
+      console.log(response);
     }
   };
 
@@ -132,6 +153,14 @@ export const Bestroutesupload = () => {
           <button
             onClick={() => {
               sendRoute();
+            }}
+          >
+            Publicar
+          </button>
+
+          <button
+            onClick={() => {
+              uploadPhoto();
             }}
           >
             Publicar

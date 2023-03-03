@@ -9,6 +9,8 @@ from werkzeug.security import (generate_password_hash, check_password_hash)
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from werkzeug.utils import secure_filename
+import cloudinary
 
 api = Blueprint('api', __name__)
 
@@ -238,6 +240,48 @@ def create_suggestion():
     suggestion = Bike.query.filter(*queries).all()
     return jsonify({"result": [x.serialize() for x in suggestion]}), 201
 
+
+# CLOUDINARY -------------------------------------------------------------------
+
+
+
+@api.route('/photos', methods=['POST'])
+def upload_photo():
+    photo_file = request.files['photo']  # Recibimos el archivo como parte de FormData
+    upload_result = cloudinary.uploader.upload(photo_file)
+    photo_type = request.form['photo_type']
+    type_id = request.form['id']
+    if photo_type == 'route':  
+        new_photo = Photo(
+            name=secure_filename(photo_file.filename),
+            path=upload_result['url'],
+            route_id=type_id,
+            photo_type=photo_type,
+        )
+    elif photo_type == 'photographer':
+        new_photo = Photo(
+            name=secure_filename(photo_file.filename),
+            path=upload_result['url'],
+            photographer_id=type_id,
+            photo_type=photo_type,
+        )
+    elif photo_type == 'bike':
+        new_photo = Photo(
+            name=secure_filename(photo_file.filename),
+            path=upload_result['url'],
+            bike_id=type_id,
+            photo_type=photo_type,
+        )
+    else:
+        return jsonify({"error": "Invalid photo_type parameter"}), 400
+    db.session.add(new_photo)
+    db.session.commit()
+    return jsonify(new_photo.serialize())
+
+
+
+
+
 #Endpoints para INSOMNIA
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -261,7 +305,8 @@ def create_route():
         db.session.add(new_route)
         new_routes.append(new_route)
     db.session.commit()
-    return jsonify({"response": "Route send successfully",}), 200
+    response_dict = {"response": "Route send successfully", "route_ids": [r.id for r in new_routes]}
+    return jsonify(response_dict), 200
 
 @api.route('/bikes', methods=['POST'])
 def create_bikes():
