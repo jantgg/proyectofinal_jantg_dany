@@ -18,19 +18,20 @@ const center = {
 
 const directionsOptions = {
   origin: "Madrid, Spain",
-  destination: "London, UK",
+  destination: "Marbella, Spain",
   travelMode: "DRIVING",
 };
 
 function Maps(props) {
   const [response, setResponse] = useState(null);
+  const [callbackCalled, setCallbackCalled] = useState(false);
 
   const directionsCallback = (res) => {
-    if (res != null) {
+    if (!callbackCalled && res != null) {
       setResponse(res);
+      setCallbackCalled(true);
     }
   };
-
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyDDVjWyt1R7eDz4VFdY1tBUyylUzucI5z4"
