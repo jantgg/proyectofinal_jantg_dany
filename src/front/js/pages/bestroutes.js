@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link, Route } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { CardRoutes } from "../component/cardroutes";
 import { RoutesSlider } from "../component/routesslider";
-
 import "../../styles/forall.css";
-import { CardSliderRoutes } from "../component/cardsliderroutes";
+import Maps from "../component/maps";
 
 export const Bestroutes = () => {
   const { store, actions } = useContext(Context);
@@ -54,6 +51,7 @@ export const Bestroutes = () => {
 
   return (
     <div className="container">
+      <Maps />
       <h1 className="text-success">//Las mejores rutas</h1>
       {routes.map((route) => {
         return (
