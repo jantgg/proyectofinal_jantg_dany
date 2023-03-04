@@ -1,10 +1,18 @@
 .motocard {
   position: relative;
-  height: 40vh;
+  height: 400px;
   transition: filter 1s, brackground 1s;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 .free {
   height: 40%;
+}
+.altura {
+  height: 500px;
+}
+.altura2 {
+  height: 300px;
 }
 .content {
   height: 60%;

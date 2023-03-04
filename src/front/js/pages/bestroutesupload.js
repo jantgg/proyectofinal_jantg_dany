@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/forall.css";
-import axios from "axios";
 
 export const Bestroutesupload = () => {
   const { store, actions } = useContext(Context);

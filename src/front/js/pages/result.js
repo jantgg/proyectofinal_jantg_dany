@@ -10,7 +10,7 @@ export const Result = () => {
   const Navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [bikesResults, setBikesResults] = useState([]);
-  const isDesktop = window.innerWidth >= 768;
+  const isDesktop = window.innerWidth >= 1000;
 
   useEffect(() => {
     getBikes();
@@ -73,6 +73,20 @@ export const Result = () => {
     }
   };
 
+  function createArraysOfFour(originalArray) {
+    const arraysOfFour = [];
+
+    for (let i = 0; i < originalArray.length; i += 4) {
+      arraysOfFour.push(originalArray.slice(i, i + 4));
+    }
+    console.log(arraysOfFour);
+    return arraysOfFour;
+  }
+
+  const originalArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+
+  const arraysOfFour = createArraysOfFour(bikesResults);
+
   return (
     <div className="row revealUp">
       <div className="col-12 mx-auto  text-white">
@@ -96,66 +110,230 @@ export const Result = () => {
       {isDesktop ? (
         <div
           key="slider @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-          className="col-12 border border-danger"
+          id="carouselExampleIndicators"
+          className="carousel slide col-12 mx-auto altura"
+          data-bs-ride="true"
         >
-          {bikesResults.map((bike, index) => {
-            return (
-              <>
-                <div
-                  key={index}
-                  className="motocard text-white col-3 bordecitoall mx-auto"
-                  style={{ backgroundImage: `url(${bike.bike_photo})` }}
-                >
-                  <div className="imagen">
-                    <div className="free">
-                      <div className="headcontent bordecitoall bg-black ">
-                        <div className="sizehomet spartan text-center">
-                          {bike.model}
+          <div key="carousel indicators" className="carousel-indicators">
+            {arraysOfFour.map((array, index) => {
+              let number = index;
+              return (
+                <div key={`${number + 1}`}>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to={number}
+                    className={number == 0 ? "active" : ""}
+                    aria-current={number == 0 ? "true" : ""}
+                    aria-label={`Slide ${number + 1}`}
+                  ></button>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="carousel-inner">
+            {arraysOfFour.map((array, index) => {
+              return (
+                <div>
+                  <div
+                    key={index}
+                    className={`col-12 text-white row  carousel-item${
+                      index === 0 ? " active" : ""
+                    }`}
+                  >
+                    {array.map((bike, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className=" motocard col-11 col-xxl-3 col-xl-3 col-lg-4 text-white bordecitoall mx-auto"
+                          style={{ backgroundImage: `url(${bike.bike_photo})` }}
+                        >
+                          <div className="imagen">
+                            <div className="free">
+                              <div className="headcontent bordecitoall bg-black">
+                                <div className="sizehomet spartan text-center">
+                                  {bike.model}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="content bordecitoup col-12 container d-flex flex-column justify-content-between align-items-center">
+                              <div className="ms-3 sizehomes">
+                                Hola esto es el texto emergente
+                              </div>
+                              <div className="row mb-3">
+                                {store.userType == "User" ||
+                                store.userType == "photographer" ? (
+                                  <button
+                                    className="botonfavs sizehomes mx-auto pt-auto"
+                                    onClick={() => addFavoriteBike()}
+                                  >
+                                    <span style={{ "--i": 1 }}>A</span>
+                                    <span style={{ "--i": 2 }}>ñ</span>
+                                    <span style={{ "--i": 3 }}>a</span>
+                                    <span style={{ "--i": 4 }}>d</span>
+                                    <span style={{ "--i": 5 }}>i</span>
+                                    <span style={{ "--i": 6 }}>r</span>
+                                    <span style={{ "--i": 7 }}>&nbsp;</span>
+                                    <span style={{ "--i": 8 }}>a</span>
+                                    <span style={{ "--i": 9 }}>&nbsp;</span>
+                                    <span style={{ "--i": 10 }}>f</span>
+                                    <span style={{ "--i": 11 }}>a</span>
+                                    <span style={{ "--i": 12 }}>v</span>
+                                    <span style={{ "--i": 13 }}>o</span>
+                                    <span style={{ "--i": 14 }}>r</span>
+                                    <span style={{ "--i": 15 }}>i</span>
+                                    <span style={{ "--i": 16 }}>t</span>
+                                    <span style={{ "--i": 17 }}>o</span>
+                                    <span style={{ "--i": 18 }}>s</span>
+                                  </button>
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+            ;
+          </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+      ) : (
+        <div
+          key="slider @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ MOVIL"
+          id="carouselExampleIndicators"
+          className="carousel slide col-12 mx-auto"
+          data-bs-ride="true"
+        >
+          <div key="carousel indicators" className="carousel-indicators">
+            {bikesResults.map((bike, index) => {
+              let number = index;
+              return (
+                <div key={`${number + 1}`}>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to={number}
+                    className={number == 0 ? "active" : ""}
+                    aria-current={number == 0 ? "true" : ""}
+                    aria-label={`Slide ${number + 1}`}
+                  ></button>
+                </div>
+              );
+            })}
+          </div>
+          <div className="carousel-inner">
+            {bikesResults.map((bike, index) => {
+              return (
+                <>
+                  <div
+                    key={index}
+                    className={`motocard col-11 col-xxl-3 col-xl-3 col-lg-4 text-white bordecitoall mx-auto carousel-item${
+                      index === 0 ? " active" : ""
+                    }`}
+                    style={{ backgroundImage: `url(${bike.bike_photo})` }}
+                  >
+                    <div className="imagen">
+                      <div className="free">
+                        <div className="headcontent bordecitoall bg-black">
+                          <div className="sizehomet spartan text-center">
+                            {bike.model}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="content bordecitoup col-12 container d-flex flex-column justify-content-between align-items-center">
+                        <div className="ms-3 sizehomes">
+                          Hola esto es el texto emergente
+                        </div>
+                        <div className="row mb-3">
+                          {store.userType == "User" ||
+                          store.userType == "photographer" ? (
+                            <button
+                              className="botonfavs sizehomes mx-auto pt-auto"
+                              onClick={() => addFavoriteBike()}
+                            >
+                              <span style={{ "--i": 1 }}>A</span>
+                              <span style={{ "--i": 2 }}>ñ</span>
+                              <span style={{ "--i": 3 }}>a</span>
+                              <span style={{ "--i": 4 }}>d</span>
+                              <span style={{ "--i": 5 }}>i</span>
+                              <span style={{ "--i": 6 }}>r</span>
+                              <span style={{ "--i": 7 }}>&nbsp;</span>
+                              <span style={{ "--i": 8 }}>a</span>
+                              <span style={{ "--i": 9 }}>&nbsp;</span>
+                              <span style={{ "--i": 10 }}>f</span>
+                              <span style={{ "--i": 11 }}>a</span>
+                              <span style={{ "--i": 12 }}>v</span>
+                              <span style={{ "--i": 13 }}>o</span>
+                              <span style={{ "--i": 14 }}>r</span>
+                              <span style={{ "--i": 15 }}>i</span>
+                              <span style={{ "--i": 16 }}>t</span>
+                              <span style={{ "--i": 17 }}>o</span>
+                              <span style={{ "--i": 18 }}>s</span>
+                            </button>
+                          ) : null}
                         </div>
                       </div>
                     </div>
-
-                    <div className="content bordecitoup container d-flex flex-column justify-content-between align-items-center">
-                      <div className="ms-3 sizehomes">
-                        Hola esto es el texto emergente
-                      </div>
-                      <div className="row mb-3">
-                        {store.userType == "User" ||
-                        store.userType == "photographer" ? (
-                          <button
-                            className="botonfavs sizehomes mx-auto pt-auto"
-                            onClick={() => addFavoriteBike()}
-                          >
-                            <span style={{ "--i": 1 }}>A</span>
-                            <span style={{ "--i": 2 }}>ñ</span>
-                            <span style={{ "--i": 3 }}>a</span>
-                            <span style={{ "--i": 4 }}>d</span>
-                            <span style={{ "--i": 5 }}>i</span>
-                            <span style={{ "--i": 6 }}>r</span>
-                            <span style={{ "--i": 7 }}>&nbsp;</span>
-                            <span style={{ "--i": 8 }}>a</span>
-                            <span style={{ "--i": 9 }}>&nbsp;</span>
-                            <span style={{ "--i": 10 }}>f</span>
-                            <span style={{ "--i": 11 }}>a</span>
-                            <span style={{ "--i": 12 }}>v</span>
-                            <span style={{ "--i": 13 }}>o</span>
-                            <span style={{ "--i": 14 }}>r</span>
-                            <span style={{ "--i": 15 }}>i</span>
-                            <span style={{ "--i": 16 }}>t</span>
-                            <span style={{ "--i": 17 }}>o</span>
-                            <span style={{ "--i": 18 }}>s</span>
-                          </button>
-                        ) : null}
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </>
-            );
-          })}
+                </>
+              );
+            })}
+          </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
         </div>
-      ) : (
-        <p>Este es el HTML para dispositivos móviles / tabletas</p>
       )}
 
       <div className="entrada col-10 col-xxl-8 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn px-2 py-1 spartan text-white">

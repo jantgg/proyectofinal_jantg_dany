@@ -128,7 +128,7 @@ export const Test = () => {
             <div className="reveal">
               Estamos buscando las mejores motos
               <br />
-              <div class="lds-spinner mt-5">
+              <div className="lds-spinner mt-5">
                 <div></div>
                 <div></div>
                 <div></div>
