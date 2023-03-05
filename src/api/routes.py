@@ -11,6 +11,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
 import cloudinary
+import json
 
 api = Blueprint('api', __name__)
 
@@ -247,15 +248,30 @@ def create_suggestion():
 
 @api.route('/photos', methods=['POST'])
 def upload_photo():
-    photo_file = request.files['photo']  # Recibimos el archivo como parte de FormData
+    photo_file = request.files['photo']
     upload_result = cloudinary.uploader.upload(photo_file)
     photo_type = request.form['photo_type']
-    type_id = request.form['id']
-    if photo_type == 'route':  
+    if photo_type == 'route':
+        route_data = json.loads(request.form['route_data'])
+        new_route = Route(
+            name=route_data['name'],
+            start_location_text=route_data['start_location_text'],
+            end_location_text=route_data['end_location_text'],
+            interest_text=route_data['interest_text'],
+            start_location_name=route_data['start_location_name'],
+            start_latitude=route_data['start_latitude'],
+            start_longitude=route_data['start_longitude'],
+            end_location_name=route_data['end_location_name'],
+            end_latitude=route_data['end_latitude'],
+            end_longitude=route_data['end_longitude']
+        )
+        db.session.add(new_route)
+        db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
+        route_id = new_route.id  # Obtiene la ID de la nueva ruta
         new_photo = Photo(
             name=secure_filename(photo_file.filename),
             path=upload_result['url'],
-            route_id=type_id,
+            route_id=route_id,
             photo_type=photo_type,
         )
     elif photo_type == 'photographer':
@@ -274,6 +290,7 @@ def upload_photo():
         )
     else:
         return jsonify({"error": "Invalid photo_type parameter"}), 400
+    
     db.session.add(new_photo)
     db.session.commit()
     return jsonify(new_photo.serialize())

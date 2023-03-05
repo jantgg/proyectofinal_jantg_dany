@@ -58,11 +58,25 @@ export const Bestroutesupload = () => {
     }
   };
 
-  const uploadPhoto = async (photo, newRouteId) => {
+  const uploadPhoto = async () => {
     const formData = new FormData();
-    formData.append("photo", photo[0]);
+    formData.append("photo", photo);
     formData.append("photo_type", "route");
-    formData.append("id", newRouteId);
+    formData.append(
+      "route_data",
+      JSON.stringify({
+        name: routeName,
+        start_location_text: startName,
+        end_location_text: endName,
+        interest_text: interest,
+        start_location_name: startName,
+        start_latitude: pPLa,
+        start_longitude: pPLo,
+        end_location_name: endName,
+        end_latitude: pLLa,
+        end_longitude: pLLo,
+      })
+    );
     console.log(formData);
     const response = await fetch(store.backendurl + "photos", {
       method: "POST",
