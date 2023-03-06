@@ -7,15 +7,11 @@ import "../../styles/forall.css";
 export const Bestroutesupload = () => {
   const { store, actions } = useContext(Context);
   const [userFavoriteRoutes, setUserFavoriteRoutes] = useState([]);
-  const [pPLo, setPPLo] = useState([]);
-  const [pPLa, setPPLa] = useState([]);
-  const [pLLo, setPLLo] = useState([]);
-  const [pLLa, setPLLa] = useState([]);
   const [routeName, setRouteName] = useState([]);
   const [startName, setStartName] = useState([]);
   const [interest, setInterest] = useState([]);
   const [endName, setEndName] = useState([]);
-  const [photo, setRoutePhoto] = useState([]);
+  const [photos, setRoutePhoto] = useState([]);
   const [routeSend, setRouteSend] = useState(false);
 
   useEffect(() => {
@@ -28,53 +24,21 @@ export const Bestroutesupload = () => {
     setUserFavoriteRoutes(store.favorites.filter((obj) => obj.route != null));
   };
 
-  const sendRoute = async () => {
-    const response = await fetch(store.backendurl + "routes", {
-      method: "POST",
-      headers: {
-        "content-Type": "application/json",
-      },
-      body: JSON.stringify([
-        {
-          name: routeName,
-          start_location_text: startName,
-          end_location_text: endName,
-          interest_text: interest,
-          start_location_name: startName,
-          start_latitude: pPLa,
-          start_longitude: pPLo,
-          end_location_name: endName,
-          end_latitude: pLLa,
-          end_longitude: pLLo,
-        },
-      ]),
-    });
-    if (response.ok) {
-      const responseData = await response.json();
-      const newRouteId = responseData.route_ids[0]; // obtenemos la primera ID de la lista
-      uploadPhoto(photo, newRouteId);
-    } else {
-      setError(true);
-    }
-  };
-
   const uploadPhoto = async () => {
     const formData = new FormData();
-    formData.append("photo", photo);
+    if (photos) {
+      for (let i = 0; i < photos.length; i++) {
+        formData.append("files", photos[i]);
+      }
+    }
     formData.append("photo_type", "route");
     formData.append(
       "route_data",
       JSON.stringify({
         name: routeName,
-        start_location_text: startName,
-        end_location_text: endName,
         interest_text: interest,
         start_location_name: startName,
-        start_latitude: pPLa,
-        start_longitude: pPLo,
         end_location_name: endName,
-        end_latitude: pLLa,
-        end_longitude: pLLo,
       })
     );
     console.log(formData);
@@ -102,32 +66,6 @@ export const Bestroutesupload = () => {
               })}
             </div>
           </div>
-          <div>
-            <div className="text-white">Punto de partida Longitud</div>
-            <input
-              onChange={(e) => {
-                setPPLo(e.target.value);
-              }}
-            ></input>
-            <div className="text-white">Punto de partida Latitud</div>
-            <input
-              onChange={(e) => {
-                setPPLa(e.target.value);
-              }}
-            ></input>
-          </div>
-          <div className="text-white">Punto de llegada Longitud</div>
-          <input
-            onChange={(e) => {
-              setPLLo(e.target.value);
-            }}
-          ></input>
-          <div className="text-white">Punto de llegada Latitud</div>
-          <input
-            onChange={(e) => {
-              setPLLa(e.target.value);
-            }}
-          ></input>
           <div className="text-white mt-5">
             Detalles
             <div className="text-white">Nombre de la ruta</div>
@@ -161,15 +99,9 @@ export const Bestroutesupload = () => {
               setRoutePhoto(e.target.files);
             }}
             type="file"
+            accept="image/jpeg, image/png"
+            multiple
           />
-
-          <button
-            onClick={() => {
-              sendRoute();
-            }}
-          >
-            Publicar
-          </button>
 
           <button
             onClick={() => {

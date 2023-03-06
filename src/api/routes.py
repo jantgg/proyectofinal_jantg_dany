@@ -165,7 +165,12 @@ def get_all_answers():
 @api.route('/routes', methods=['GET'])
 def get_all_routes():
     routes = Route.query.all()
-    routes_serialized = [x.serialize() for x in routes]
+    routes_serialized = []
+    for route in routes:
+        route_serialized = route.serialize()
+        photos = [photo.serialize() for photo in route.photos]
+        route_serialized['photos'] = photos
+        routes_serialized.append(route_serialized) 
     return jsonify({"body": routes_serialized}), 200
 
 # GET DE FAVORITOS ------------------------------------------------------------------------------------------------------->
@@ -248,52 +253,55 @@ def create_suggestion():
 
 @api.route('/photos', methods=['POST'])
 def upload_photo():
-    photo_file = request.files['photo']
-    upload_result = cloudinary.uploader.upload(photo_file)
+    photo_file = request.files.getlist("files")
     photo_type = request.form['photo_type']
+    new_photos=[]
+    print(photo_file)
     if photo_type == 'route':
         route_data = json.loads(request.form['route_data'])
         new_route = Route(
             name=route_data['name'],
-            start_location_text=route_data['start_location_text'],
-            end_location_text=route_data['end_location_text'],
             interest_text=route_data['interest_text'],
             start_location_name=route_data['start_location_name'],
-            start_latitude=route_data['start_latitude'],
-            start_longitude=route_data['start_longitude'],
             end_location_name=route_data['end_location_name'],
-            end_latitude=route_data['end_latitude'],
-            end_longitude=route_data['end_longitude']
+     
         )
         db.session.add(new_route)
         db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
         route_id = new_route.id  # Obtiene la ID de la nueva ruta
-        new_photo = Photo(
-            name=secure_filename(photo_file.filename),
-            path=upload_result['url'],
-            route_id=route_id,
-            photo_type=photo_type,
-        )
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                route_id=route_id,
+                photo_type=photo_type,
+            ))
     elif photo_type == 'photographer':
-        new_photo = Photo(
-            name=secure_filename(photo_file.filename),
-            path=upload_result['url'],
-            photographer_id=type_id,
-            photo_type=photo_type,
-        )
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                photographer_id=type_id,
+                photo_type=photo_type,
+            ))
     elif photo_type == 'bike':
-        new_photo = Photo(
-            name=secure_filename(photo_file.filename),
-            path=upload_result['url'],
-            bike_id=type_id,
-            photo_type=photo_type,
-        )
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                bike_id=type_id,
+                photo_type=photo_type,
+            ))
     else:
         return jsonify({"error": "Invalid photo_type parameter"}), 400
-    
-    db.session.add(new_photo)
-    db.session.commit()
-    return jsonify(new_photo.serialize())
+    print(new_photos)
+    for photo in new_photos:
+        db.session.add(photo)
+        db.session.commit()
+    return jsonify([x.serialize() for x in new_photos])
 
 
 
