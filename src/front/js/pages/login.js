@@ -114,10 +114,13 @@ export const Login = () => {
                         className="btn btn-warning btn-lg ms-2 text-white"
                         onClick={() => sendLogin()}
                       >
-                        <span>Log in</span>
+                        <span>Iniciar sesión</span>
                       </button>
-                      <Link to={"/"} className="text-decoration-none ps-4">
-                        Forgot Your Password?
+                      <Link
+                        to={"/userregister"}
+                        className="text-decoration-none ps-4"
+                      >
+                        No dispones de una cuenta aún ?
                       </Link>
                     </div>
                   </div>

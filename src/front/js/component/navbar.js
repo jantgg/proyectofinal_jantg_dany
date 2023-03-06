@@ -66,7 +66,7 @@ export const Navbar = () => {
                         actions.logout();
                       }}
                     >
-                      Log out
+                      Desconectarse
                     </Link>
                   </div>
                 </>
@@ -74,7 +74,7 @@ export const Navbar = () => {
                 <>
                   <div className="nav-item me-4">
                     <Link to="/login" className="nav-link text-white mx-2">
-                      Log in
+                      Iniciar sesión
                     </Link>
                   </div>
                 </>
