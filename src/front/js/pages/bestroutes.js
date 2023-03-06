@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link, Route } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { CardRoutes } from "../component/cardroutes";
 import { RoutesSlider } from "../component/routesslider";
-
 import "../../styles/forall.css";
-import { CardSliderRoutes } from "../component/cardsliderroutes";
+import Maps from "../component/maps";
 
 export const Bestroutes = () => {
   const { store, actions } = useContext(Context);
@@ -14,6 +11,10 @@ export const Bestroutes = () => {
   const [photos, setPhotos] = useState([]);
   const [singlevision, setSinglevision] = useState(false);
   const [singleroute, setSingleRoute] = useState({});
+  const [mapProps, setMapProps] = useState({
+    origin: "",
+    destination: "",
+  });
 
   useEffect(() => {
     getRoutes();
@@ -22,6 +23,13 @@ export const Bestroutes = () => {
   useEffect(() => {
     getPhotos();
   }, [singleroute]);
+
+  useEffect(() => {
+    setMapProps({
+      origin: singleroute.start_location_name,
+      destination: singleroute.end_location_name,
+    });
+  }, [singleroute.start_location_name, singleroute.end_location_name]);
 
   const getPhotos = async () => {
     await actions.getPhotos();
@@ -67,7 +75,7 @@ export const Bestroutes = () => {
             >
               <span>Ver detalles</span>
             </button>
-            {store.userType != "user" && store.userType != "photographer" ? (
+            {store.userType != "User" && store.userType != "Photographer" ? (
               <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
                 No vas a poder guardar los resultados en favoritos ya que no te
                 has registrado
@@ -80,21 +88,18 @@ export const Bestroutes = () => {
         <>
           <div className="text-white">
             <div>
-              <h5>Coordenadas mapa ruta:</h5>
               <ul>
                 <li>Punto de partida: {singleroute.start_location_name}</li>
-                <li>Puntos de interes: {singleroute.interest_text}</li>
                 <li>Fin de la ruta: {singleroute.end_location_name}</li>
+                <li>Puntos de interes: {singleroute.interest_text}</li>
               </ul>
+              <Maps
+                origin={mapProps.origin}
+                destination={mapProps.destination}
+              />
             </div>
             <div>
-              <ul>
-                <li>Start latitude {singleroute.start_latitude}</li>
-                <li>Start longitude: {singleroute.start_longitude}</li>
-                <li>End latitude: {singleroute.end_latitude}</li>
-                <li>End longitude: {singleroute.end_longitude}</li>
-              </ul>
-              {store.userType == "user" || store.userType == "photographer" ? (
+              {store.userType == "User" || store.userType == "Photographer" ? (
                 <button onClick={() => addFavoriteRoute()}>
                   <span>♥</span>
                 </button>
