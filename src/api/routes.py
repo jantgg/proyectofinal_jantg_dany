@@ -9,6 +9,9 @@ from werkzeug.security import (generate_password_hash, check_password_hash)
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from werkzeug.utils import secure_filename
+import cloudinary
+import json
 
 api = Blueprint('api', __name__)
 
@@ -162,7 +165,12 @@ def get_all_answers():
 @api.route('/routes', methods=['GET'])
 def get_all_routes():
     routes = Route.query.all()
-    routes_serialized = [x.serialize() for x in routes]
+    routes_serialized = []
+    for route in routes:
+        route_serialized = route.serialize()
+        photos = [photo.serialize() for photo in route.photos]
+        route_serialized['photos'] = photos
+        routes_serialized.append(route_serialized) 
     return jsonify({"body": routes_serialized}), 200
 
 # GET DE FAVORITOS ------------------------------------------------------------------------------------------------------->
@@ -238,6 +246,67 @@ def create_suggestion():
     suggestion = Bike.query.filter(*queries).all()
     return jsonify({"result": [x.serialize() for x in suggestion]}), 201
 
+
+# CLOUDINARY -------------------------------------------------------------------
+
+
+
+@api.route('/photos', methods=['POST'])
+def upload_photo():
+    photo_file = request.files.getlist("files")
+    photo_type = request.form['photo_type']
+    new_photos=[]
+    print(photo_file)
+    if photo_type == 'route':
+        route_data = json.loads(request.form['route_data'])
+        new_route = Route(
+            name=route_data['name'],
+            interest_text=route_data['interest_text'],
+            start_location_name=route_data['start_location_name'],
+            end_location_name=route_data['end_location_name'],
+     
+        )
+        db.session.add(new_route)
+        db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
+        route_id = new_route.id  # Obtiene la ID de la nueva ruta
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                route_id=route_id,
+                photo_type=photo_type,
+            ))
+    elif photo_type == 'photographer':
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                photographer_id=type_id,
+                photo_type=photo_type,
+            ))
+    elif photo_type == 'bike':
+        for photo in photo_file:
+            upload_result = cloudinary.uploader.upload(photo)
+            new_photos.append(Photo(
+                name=secure_filename(photo.filename),
+                path=upload_result['url'],
+                bike_id=type_id,
+                photo_type=photo_type,
+            ))
+    else:
+        return jsonify({"error": "Invalid photo_type parameter"}), 400
+    print(new_photos)
+    for photo in new_photos:
+        db.session.add(photo)
+        db.session.commit()
+    return jsonify([x.serialize() for x in new_photos])
+
+
+
+
+
 #Endpoints para INSOMNIA
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -261,7 +330,8 @@ def create_route():
         db.session.add(new_route)
         new_routes.append(new_route)
     db.session.commit()
-    return jsonify({"response": "Route send successfully",}), 200
+    response_dict = {"response": "Route send successfully", "route_ids": [r.id for r in new_routes]}
+    return jsonify(response_dict), 200
 
 @api.route('/bikes', methods=['POST'])
 def create_bikes():
@@ -293,3 +363,36 @@ def create_bikes():
         db.session.add(bike)
     db.session.commit()
     return jsonify([bike.serialize() for bike in bikes])
+
+
+@api.route('/questions', methods=['POST'])
+def create_questions():
+    questions_data = request.get_json()
+    questions = []
+    for question_data in questions_data:
+        question = Question(
+            id=question_data['id'],
+            question=question_data['question'],
+            notes=question_data['notes'],
+        )
+        questions.append(question)
+        db.session.add(question)
+    db.session.commit()
+    return jsonify([question.serialize() for question in questions])
+
+@api.route('/answer', methods=['POST'])
+def create_answers():
+    answers_data = request.get_json()
+    answers = []
+    for answer_data in answers_data:
+        answer = Answer(
+            id=answer_data['id'],
+            answer=answer_data['answer'],
+            previous_question_id=answer_data['previous_question_id'],
+            next_question_id=answer_data['next_question_id'],
+            current_question_id=answer_data['current_question_id'],
+        )
+        answers.append(answer)
+        db.session.add(answer)
+    db.session.commit()
+    return jsonify([answer.serialize() for answer in answers])

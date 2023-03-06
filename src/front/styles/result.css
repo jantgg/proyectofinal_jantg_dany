@@ -1,11 +1,24 @@
 .motocard {
   position: relative;
-  height: 40vh;
+  height: 400px;
   transition: filter 1s, brackground 1s;
+  padding-right: 0px;
+  padding-left: 0px;
 }
+.motocardmovilH {
+  height: 300px !important;
+}
+
 .free {
   height: 40%;
 }
+.altura {
+  height: 500px;
+}
+.altura2 {
+  height: 300px;
+}
+
 .content {
   height: 60%;
   position: absolute;
@@ -14,6 +27,15 @@
   width: 100%;
   transform-origin: bottom;
   transform: scaleY(0);
+}
+.contentmovil {
+  height: 60%;
+  position: absolute;
+  opacity: 1;
+  transition: transform 0.8s;
+  width: 100%;
+  transform-origin: bottom;
+  transform: scaleY(1);
 }
 
 .motocard:hover .content {

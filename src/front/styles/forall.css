@@ -36,7 +36,7 @@ body {
   padding-bottom: 0px;
 }
 .bordecitoup {
-  border-top: 2px solid white;
+  border-top: 3px solid white;
   padding-bottom: 0px;
 }
 .bordecitor {
@@ -47,9 +47,12 @@ body {
   border-left: 2px solid white;
   padding-bottom: 0px;
 }
+.bordecitos {
+  font-weight: bold;
+}
+
 .bordecitoall {
   border: 1px solid white;
-  padding-bottom: 0px;
 }
 /*TRANSITIONS*/
 .revealUp {
@@ -251,4 +254,21 @@ body {
   100% {
     box-shadow: #27272c;
   }
+}
+
+.glow {
+  position: relative;
+}
+
+.glow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #0ff,
+    0 0 80px #0ff, 0 0 90px #0ff, 0 0 100px #0ff, 0 0 150px #0ff;
 }

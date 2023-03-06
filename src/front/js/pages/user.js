@@ -48,7 +48,7 @@ export const User = () => {
 
   return (
     <div className="row text-white">
-      {store.userType == "user" ? (
+      {store.userType == "User" ? (
         <>
           <div>User</div>
           <div>
