@@ -98,15 +98,9 @@ class Photographer(db.Model):
 class Route(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    start_location_text = db.Column(db.String(50), nullable=False, unique=True)
-    end_location_text = db.Column(db.String(50), nullable=False, unique=True)
-    interest_text = db.Column(db.String(250), nullable=False, unique=True)
     start_location_name = db.Column(db.String(50), nullable=False)
-    start_latitude = db.Column(db.String(20), nullable=False)
-    start_longitude = db.Column(db.String(20), nullable=False)
     end_location_name = db.Column(db.String(50), nullable=False)
-    end_latitude = db.Column(db.String(20), nullable=False)
-    end_longitude = db.Column(db.String(20), nullable=False)
+    interest_text = db.Column(db.String(250), nullable=False, unique=True)
     photos = db.relationship('Photo')
 
     def __repr__(self):
@@ -116,13 +110,9 @@ class Route(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "interest_text": self.interest_text,
             "start_location_name": self.start_location_name,
-            "start_latitude": self.start_latitude,
-            "start_longitude": self.start_longitude,
             "end_location_name": self.end_location_name,
-            "end_latitude": self.end_latitude,
-            "end_longitude": self.end_longitude
+            "interest_text": self.interest_text,
         }
 
 class Bike(db.Model):

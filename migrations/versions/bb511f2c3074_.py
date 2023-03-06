@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: ff8540827d18
+Revision ID: bb511f2c3074
 Revises: 
-Create Date: 2023-02-28 12:53:15.194057
+Create Date: 2023-03-06 14:38:43.420135
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ff8540827d18'
+revision = 'bb511f2c3074'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -72,20 +72,12 @@ def upgrade():
     op.create_table('route',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
-    sa.Column('start_location_text', sa.String(length=50), nullable=False),
-    sa.Column('end_location_text', sa.String(length=50), nullable=False),
-    sa.Column('interest_text', sa.String(length=250), nullable=False),
     sa.Column('start_location_name', sa.String(length=50), nullable=False),
-    sa.Column('start_latitude', sa.String(length=20), nullable=False),
-    sa.Column('start_longitude', sa.String(length=20), nullable=False),
     sa.Column('end_location_name', sa.String(length=50), nullable=False),
-    sa.Column('end_latitude', sa.String(length=20), nullable=False),
-    sa.Column('end_longitude', sa.String(length=20), nullable=False),
+    sa.Column('interest_text', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('end_location_text'),
     sa.UniqueConstraint('interest_text'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('start_location_text')
+    sa.UniqueConstraint('name')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
