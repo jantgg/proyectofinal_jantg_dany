@@ -40,7 +40,7 @@ function Maps(props) {
 
   return (
     <LoadScript
-      googleMapsApiKey="AIzaSyDDVjWyt1R7eDz4VFdY1tBUyylUzucI5z4"
+      googleMapsApiKey={process.env.MAPS_KEY}
       onLoad={() => console.log("API loaded")}
     >
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={6}>

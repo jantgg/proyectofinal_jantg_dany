@@ -11,6 +11,7 @@ export const Bestroutes = () => {
   const [photos, setPhotos] = useState([]);
   const [singlevision, setSinglevision] = useState(false);
   const [singleroute, setSingleRoute] = useState({});
+  const [selectedRouteImages, setSelectedRouteImages] = useState([]);
   const [mapProps, setMapProps] = useState({
     origin: "",
     destination: "",
@@ -21,7 +22,7 @@ export const Bestroutes = () => {
   }, []);
 
   useEffect(() => {
-    getPhotos();
+    getPhotos(singleroute.id);
   }, [singleroute]);
 
   useEffect(() => {
@@ -31,14 +32,24 @@ export const Bestroutes = () => {
     });
   }, [singleroute.start_location_name, singleroute.end_location_name]);
 
-  const getPhotos = async () => {
-    await actions.getPhotos();
-    setPhotos(store.photos.filter((obj) => obj.name == singleroute.name));
+  const getPhotos = async (routeId) => {
+    const selectedRoute = routes.find((route) => route.id === routeId);
+    if (selectedRoute) {
+      setSelectedRouteImages(selectedRoute.photos);
+    }
   };
 
   const getRoutes = async () => {
-    await actions.getRoutes();
-    setRoutes(store.routes);
+    const response = await fetch(store.backendurl + "routes");
+    const data = await response.json();
+    const routesWithPhotos = data.body.map((route) => ({
+      ...route,
+      photos: route.photos.map((photo) => ({
+        id: photo.id,
+        url: photo.path,
+      })),
+    }));
+    setRoutes(routesWithPhotos);
   };
 
   const addFavoriteRoute = async () => {
@@ -71,6 +82,9 @@ export const Bestroutes = () => {
               onClick={() => {
                 setSinglevision(true);
                 setSingleRoute(route);
+                if (singlevision == true) {
+                  setSinglevision(false);
+                }
               }}
             >
               <span>Ver detalles</span>
@@ -93,10 +107,11 @@ export const Bestroutes = () => {
                 <li>Fin de la ruta: {singleroute.end_location_name}</li>
                 <li>Puntos de interes: {singleroute.interest_text}</li>
               </ul>
-              <Maps
+              {/* <Maps
                 origin={mapProps.origin}
                 destination={mapProps.destination}
-              />
+              /> */}
+              <RoutesSlider images={selectedRouteImages} />
             </div>
             <div>
               {store.userType == "User" || store.userType == "Photographer" ? (
@@ -108,7 +123,6 @@ export const Bestroutes = () => {
           </div>
         </>
       ) : null}
-      <RoutesSlider images={photos} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
+import "../../styles/bestroutes.css";
 import { CardSliderRoutes } from "./cardsliderroutes";
 
 export const RoutesSlider = ({ images }) => {
@@ -28,10 +29,15 @@ export const RoutesSlider = ({ images }) => {
         })}
       </div>
       <div className="carousel-inner">
-        {images.map((image) => {
+        {images.map((image, index) => {
           return (
-            <div key={image.id} className="carousel-item active">
-              <img src={image.path} />
+            <div
+              key={index}
+              className={`col-12 text-white carousel-item${
+                index === 0 ? " active" : ""
+              }`}
+            >
+              <img src={image.url} className="route-image" />
             </div>
           );
         })}
