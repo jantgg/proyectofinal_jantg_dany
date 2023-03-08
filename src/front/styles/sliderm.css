@@ -18,9 +18,11 @@
 }
 .iconol {
   float: left;
+  text-align: left;
 }
 .iconor {
   float: right;
+  text-align: right;
 }
 .item-containerm {
   position: relative;

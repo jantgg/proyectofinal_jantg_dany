@@ -75,7 +75,7 @@ const SilderM = ({ data, groupSize }) => {
         }`}
       >
         <div
-          className={`izquierda sizehomet boton iconol text-white${
+          className={`izquierda sizehomet boton iconol ms-3 text-white${
             startIndex === 0 ? " opa0" : " opa1"
           }`}
         >
@@ -134,7 +134,7 @@ const SilderM = ({ data, groupSize }) => {
           </div>
         ))}
         <div
-          className={`last sizehomet derecha iconor boton text-white${
+          className={`last sizehomet derecha iconor boton me-3 text-white${
             endIndex >= data.length ? " opa0" : " opa1"
           }`}
         >
