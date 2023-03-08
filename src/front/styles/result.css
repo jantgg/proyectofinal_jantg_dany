@@ -5,8 +5,14 @@
   padding-right: 0px;
   padding-left: 0px;
 }
+.hider {
+  opacity: 0;
+}
 .motocardmovilH {
-  height: 300px !important;
+  height: 45vh;
+  position: relative;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .free {

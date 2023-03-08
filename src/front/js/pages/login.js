@@ -37,10 +37,10 @@ export const Login = () => {
   return (
     <div className="row ">
       <div className="bordecitoall col-3 row mx-auto my-5">
-        <div class="login-box col-11 mx-auto mt-3">
+        <div className="login-box col-11 mx-auto mt-3">
           <p className="bordecito col-4 mx-auto">OnBikes</p>
           <form>
-            <div class="user-box">
+            <div className="user-box">
               <input
                 type="email"
                 name="email"
@@ -54,7 +54,7 @@ export const Login = () => {
               />
               <label htmlFor="email">Email</label>
             </div>
-            <div class="user-box">
+            <div className="user-box">
               <input
                 type="password"
                 name="password"

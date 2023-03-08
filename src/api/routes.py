@@ -264,7 +264,6 @@ def upload_photo():
             interest_text=route_data['interest_text'],
             start_location_name=route_data['start_location_name'],
             end_location_name=route_data['end_location_name'],
-     
         )
         db.session.add(new_route)
         db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
