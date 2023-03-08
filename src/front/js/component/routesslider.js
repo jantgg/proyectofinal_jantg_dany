@@ -37,7 +37,10 @@ export const RoutesSlider = ({ images }) => {
                 index === 0 ? " active" : ""
               }`}
             >
-              <img src={image.url} className="route-image" />
+              <img
+                src={image.url.replace("http", "https")}
+                className="route-image"
+              />
             </div>
           );
         })}

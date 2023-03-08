@@ -73,6 +73,7 @@ export const Bestroutes = () => {
 
   return (
     <div className="container">
+      <Maps origin={mapProps.origin} destination={mapProps.destination} />
       <h1 className="text-success">//Las mejores rutas</h1>
       {routes.map((route) => {
         return (
@@ -107,10 +108,24 @@ export const Bestroutes = () => {
                 <li>Fin de la ruta: {singleroute.end_location_name}</li>
                 <li>Puntos de interes: {singleroute.interest_text}</li>
               </ul>
-              {/* <Maps
-                origin={mapProps.origin}
-                destination={mapProps.destination}
-              /> */}
+              <div className="text-white">
+                Quieres añadir mas fotos a esta ruta ?
+              </div>
+              <input
+                onChange={(e) => {
+                  setRoutePhoto(e.target.files);
+                }}
+                type="file"
+                accept="image/jpeg, image/png"
+                multiple
+              />
+              <button
+                onClick={() => {
+                  uploadPhoto();
+                }}
+              >
+                Publicar
+              </button>
               <RoutesSlider images={selectedRouteImages} />
             </div>
             <div>

@@ -43,7 +43,7 @@ function Maps(props) {
       googleMapsApiKey={process.env.MAPS_KEY}
       onLoad={() => console.log("API loaded")}
     >
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={6}>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={5}>
         {directionsOptions.origin && directionsOptions.destination && (
           <DirectionsService
             options={directionsOptions}

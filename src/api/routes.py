@@ -283,7 +283,7 @@ def upload_photo():
         db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
         route_id = new_route.id  # Obtiene la ID de la nueva ruta
         for photo in photo_file:
-            upload_result = cloudinary.uploader.upload(photo)
+            upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
                 name=secure_filename(photo.filename),
                 path=upload_result['url'],
@@ -291,7 +291,7 @@ def upload_photo():
                 photo_type=photo_type))
     elif photo_type == 'photographer':
         for photo in photo_file:
-            upload_result = cloudinary.uploader.upload(photo)
+            upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
                 name=secure_filename(photo.filename),
                 path=upload_result['url'],
@@ -299,7 +299,7 @@ def upload_photo():
                 photo_type=photo_type))
     elif photo_type == 'bike':
         for photo in photo_file:
-            upload_result = cloudinary.uploader.upload(photo)
+            upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
                 name=secure_filename(photo.filename),
                 path=upload_result['url'],
