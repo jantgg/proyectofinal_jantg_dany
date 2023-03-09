@@ -92,7 +92,7 @@ export const Result = () => {
       <div className="col-12 mx-auto  text-white">
         <div className="bordecitol col-7 mx-auto heightborders"></div>
         <div className="col-10 mx-auto text-center mt-0 bordecitoall sizehomeq py-1 px-3 text-wrap spartan imagen4 text-white">
-          <div className="reveal">
+          <div className="reveal py-1">
             Estas son las mejores motos que hemos encontrado especialmente para
             ti
           </div>
@@ -100,19 +100,24 @@ export const Result = () => {
       </div>
 
       {isDesktop ? (
-        <div className="col-12">
-          {" "}
-          <SliderBueno data={bikesResults} groupSize={3} />
-        </div>
+        <>
+          <div className="freespace"></div>
+          <div className="col-12 mx-auto">
+            {" "}
+            <SliderBueno data={bikesResults} groupSize={3} />
+          </div>
+          <div className="freespace"></div>
+        </>
       ) : (
-        <div className="col-12">
-          {" "}
+        <div className="col-12 row mx-auto">
+          <div className="freespace bordecitor col-7 mx-auto"></div>{" "}
           <SliderM data={bikesResults} groupSize={1} />
+          <div className="freespace bordecitol col-7 mx-auto"></div>
         </div>
       )}
 
       <div className="entrada col-10 col-xxl-8 mx-auto text-center sizehome2 bordecitoall mb-5 imagenn px-2 py-1 spartan text-white">
-        <div className="reveal">
+        <div className="reveal pt-2">
           Todas estas motos están elegidas en función de como has respondido a
           las preguntas, si quieres volver a realizar el test pincha aqui. ¡No
           olvides guardar en favoritos las motos que mas te hayan gustado para

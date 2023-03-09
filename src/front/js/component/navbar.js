@@ -7,6 +7,7 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const [selected, setSelected] = useState(null);
+  const isDesktop = window.innerWidth >= 1000;
 
   useEffect(() => {
     const currentPath = window.location.pathname;
@@ -33,7 +34,9 @@ export const Navbar = () => {
         <div className="container-fluid ">
           <Link
             to="/"
-            className={`ms-5 navbar-brand text-white sizehomet px-2 mx-5 me-5 ${
+            className={`${
+              isDesktop ? " ms-5" : " ms-2"
+            } navbar-brand text-white sizehomet px-2 mx-5 me-5 ${
               selected === 3 && "bordecitos"
             }`}
             onClick={() => setSelected(3)}

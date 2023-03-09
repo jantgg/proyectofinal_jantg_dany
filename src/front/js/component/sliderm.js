@@ -69,11 +69,7 @@ const SilderM = ({ data, groupSize }) => {
       onTouchEnd={handleTouchEnd}
       className="sliderbuenom m-0"
     >
-      <div
-        className={`item-containerm mx-auto px-0 ${
-          isVisible ? " show-slider" : " hide-slider"
-        }`}
-      >
+      <div className="item-containerm mx-auto px-0">
         <div
           className={`izquierda sizehomet boton iconol ms-3 text-white${
             startIndex === 0 ? " opa0" : " opa1"
@@ -84,7 +80,9 @@ const SilderM = ({ data, groupSize }) => {
         {dataToRender.map((bike, index) => (
           <div
             key={index}
-            className=" motocard w100 text-white bordecitoall mx-auto"
+            className={`motocard w100 text-white bordecitoall mx-auto ${
+              isVisible ? " show-slider" : " hide-slider"
+            }`}
             style={{ backgroundImage: `url(${bike.bike_photo})` }}
           >
             <div className="imagen">
