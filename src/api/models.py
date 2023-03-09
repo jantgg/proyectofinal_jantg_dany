@@ -110,9 +110,9 @@ class Route(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "interest_text": self.interest_text,
             "start_location_name": self.start_location_name,
             "end_location_name": self.end_location_name,
+            "interest_text": self.interest_text,
         }
 
 class Bike(db.Model):

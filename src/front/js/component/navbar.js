@@ -112,13 +112,14 @@ export const Navbar = () => {
                         actions.logout();
                       }}
                     >
-                      Log out
+                      Desconectarse
                     </Link>
                   </div>
                 </>
               ) : store.userType == null ? (
                 <>
                   <div className="nav-item me-4">
+
                     <Link
                       to="/login"
                       className={`nav-link text-white mx-2 px-2 ${
@@ -127,6 +128,7 @@ export const Navbar = () => {
                       onClick={() => setSelected(5)}
                     >
                       Log in
+
                     </Link>
                   </div>
                 </>
