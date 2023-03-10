@@ -1,0 +1,42 @@
+.sliderbueno {
+  position: relative;
+}
+.sliderbueno button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  flex: 0 0 auto;
+  width: 5%;
+  max-width: 5%;
+  text-align: center;
+}
+.opa0 {
+  opacity: 0;
+}
+.opa1 {
+  opacity: 1;
+}
+
+.item-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  transition: opacity 0.2s ease-out;
+  flex: 0 0 auto;
+  width: 90%;
+  max-width: 90%;
+}
+
+.colp {
+  flex: 0 0 auto;
+  width: 32%;
+  max-width: 32%;
+}
+
+.hide-slider {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.show-slider {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out;
+}

@@ -5,8 +5,14 @@
   padding-right: 0px;
   padding-left: 0px;
 }
+.hider {
+  opacity: 0;
+}
 .motocardmovilH {
-  height: 300px !important;
+  height: 45vh;
+  position: relative;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .free {
@@ -18,7 +24,12 @@
 .altura2 {
   height: 300px;
 }
-
+.freespace {
+  height: 25vw;
+}
+.botonaco {
+  width: 50vw !important;
+}
 .content {
   height: 60%;
   position: absolute;
