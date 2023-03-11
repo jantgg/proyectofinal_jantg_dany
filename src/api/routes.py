@@ -98,15 +98,16 @@ def user_login():
     photographer = Photographer.query.filter_by(email=body_email).first()
     token = None
     if not user and not photographer:
-        return jsonify ({"error": "This user or photographer does not exist"}), 401
+        return jsonify({"error": "This user or photographer does not exist"}), 401
     if user and check_password_hash(user.password, body_password):
-        token = create_access_token(identity=user.email) 
+        token = create_access_token(identity=user.email)
+        name = user.user_name # Retrieve the User's name from the database
     elif photographer and check_password_hash(photographer.password, body_password):
-        token = create_access_token(identity=photographer.email) 
+        token = create_access_token(identity=photographer.email)
+        name = photographer.user_name # Retrieve the Photographer's name from the database
     else:
         return jsonify({"error": "The entered password is incorrect."}), 401
-    return jsonify({"token": token}), 200
-
+    return jsonify({"token": token, "name": name}), 200 # Include the User's name in the response
 
 # REVIEW TYPE OF USER/PHOTOGRAPHER ----------------------------------------------------------------------------------------------->
 @api.route('/sync', methods=['GET'])

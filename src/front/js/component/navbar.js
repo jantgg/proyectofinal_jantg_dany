@@ -29,7 +29,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="row">
+    <div className="row mx-auto">
       <nav className="col-11 navbar navbar-dark navbar-expand-lg bordecito mx-auto text-white sizehomet pt-2 spartan">
         <div className="container-fluid ">
           <Link
@@ -119,7 +119,6 @@ export const Navbar = () => {
               ) : store.userType == null ? (
                 <>
                   <div className="nav-item me-4">
-
                     <Link
                       to="/login"
                       className={`nav-link text-white mx-2 px-2 ${
@@ -128,7 +127,6 @@ export const Navbar = () => {
                       onClick={() => setSelected(5)}
                     >
                       Log in
-
                     </Link>
                   </div>
                 </>

@@ -5,8 +5,8 @@ import "../../styles/result.css";
 import "../../styles/forall.css";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import SliderBueno from "../component/sliderbueno.js";
-import SliderM from "../component/sliderm.js";
+import SliderBikeBueno from "../component/sliderbike.js";
+import SliderBikeM from "../component/sliderbikem.js";
 
 export const Result = () => {
   const Navigate = useNavigate();
@@ -104,14 +104,14 @@ export const Result = () => {
           <div className="freespace"></div>
           <div className="col-12 mx-auto">
             {" "}
-            <SliderBueno data={bikesResults} groupSize={3} />
+            <SliderBikeBueno data={bikesResults} groupSize={3} />
           </div>
           <div className="freespace"></div>
         </>
       ) : (
         <div className="col-12 row mx-auto">
           <div className="freespace bordecitor col-7 mx-auto"></div>{" "}
-          <SliderM data={bikesResults} groupSize={1} />
+          <SliderBikeM data={bikesResults} groupSize={1} />
           <div className="freespace bordecitol col-7 mx-auto"></div>
         </div>
       )}

@@ -11,6 +11,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Home = () => {
   const Navigate = useNavigate();
+  const isDesktop = window.innerWidth >= 1000;
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -41,21 +42,22 @@ export const Home = () => {
   }, []);
   return (
     <div className=" mx-auto row ">
-      <div className="col-12 row revealUp">
-        <div className="bordecitol col-7 mx-auto heightborder"></div>
-        <div className="col-11 imagen1 mx-auto py-5 bordecitoall">
-          <br></br>
-          <div className="col-10 text-white sizehome mx-auto text-center mt-5 spartan">
+      <div className="col-12 row mx-auto revealUp">
+        <div className="bordecitol col-10 mx-auto heightborder"></div>
+        <div className="col-11 imagen1 mx-auto pb-2 bordecitoall">
+          <div className="col-12 col-xxl-10 col-xl-10 col-lg-8 text-white sizehome mx-auto text-center mt-5 spartan">
             <b>Encuentra la moto perfecta</b>
           </div>
-          <div className=" col-8 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
+          <div className="col-12 col-xxl-8 col-xl-8 col-lg-6 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
             Responde a una seleccion de preguntas planteadas con el fin de
             encontrar la moto que mejor se adapte a tus necesidades
           </div>
 
-          <div className="row">
+          <div className="mx-auto center-align">
             <button
-              className="botonaco mx-auto py-3 mt-3 mb-5 sizehomet"
+              className={`botonaco mx-auto py-3 px-4 mt-3 mb-5 sizehomet ${
+                isDesktop ? "" : "w100"
+              }`}
               onClick={() => {
                 Navigate("/test");
               }}
@@ -79,20 +81,21 @@ export const Home = () => {
         </div>
         <div className="bordecitor col-6 mx-auto heightborder"></div>
       </div>
-      <div className="col-12 row revealUp">
-        <div className="col-11 imagen2 mx-auto py-5 bordecitoall ">
-          <br></br>
-          <div className="col-10 text-white sizehome mx-auto text-center mt-5 spartan">
+      <div className="col-12 row mx-auto revealUp">
+        <div className="col-11 imagen2 mx-auto pb-2 bordecitoall ">
+          <div className="col-12 col-xxl-10 col-xl-10 col-lg-8 text-white sizehome mx-auto text-center mt-5 spartan">
             <b>Visita lugares increíbles</b>
           </div>
-          <div className=" col-8 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
+          <div className="col-12 col-xxl-8 col-xl-8 col-lg-6 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
             Encuentra las mejoras rutas creadas por y para moteros cerca de ti y
             descubre todo lo que pueden ofrecer nuestras carreteras
           </div>
 
-          <div className="row">
+          <div className="mx-auto center-align">
             <button
-              className="botonaco mx-auto py-3 mt-3 mb-5 sizehomet col-2"
+              className={`botonaco mx-auto py-3 px-4 mt-3 mb-5 sizehomet ${
+                isDesktop ? "" : "w100"
+              }`}
               onClick={() => {
                 Navigate("/bestroutes");
               }}
@@ -115,21 +118,22 @@ export const Home = () => {
         </div>
         <div className="bordecitol col-5 mx-auto heightborder"></div>
       </div>
-      <div className="col-12 row revealUp">
-        <div className="col-11 imagen3 mx-auto py-5 bordecitoall ">
-          <br></br>
-          <div className="col-10 text-white sizehome mx-auto text-center mt-5 spartan">
+      <div className="col-12 row mx-auto revealUp">
+        <div className="col-11 imagen3 mx-auto pb-2 bordecitoall ">
+          <div className="col-12 col-xxl-10 col-xl-10 col-lg-8 text-white sizehome mx-auto text-center mt-5 spartan">
             <b>Inmortaliza momentos únicos</b>
           </div>
-          <div className=" col-8 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
+          <div className="col-12 col-xxl-8 col-xl-8 col-lg-6 text-white sizehome2 mx-auto text-center mt-2 mb-5 ">
             Consigue impresionantes fotos sobre tu montura con los mejores
             fotógrafos de nuestro país o únete como profesional a la mejor
             comunidad
           </div>
 
-          <div className="row">
+          <div className="mx-auto center-align">
             <button
-              className="botonaco2 mx-auto py-3 mt-3 mb-5 sizehomet col-2"
+              className={`botonaco mx-auto py-3 px-4 mt-3 mb-5 sizehomet ${
+                isDesktop ? "" : "w100"
+              }`}
               onClick={() => {
                 Navigate("/bestphotographers");
               }}

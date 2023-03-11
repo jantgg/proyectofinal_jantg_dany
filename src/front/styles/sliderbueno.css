@@ -5,9 +5,11 @@
   background-color: rgba(0, 0, 0, 0);
   border: none;
   flex: 0 0 auto;
+  text-align: center;
+}
+.sliderbtn {
   width: 5%;
   max-width: 5%;
-  text-align: center;
 }
 .opa0 {
   opacity: 0;

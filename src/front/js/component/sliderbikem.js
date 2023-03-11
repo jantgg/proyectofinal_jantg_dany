@@ -1,17 +1,45 @@
-import React, { useState, useContext } from "react";
-import "../../styles/sliderbueno.css";
+import React, { useState, useContext, useRef } from "react";
+import "../../styles/sliderm.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-//<Sliderbueno data={bikesResults} groupSize={4} />
+//<SliderM data={bikesResults} groupSize={1} />
 
-const SilderBueno = ({ data, groupSize }) => {
+const SilderBikeM = ({ data, groupSize }) => {
   const Navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [startIndex, setStartIndex] = useState(0);
   const endIndex = startIndex + groupSize;
   const dataToRender = data.slice(startIndex, endIndex);
   const [isVisible, setIsVisible] = useState(true);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const containerRef = useRef(null);
+
+  const handleTouchStart = (event) => {
+    if (event.target === containerRef.current) {
+      setTouchStartX(event.touches[0].clientX);
+    }
+  };
+
+  const handleTouchMove = (event) => {
+    if (event.target === containerRef.current) {
+      setTouchEndX(event.touches[0].clientX);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX && touchEndX) {
+      const touchDiff = touchStartX - touchEndX;
+      if (touchDiff > 0) {
+        handleNextClick();
+      } else if (touchDiff < 0) {
+        handlePrevClick();
+      }
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   const handleNextClick = () => {
     setIsVisible(false);
@@ -35,26 +63,26 @@ const SilderBueno = ({ data, groupSize }) => {
 
   return (
     <div
-      className={`sliderbueno row ${isVisible ? "show-slider" : "hide-slider"}`}
+      ref={containerRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="sliderbuenom m-0"
     >
-      <button
-        className={` sizehomet text-white${
-          startIndex === 0 ? " opa0" : " opa1"
-        }`}
-        onClick={handlePrevClick}
-        disabled={startIndex === 0}
-      >
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
-      <div
-        className={`item-container col-10 mx-0 px-0 ${
-          isVisible ? " show-slider" : " hide-slider"
-        }`}
-      >
+      <div className="item-containerm mx-auto px-0">
+        <div
+          className={`izquierda sizehomet boton iconol ms-3 text-white${
+            startIndex === 0 ? " opa0" : " opa1"
+          }`}
+        >
+          <i className="fa-solid fa-chevron-left"></i>
+        </div>
         {dataToRender.map((bike, index) => (
           <div
             key={index}
-            className=" motocard colp text-white bordecitoall mx-auto"
+            className={`motocard w100 text-white bordecitoall mx-auto ${
+              isVisible ? " show-slider" : " hide-slider"
+            }`}
             style={{ backgroundImage: `url(${bike.bike_photo})` }}
           >
             <div className="imagen">
@@ -103,19 +131,16 @@ const SilderBueno = ({ data, groupSize }) => {
             </div>
           </div>
         ))}
+        <div
+          className={`last sizehomet derecha iconor boton me-3 text-white${
+            endIndex >= data.length ? " opa0" : " opa1"
+          }`}
+        >
+          <i className="fa-solid fa-chevron-right"></i>
+        </div>
       </div>
-
-      <button
-        className={` sizehomet text-white${
-          endIndex >= data.length ? " opa0" : " opa1"
-        }`}
-        onClick={handleNextClick}
-        disabled={endIndex >= data.length}
-      >
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
     </div>
   );
 };
 
-export default SilderBueno;
+export default SilderBikeM;
