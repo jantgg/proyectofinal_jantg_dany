@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       userType: null,
       backendurl:
-        "https://3001-jantgg-proyectofinaljan-p8o3tapu1ot.ws-eu90.gitpod.io/api/",
+        "https://3001-jantgg-proyectofinaljan-p281rercrz8.ws-eu89b.gitpod.io/api/",
       questions: [],
       answers: [],
       routes: [],
@@ -53,8 +53,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.ok) {
           const data = await response.json();
           setStore({ favorites: data.body });
-          console.log("losfavoritos");
-          console.log(data.body);
         }
       },
       syncuser: async () => {

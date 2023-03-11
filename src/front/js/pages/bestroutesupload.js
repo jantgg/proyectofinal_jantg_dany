@@ -20,7 +20,6 @@ export const Bestroutesupload = () => {
 
   const getFavorites = async () => {
     await actions.getFavorites();
-    console.log(store.favorites);
     setUserFavoriteRoutes(store.favorites.filter((obj) => obj.route != null));
   };
 
@@ -41,7 +40,6 @@ export const Bestroutesupload = () => {
         end_location_name: endName,
       })
     );
-    console.log(formData);
     const response = await fetch(store.backendurl + "photos", {
       method: "POST",
       body: formData,
