@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { RoutesSlider } from "../component/routesslider";
 import "../../styles/forall.css";
 import Maps from "../component/maps";
+import Map from "../component/mymap";
 
 export const Bestroutes = () => {
   const { store, actions } = useContext(Context);
@@ -73,7 +74,11 @@ export const Bestroutes = () => {
 
   return (
     <div className="container">
+
       <Maps origin={mapProps.origin} destination={mapProps.destination} />
+
+      <Map data={routes}></Map>
+
       <h1 className="text-success">//Las mejores rutas</h1>
       {routes.map((route) => {
         return (

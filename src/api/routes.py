@@ -17,8 +17,8 @@ api = Blueprint('api', __name__)
 
 #@@@------------------------------------------- ##### REGISTROS OF USERS ##### ------------------------------------------------@@@>
 
-
 # REGISTER OF USER --------------------------------------------------------------------------------------------------------------->
+
 @api.route('/register', methods=['POST'])
 def user_register():
     body_user_name = request.json.get("user_name")

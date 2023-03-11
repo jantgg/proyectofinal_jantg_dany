@@ -27,6 +27,7 @@ export const Login = () => {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log(response);
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", email);
       await actions.syncuser();
@@ -35,6 +36,7 @@ export const Login = () => {
       setCredentialsError(true);
     }
   };
+
   return (
     <div className="row ">
       <div className="bordecitoall col-3 row mx-auto my-5">
