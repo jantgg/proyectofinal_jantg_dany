@@ -37,7 +37,6 @@ def user_login():
 
 
 # REGISTRO DE USER ------------------------------------------------------------------------------------------------------>
-
 @api.route('/register', methods=['POST'])
 def user_register():
     body_user_name = request.json.get("user_name")
