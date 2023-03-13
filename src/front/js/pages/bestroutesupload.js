@@ -31,6 +31,8 @@ export const Bestroutesupload = () => {
       }
     }
     formData.append("photo_type", "route");
+    formData.append("upload_type", "route");
+    formData.append("user_id", localStorage.getItem("user_id"));
     formData.append(
       "route_data",
       JSON.stringify({

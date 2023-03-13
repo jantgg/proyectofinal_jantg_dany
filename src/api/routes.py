@@ -97,15 +97,18 @@ def user_login():
     user = User.query.filter_by(email=body_email).first()
     photographer = Photographer.query.filter_by(email=body_email).first()
     token = None
+    user_id = None
     if not user and not photographer:
         return jsonify ({"error": "This user or photographer does not exist"}), 401
     if user and check_password_hash(user.password, body_password):
-        token = create_access_token(identity=user.email) 
+        token = create_access_token(identity=user.email)
+        user_id = user.id
     elif photographer and check_password_hash(photographer.password, body_password):
-        token = create_access_token(identity=photographer.email) 
+        token = create_access_token(identity=photographer.email)
+        user_id = photographer.id
     else:
         return jsonify({"error": "The entered password is incorrect."}), 401
-    return jsonify({"token": token}), 200
+    return jsonify({"token": token, "user_id": user_id}), 200
 
 
 # REVIEW TYPE OF USER/PHOTOGRAPHER ----------------------------------------------------------------------------------------------->
@@ -270,48 +273,63 @@ def create_suggestion():
 def upload_photo():
     photo_file = request.files.getlist("files")
     photo_type = request.form['photo_type']
+    upload_type = request.form['upload_type']
+    user_route_id = int(request.form['user_id'])
     new_photos=[]
-    print(photo_file)
-    if photo_type == 'route':
-        route_data = json.loads(request.form['route_data'])
-        new_route = Route(
-            name=route_data['name'],
-            interest_text=route_data['interest_text'],
-            start_location_name=route_data['start_location_name'],
-            end_location_name=route_data['end_location_name'])
-        db.session.add(new_route)
-        db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
-        route_id = new_route.id  # Obtiene la ID de la nueva ruta
+    if upload_type == 'single_photo':
+        single_photo_route_id = request.form['route_id']
         for photo in photo_file:
             upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
                 name=secure_filename(photo.filename),
                 path=upload_result['url'],
-                route_id=route_id,
+                route_id=single_photo_route_id,
                 photo_type=photo_type))
-    elif photo_type == 'photographer':
-        for photo in photo_file:
-            upload_result = cloudinary.uploader.upload(photo, secure=True)
-            new_photos.append(Photo(
-                name=secure_filename(photo.filename),
-                path=upload_result['url'],
-                photographer_id=type_id,
-                photo_type=photo_type))
-    elif photo_type == 'bike':
-        for photo in photo_file:
-            upload_result = cloudinary.uploader.upload(photo, secure=True)
-            new_photos.append(Photo(
-                name=secure_filename(photo.filename),
-                path=upload_result['url'],
-                bike_id=type_id,
-                photo_type=photo_type))
-    else:
-        return jsonify({"error": "Invalid photo_type parameter"}), 400
-    print(new_photos)
-    for photo in new_photos:
-        db.session.add(photo)
-        db.session.commit()
-    return jsonify([x.serialize() for x in new_photos])
+            for photo in new_photos:
+                    db.session.add(photo)
+                    db.session.commit()
+            return jsonify([x.serialize() for x in new_photos])
+    else: 
+        if photo_type == 'route':
+            route_data = json.loads(request.form['route_data'])
+            new_route = Route(
+                name=route_data['name'],
+                interest_text=route_data['interest_text'],
+                start_location_name=route_data['start_location_name'],
+                end_location_name=route_data['end_location_name'],
+                user_id = user_route_id,)
+            db.session.add(new_route)
+            db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
+            route_id = new_route.id  # Obtiene la ID de la nueva ruta
+            for photo in photo_file:
+                upload_result = cloudinary.uploader.upload(photo, secure=True)
+                new_photos.append(Photo(
+                    name=secure_filename(photo.filename),
+                    path=upload_result['url'],
+                    route_id=route_id,
+                    photo_type=photo_type))
+        elif photo_type == 'photographer':
+            for photo in photo_file:
+                upload_result = cloudinary.uploader.upload(photo, secure=True)
+                new_photos.append(Photo(
+                    name=secure_filename(photo.filename),
+                    path=upload_result['url'],
+                    photographer_id=type_id,
+                    photo_type=photo_type,))
+        elif photo_type == 'bike':
+            for photo in photo_file:
+                upload_result = cloudinary.uploader.upload(photo, secure=True)
+                new_photos.append(Photo(
+                    name=secure_filename(photo.filename),
+                    path=upload_result['url'],
+                    bike_id=type_id,
+                    photo_type=photo_type))
+        else:
+            return jsonify({"error": "Invalid photo_type parameter"}), 400
+        for photo in new_photos:
+            db.session.add(photo)
+            db.session.commit()
+        return jsonify([x.serialize() for x in new_photos])
 
 
 #@@@------------------------------------------ ##### Endpoints for INSOMNIA ##### ---------------------------------------------@@@>
