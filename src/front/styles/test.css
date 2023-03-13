@@ -78,7 +78,6 @@
   position: relative;
   overflow: hidden;
   transform: scale(1);
-  filter: grayscale(100%);
   border: 1px solid white;
 }
 

@@ -308,10 +308,13 @@ def create_suggestion():
 
 # CLOUDINARY --------------------------------------------------------------------------------------------------------------------->
 @api.route('/photos', methods=['POST'])
+@jwt_required()
 def upload_photo():
     photo_file = request.files.getlist("files")
     photo_type = request.form['photo_type']
     upload_type = request.form['upload_type']
+    user_email = get_jwt_identity()
+    user_id = User.query.filter_by(email=user_email).first()
     new_photos=[]
     if upload_type == 'single_photo':
         single_photo_route_id = request.form['route_id']
@@ -330,13 +333,12 @@ def upload_photo():
     else: 
         if photo_type == 'route':
             route_data = json.loads(request.form['route_data'])
-            user_route_id = int(request.form['user_id'])
             new_route = Route(
                 name=route_data['name'],
                 interest_text=route_data['interest_text'],
                 start_location_name=route_data['start_location_name'],
                 end_location_name=route_data['end_location_name'],
-                user_id = user_route_id,)
+                user_id = user_id,)
             db.session.add(new_route)
             db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
             route_id = new_route.id  # Obtiene la ID de la nueva ruta

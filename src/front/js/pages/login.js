@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/loginform.css";
 import "../../styles/forall.css";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +79,7 @@ export const Login = () => {
                 *El email y/o la contraseña son incorrectos.
               </p>
             ) : null}
-            <div className="row">
+            <div className="center-align">
               <button
                 className="botonaco mx-auto mb-3 p-2"
                 onClick={() => sendLogin()}

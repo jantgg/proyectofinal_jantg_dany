@@ -57,7 +57,7 @@ const SliderPhotos = ({ data, groupSize }) => {
           {dataToRender.map((url) => (
             <img
               style={{ objectFit: "cover" }}
-              className="colp"
+              className="colpp"
               src={url}
               alt="Preview"
               key={url}
