@@ -27,6 +27,7 @@ export const Login = () => {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log(response);
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", email);
       localStorage.setItem("user_id", data.user_id);
@@ -36,9 +37,10 @@ export const Login = () => {
       setCredentialsError(true);
     }
   };
+
   return (
     <div className="row ">
-      <div className="bordecitoall col-3 row mx-auto my-5">
+      <div className="bordecitoall col-11 col-xxl-4 col-xl-5 col-lg-6 row mx-auto my-5">
         <div className="login-box col-11 mx-auto mt-3">
           <p className="bordecito col-4 mx-auto">OnBikes</p>
           <form
@@ -80,7 +82,7 @@ export const Login = () => {
             ) : null}
             <div className="row">
               <button
-                className="botonlogin mx-auto mb-3 p-2"
+                className="botonaco mx-auto mb-3 p-2"
                 onClick={() => sendLogin()}
               >
                 <span style={{ "--i": 1 }}>I</span>

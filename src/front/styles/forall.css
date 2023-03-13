@@ -18,7 +18,7 @@ body {
 
 /*Predefined Heights*/
 .heightborder {
-  height: 150px;
+  height: 7vw;
 }
 .heightborder2 {
   height: 400px;
@@ -28,6 +28,15 @@ body {
 }
 .heightborders {
   height: 100px;
+}
+.right-align {
+  text-align: right;
+}
+.left-align {
+  text-align: left;
+}
+.center-align {
+  text-align: center;
 }
 
 /*BORDERS*/
@@ -54,6 +63,12 @@ body {
 .bordecitoall {
   border: 1px solid white;
 }
+.bordecitob {
+  border-bottom: 1px solid white;
+}
+.bordecitot {
+  border-top: 1px solid white;
+}
 /*TRANSITIONS*/
 .revealUp {
   opacity: 0;
@@ -63,6 +78,9 @@ body {
 /* FONT SIZE THRU MEDIA VIEWPORT */
 @media (min-width: 1024px) {
   .sizehome {
+    font-size: 6vw;
+  }
+  .sizehomemb {
     font-size: 6vw;
   }
   .sizehomeq {
@@ -80,14 +98,14 @@ body {
   .sizehomes {
     font-size: 1vw;
   }
-  .botonaco {
-    width: 21% !important;
-  }
 }
 
 @media (max-width: 1023px) {
   .sizehome {
     font-size: 12vw;
+  }
+  .sizehomemb {
+    font-size: 7vw;
   }
   .sizehomeq {
     font-size: 5vw;
@@ -115,7 +133,6 @@ body {
   text-decoration: none;
   border: none;
   letter-spacing: 0.1rem;
-  width: 500px;
 }
 
 .botonaco:hover {
@@ -199,7 +216,6 @@ body {
   text-decoration: none;
   border: none;
   letter-spacing: 0.1rem;
-
   width: 400px;
   transition: 0.2s;
 }
@@ -271,4 +287,8 @@ body {
   border-radius: inherit;
   box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #0ff,
     0 0 80px #0ff, 0 0 90px #0ff, 0 0 100px #0ff, 0 0 150px #0ff;
+}
+
+.w100 {
+  width: 100%;
 }

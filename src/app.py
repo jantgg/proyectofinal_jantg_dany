@@ -26,9 +26,9 @@ app.url_map.strict_slashes = False
 
 # CLOUDINARY
 cloudinary.config(
-  cloud_name =  os.getenv("CLOUD_NAME"),
-  api_key = os.getenv("CLOUD_KEY"),
-  api_secret = os.getenv("CLOUD_SECRET"),
+  cloud_name = "dsbp8pqdb",
+  api_key = "862275266342877",
+  api_secret = "tqUDA7rSmRU9HmJ4-xBvpeFg1nA",
   secure = True
 )
 upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg", public_id="olympic_flag")

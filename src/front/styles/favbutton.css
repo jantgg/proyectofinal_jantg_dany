@@ -1,0 +1,47 @@
+.favbtn {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  text-decoration: none;
+  border: white;
+  letter-spacing: 0.1rem;
+  width: 5vw;
+  height: 3vw;
+}
+
+.favbtn:hover {
+  background: #f7f8f2;
+  color: #f7f8f2;
+  animation: box 4s infinite;
+}
+
+.favbtn::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #070707;
+}
+
+.favbtn span {
+  position: relative;
+  z-index: 1;
+  font-size: 2vw;
+}
+
+.favbtn:hover span {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  animation: flip 4s infinite;
+  animation-delay: calc(0.09s * var(--i));
+}
+
+@keyframes flip {
+  0%,
+  10% {
+    transform: rotateY(360deg);
+  }
+  40% {
+    transform: rotateY(0deg);
+  }
+}
