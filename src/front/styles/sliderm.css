@@ -1,0 +1,65 @@
+.sliderm {
+  position: relative;
+}
+.boton {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  width: 100px;
+  z-index: 1;
+}
+.w100 {
+  width: 100%;
+}
+.opa0 {
+  opacity: 0;
+}
+.opa07 {
+  background-color: rgba(0, 0, 0, 0.486);
+  height: 60%;
+}
+.opa1 {
+  opacity: 1;
+}
+.iconol {
+  float: left;
+  text-align: left;
+}
+.iconor {
+  float: right;
+  text-align: right;
+}
+.item-containerm {
+  position: relative;
+  z-index: -1;
+  width: 98%;
+}
+.zup {
+  z-index: 2;
+}
+
+.colpm {
+  flex: 0 0 auto;
+  width: 32%;
+  max-width: 32%;
+}
+
+.hide-slider {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.show-slider {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.izquierda {
+  position: absolute;
+  left: 0;
+  top: 50%;
+}
+
+.derecha {
+  position: absolute;
+  right: 0;
+  top: 50%;
+}

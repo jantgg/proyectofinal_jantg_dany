@@ -17,8 +17,8 @@ api = Blueprint('api', __name__)
 
 #@@@------------------------------------------- ##### REGISTROS OF USERS ##### ------------------------------------------------@@@>
 
-
 # REGISTER OF USER --------------------------------------------------------------------------------------------------------------->
+
 @api.route('/register', methods=['POST'])
 def user_register():
     body_user_name = request.json.get("user_name")
@@ -99,7 +99,7 @@ def user_login():
     token = None
     user_id = None
     if not user and not photographer:
-        return jsonify ({"error": "This user or photographer does not exist"}), 401
+        return jsonify({"error": "This user or photographer does not exist"}), 401
     if user and check_password_hash(user.password, body_password):
         token = create_access_token(identity=user.email)
         user_id = user.id
@@ -209,7 +209,10 @@ def get_favorites():
         if favorite.bike is not None:
             favorite_data['bike'] = favorite.bike.serialize()
         if favorite.route is not None:
-            favorite_data['route'] = favorite.route.serialize()
+            route_data = favorite.route.serialize()
+            route_photos = [photo.serialize() for photo in favorite.route.photos]
+            route_data['photos'] = route_photos
+            favorite_data['route'] = route_data
         if favorite.photographer is not None:
             favorite_data['photographer'] = favorite.photographer.serialize()
         favorites_data.append(favorite_data)
@@ -251,6 +254,39 @@ def add_favorite():
 
     return jsonify({'message': f'{favorite_type.capitalize()} added to favorites'}), 201
 
+# DELETE DE FAVORITES -------------------------------------------------------------------------------------------------------->
+
+@api.route('/favorites', methods=['DELETE'])
+@jwt_required()
+def delete_favorite():
+    user_email = get_jwt_identity()
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Obtener los parámetros de la solicitud
+    bike_id = request.json.get('bike_id')
+    route_id = request.json.get('route_id')
+    photographer_id = request.json.get('photographer_id')
+
+    # Validar que al menos un parámetro esté presente
+    if not bike_id and not route_id and not photographer_id:
+        return jsonify({'error': 'At least one parameter like bike_id is required'}), 400
+
+    # Eliminar los favoritos correspondientes al usuario y los parámetros de la solicitud
+    favorites_query = Favorite.query.filter(Favorite.user_id == user.id)
+    if bike_id:
+        favorites_query = favorites_query.filter(Favorite.bike_id == bike_id)
+    if route_id:
+        favorites_query = favorites_query.filter(Favorite.route_id == route_id)
+    if photographer_id:
+        favorites_query = favorites_query.filter(Favorite.photographer_id == photographer_id)
+    deleted_count = favorites_query.delete()
+
+    db.session.commit()
+
+    # Devolver el número de favoritos eliminados
+    return jsonify({'message': f'{deleted_count} favorites deleted'}), 200
 
 # FILTER DE BIKES/ANSWERS -------------------------------------------------------------------------------------------------------->
 @api.route('/answers', methods=['POST'])
@@ -272,13 +308,17 @@ def create_suggestion():
 
 # CLOUDINARY --------------------------------------------------------------------------------------------------------------------->
 @api.route('/photos', methods=['POST'])
+@jwt_required()
 def upload_photo():
     photo_file = request.files.getlist("files")
     photo_type = request.form['photo_type']
     upload_type = request.form['upload_type']
+    user_email = get_jwt_identity()
+    user_id = User.query.filter_by(email=user_email).first()
     new_photos=[]
     if upload_type == 'single_photo':
         single_photo_route_id = request.form['route_id']
+
         for photo in photo_file:
             upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
@@ -293,13 +333,12 @@ def upload_photo():
     else: 
         if photo_type == 'route':
             route_data = json.loads(request.form['route_data'])
-            user_route_id = int(request.form['user_id'])
             new_route = Route(
                 name=route_data['name'],
                 interest_text=route_data['interest_text'],
                 start_location_name=route_data['start_location_name'],
                 end_location_name=route_data['end_location_name'],
-                user_id = user_route_id,)
+                user_id = user_id,)
             db.session.add(new_route)
             db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
             route_id = new_route.id  # Obtiene la ID de la nueva ruta
