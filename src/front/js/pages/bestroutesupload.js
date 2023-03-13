@@ -37,7 +37,6 @@ export const Bestroutesupload = () => {
     }
     formData.append("photo_type", "route");
     formData.append("upload_type", "route");
-    formData.append("user_id", localStorage.getItem("user_id"));
     formData.append(
       "route_data",
       JSON.stringify({
@@ -57,6 +56,7 @@ export const Bestroutesupload = () => {
     });
     if (response.ok) {
       console.log(response.data);
+      8;
       setRouteSend(true);
     } else {
       console.log(response);
@@ -154,7 +154,7 @@ export const Bestroutesupload = () => {
           <div className="text-white"> Route send succesfully!</div>
           <button
             onClick={() => {
-              setRouteSend(true);
+              setRouteSend(false);
             }}
           >
             Click Here to upgrade another 1

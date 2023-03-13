@@ -97,18 +97,15 @@ def user_login():
     user = User.query.filter_by(email=body_email).first()
     photographer = Photographer.query.filter_by(email=body_email).first()
     token = None
-    user_id = None
     if not user and not photographer:
         return jsonify({"error": "This user or photographer does not exist"}), 401
     if user and check_password_hash(user.password, body_password):
         token = create_access_token(identity=user.email)
-        user_id = user.id
     elif photographer and check_password_hash(photographer.password, body_password):
         token = create_access_token(identity=photographer.email)
-        user_id = photographer.id
     else:
         return jsonify({"error": "The entered password is incorrect."}), 401
-    return jsonify({"token": token, "user_id": user_id}), 200
+    return jsonify({"token": token}), 200
 
 
 # REVIEW TYPE OF USER/PHOTOGRAPHER ----------------------------------------------------------------------------------------------->
@@ -314,11 +311,10 @@ def upload_photo():
     photo_type = request.form['photo_type']
     upload_type = request.form['upload_type']
     user_email = get_jwt_identity()
-    user_id = User.query.filter_by(email=user_email).first()
+    user = User.query.filter_by(email=user_email).first()
     new_photos=[]
     if upload_type == 'single_photo':
         single_photo_route_id = request.form['route_id']
-
         for photo in photo_file:
             upload_result = cloudinary.uploader.upload(photo, secure=True)
             new_photos.append(Photo(
@@ -338,7 +334,7 @@ def upload_photo():
                 interest_text=route_data['interest_text'],
                 start_location_name=route_data['start_location_name'],
                 end_location_name=route_data['end_location_name'],
-                user_id = user_id,)
+                user_id = user.id,)
             db.session.add(new_route)
             db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
             route_id = new_route.id  # Obtiene la ID de la nueva ruta
