@@ -95,7 +95,6 @@ export const Bestroutes = () => {
 
   return (
     <div className="container">
-      {/* <Maps origin={mapProps.origin} destination={mapProps.destination} /> */}
       <h1 className="text-success">//Las mejores rutas</h1>
       {routes.map((route) => {
         return (
@@ -152,6 +151,10 @@ export const Bestroutes = () => {
                   </button>
                 </div>
               ) : null}
+              <Maps
+                origin={mapProps.origin}
+                destination={mapProps.destination}
+              />
               <RoutesSlider images={selectedRouteImages} />
             </div>
             <div>

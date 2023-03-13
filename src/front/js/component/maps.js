@@ -31,6 +31,7 @@ function Maps(props) {
   };
 
   useEffect(() => {
+    setResponse(null);
     setDirectionsOptions({
       origin: props.origin,
       destination: props.destination,
@@ -39,17 +40,16 @@ function Maps(props) {
   }, [props.origin, props.destination]);
 
   return (
-    <LoadScript
-      googleMapsApiKey={process.env.MAPS_KEY}
-      onLoad={() => console.log("API loaded")}
-    >
+    <LoadScript googleMapsApiKey={process.env.MAPS_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={5}>
-        {directionsOptions.origin && directionsOptions.destination && (
-          <DirectionsService
-            options={directionsOptions}
-            callback={directionsCallback}
-          />
-        )}
+        {directionsOptions.origin &&
+          directionsOptions.destination &&
+          response == null && (
+            <DirectionsService
+              options={directionsOptions}
+              callback={directionsCallback}
+            />
+          )}
         {response !== null && (
           <DirectionsRenderer options={{ directions: response }} />
         )}
