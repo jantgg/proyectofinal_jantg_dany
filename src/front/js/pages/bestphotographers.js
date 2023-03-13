@@ -67,7 +67,7 @@ export const Bestphotographers = () => {
             >
               <span>Ver detalles</span>
             </button>
-            {store.userType != "user" && store.userType != "photographer" ? (
+            {store.userType != "User" && store.userType != "Photographer" ? (
               <div className="col-4 mx-auto text-center mb-5  fs-3 text-wrap lh-sm border border-danger rounded pb-2">
                 No vas a poder guardar los resultados en favoritos ya que no te
                 has registrado
@@ -90,12 +90,11 @@ export const Bestphotographers = () => {
             <div>
               <ul>
                 <li>Servicios: {singlephotographer.services_text}</li>
-                <li>Ubicación: {singlephotographer.location_name}</li>
-                <li>Me puedes encontrar: {singlephotographer.find_me_text}</li>
-                <li>Latitud: {singlephotographer.latitude}</li>
-                <li>Longitud: {singlephotographer.longitude}</li>
+                <li>
+                  Me puedes encontrar en: {singlephotographer.find_me_text}
+                </li>
               </ul>
-              {store.userType == "user" || store.userType == "photographer" ? (
+              {store.userType == "User" || store.userType == "Photographer" ? (
                 <button onClick={() => AddFavoritePhotographer()}>
                   <span>♥</span>
                 </button>

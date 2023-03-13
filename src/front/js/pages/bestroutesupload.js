@@ -32,7 +32,6 @@ export const Bestroutesupload = () => {
     }
     formData.append("photo_type", "route");
     formData.append("upload_type", "route");
-    formData.append("user_id", localStorage.getItem("user_id"));
     formData.append(
       "route_data",
       JSON.stringify({
@@ -44,6 +43,9 @@ export const Bestroutesupload = () => {
     );
     const response = await fetch(store.backendurl + "photos", {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
       body: formData,
     });
     if (response.ok) {
