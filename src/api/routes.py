@@ -311,11 +311,13 @@ def upload_photo():
     print(photo_file)
     if photo_type == 'route':
         route_data = json.loads(request.form['route_data'])
+        user_route_id = User.query.filter_by(email=route_data['email']).first()
         new_route = Route(
             name=route_data['name'],
             interest_text=route_data['interest_text'],
             start_location_name=route_data['start_location_name'],
-            end_location_name=route_data['end_location_name'])
+            end_location_name=route_data['end_location_name'],
+            user_id=user_route_id),
         db.session.add(new_route)
         db.session.commit()  # Confirma los cambios en la base de datos para obtener la ID
         route_id = new_route.id  # Obtiene la ID de la nueva ruta

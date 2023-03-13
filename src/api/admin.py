@@ -18,6 +18,8 @@ def setup_admin(app):
 
     class MyAnswerModel(MyModel):
         form_columns = ('id', 'answer', 'next_question_id', 'current_question_id')
+    class MyRouteModel(MyModel):
+        form_columns = ('id','name','interest_text','start_location_name', 'end_location_name', 'photos', 'creator_id')
 
     # Add your models here, for example this is how we add a the User model to the admin
     admin.add_view(MyModel(User, db.session))

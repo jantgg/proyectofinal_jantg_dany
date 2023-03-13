@@ -6,7 +6,6 @@ function Map({ data }) {
   Geocode.setApiKey("AIzaSyDDVjWyt1R7eDz4VFdY1tBUyylUzucI5z4");
   Geocode.setLanguage("es");
   Geocode.setRegion("es");
-  //const cities = ["Madrid, Spain", "Barcelona, Spain", "Marbella, Spain"];
   const [markers, setMarkers] = useState([]);
   const [routesCities, setRoutesCities] = useState([]);
   console.log(data);

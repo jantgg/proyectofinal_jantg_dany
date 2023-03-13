@@ -10,6 +10,7 @@ class User(db.Model):
     password = db.Column(db.String(105), nullable=False)
     email = db.Column(db.String(30), nullable=False, unique=True)
     active = db.Column(db.Boolean, default=True)
+    routes = db.relationship('Route')
 
     def __repr__(self):
         return f'{self.user_name}'
@@ -102,6 +103,8 @@ class Route(db.Model):
     start_location_name = db.Column(db.String(50), nullable=False)
     end_location_name = db.Column(db.String(50), nullable=False)
     photos = db.relationship('Photo')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
 
     def __repr__(self):
         return f'{self.name}'
