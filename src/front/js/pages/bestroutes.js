@@ -13,6 +13,7 @@ export const Bestroutes = () => {
   const [singlevision, setSinglevision] = useState(false);
   const [singleroute, setSingleRoute] = useState({});
   const [selectedRouteImages, setSelectedRouteImages] = useState([]);
+  const [routesNewPhotos, setRoutesNewPhotos] = useState([]);
   const [mapProps, setMapProps] = useState({
     origin: "",
     destination: "",
@@ -72,8 +73,59 @@ export const Bestroutes = () => {
     }
   };
 
+  const uploadSinglePhotos = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < routesNewPhotos.length; i++) {
+      formData.append("files", routesNewPhotos[i]);
+    }
+    formData.append("upload_type", "single_photo");
+    formData.append("photo_type", "route");
+    formData.append("route_id", singleroute.id);
+
+    const response = await fetch(store.backendurl + "photos", {
+      method: "POST",
+      body: formData,
+    });
+    if (response.ok) {
+      console.log(response.data);
+      getPhotos(singleroute.id);
+    } else {
+      console.log(response);
+    }
+  };
+
+  const uploadPhoto = async () => {
+    const formData = new FormData();
+    if (photos) {
+      for (let i = 0; i < photos.length; i++) {
+        formData.append("files", photos[i]);
+      }
+    }
+    formData.append("photo_type", "route");
+    formData.append(
+      "route_data",
+      JSON.stringify({
+        name: routeName,
+        interest_text: interest,
+        start_location_name: startName,
+        end_location_name: endName,
+      })
+    );
+    const response = await fetch(store.backendurl + "photos", {
+      method: "POST",
+      body: formData,
+    });
+    if (response.ok) {
+      console.log(response.data);
+      setRouteSend(true);
+    } else {
+      console.log(response);
+    }
+  };
+
   return (
     <div className="container">
+
       {singlevision ? (
         <Maps origin={mapProps.origin} destination={mapProps.destination} />
       ) : (
@@ -119,7 +171,7 @@ export const Bestroutes = () => {
               </div>
               <input
                 onChange={(e) => {
-                  setRoutePhoto(e.target.files);
+                  setRoutesNewPhotos(e.target.files);
                 }}
                 type="file"
                 accept="image/jpeg, image/png"
@@ -127,7 +179,7 @@ export const Bestroutes = () => {
               />
               <button
                 onClick={() => {
-                  uploadPhoto();
+                  uploadSinglePhotos();
                 }}
               >
                 Publicar
