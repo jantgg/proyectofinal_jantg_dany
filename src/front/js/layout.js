@@ -9,7 +9,7 @@ import { Bestroutes } from "./pages/bestroutes";
 import { Bestroutesupload } from "./pages/bestroutesupload";
 import { Bestphotographers } from "./pages/bestphotographers";
 import { PhotographerRegister } from "./pages/photographerregister";
-import { Bestphotographerupload } from "./pages/bestphotographerupload";
+import { BestPhotographerUpload } from "./pages/bestphotographerupload";
 import { User } from "./pages/user";
 import { Userphoto } from "./pages/userphoto";
 import { Userregister } from "./pages/userregister";
@@ -46,7 +46,7 @@ const Layout = () => {
             />
             <Route element={<Login />} path="/login" />
             <Route
-              element={<Bestphotographerupload />}
+              element={<BestPhotographerUpload />}
               path="/bestphotographerupload"
             />
             <Route element={<User />} path="/user" />

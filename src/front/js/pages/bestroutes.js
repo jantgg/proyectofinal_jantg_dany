@@ -45,7 +45,6 @@ export const Bestroutes = () => {
     const data = await response.json();
     const routesWithPhotos = data.body.map((route) => ({
       ...route,
-      user_id: route.user_id,
       photos: route.photos.map((photo) => ({
         id: photo.id,
         url: photo.path,

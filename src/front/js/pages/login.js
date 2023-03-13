@@ -29,7 +29,6 @@ export const Login = () => {
       console.log(response);
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", email);
-      localStorage.setItem("user_id", data.user_id);
       await actions.syncuser();
       navigate("/");
     } else {

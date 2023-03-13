@@ -49,6 +49,9 @@ export const Bestroutesupload = () => {
     );
     const response = await fetch(store.backendurl + "photos", {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
       body: formData,
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
