@@ -71,6 +71,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       logout: () => {
         try {
           localStorage.removeItem("token");
+          localStorage.removeItem("type");
+          localStorage.removeItem("email");
+          localStorage.removeItem("user_id");
           setStore({ userType: null });
           return true;
         } catch (e) {
