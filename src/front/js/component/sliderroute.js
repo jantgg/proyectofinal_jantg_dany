@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "../../styles/sliderbueno.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import Motocard from "./motocard.js";
+import Routecard from "./routecard.js";
 
 //<Sliderbueno data={bikesResults} groupSize={4} />
 
@@ -36,7 +36,9 @@ const SliderRoute = ({ data, groupSize }) => {
 
   return (
     <div
-      className={`sliderbueno row ${isVisible ? "show-slider" : "hide-slider"}`}
+      className={`sliderbueno mx-auto row ${
+        isVisible ? "show-slider" : "hide-slider"
+      }`}
     >
       <button
         className={` sizehomet sliderbtn text-white${
@@ -52,8 +54,8 @@ const SliderRoute = ({ data, groupSize }) => {
           isVisible ? " show-slider" : " hide-slider"
         }`}
       >
-        {dataToRender.map((bike, index) => (
-          <Motocard bike={bike} index={index} />
+        {dataToRender.map((route, index) => (
+          <Routecard route={route} index={index} />
         ))}
       </div>
 

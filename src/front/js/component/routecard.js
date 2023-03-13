@@ -3,10 +3,10 @@ import "../../styles/sliderbueno.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-const Motocard = ({ bike, index }) => {
+const Routecard = ({ route, index }) => {
   const { store, actions } = useContext(Context);
 
-  const deleteFavoriteBike = async () => {
+  const deleteFavoriteRoute = async () => {
     const response = await fetch(store.backendurl + "favorites", {
       method: "DELETE",
       headers: {
@@ -14,8 +14,8 @@ const Motocard = ({ bike, index }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        bike_id: bike.id,
-        favorite_type: "bike",
+        bike_id: route.id,
+        favorite_type: "route",
       }),
     });
     if (response.ok) {
@@ -30,7 +30,7 @@ const Motocard = ({ bike, index }) => {
       key={index}
       className=" motocard colp text-white bordecitoall mx-auto"
       style={{
-        backgroundImage: `url(${bike.bike_photo})`,
+        backgroundImage: `url(${route.photos[0].path})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -39,19 +39,19 @@ const Motocard = ({ bike, index }) => {
       <div className="imagen">
         <div className="free">
           <div className="headcontent bordecitoall bg-black">
-            <div className="sizehomet spartan text-center">{bike.model}</div>
+            <div className="sizehomet spartan text-center">{route.name}</div>
           </div>
         </div>
 
         <div className="content bordecitoup col-12 container d-flex flex-column justify-content-between">
           <div className="ms-3 sizehomes center-align">
-            Hola esto es el texto emergente
+            {route.interest_text}
           </div>
           <div className="right-align mb-3 w100">
             <button
               key="button"
-              className="botonaco px-2 sizehomes center-align"
-              onClick={() => deleteFavoriteBike()}
+              className="botonaco zup px-2 sizehomes center-align"
+              onClick={() => deleteFavoriteRoute()}
             >
               <span className="mx-auto center-align" style={{ "--i": 1 }}>
                 <i class="fa-solid fa-heart"></i>
@@ -64,4 +64,4 @@ const Motocard = ({ bike, index }) => {
   );
 };
 
-export default Motocard;
+export default Routecard;

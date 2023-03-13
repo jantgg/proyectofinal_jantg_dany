@@ -13,6 +13,10 @@
 .opa0 {
   opacity: 0;
 }
+.opa07 {
+  background-color: rgba(0, 0, 0, 0.486);
+  height: 60%;
+}
 .opa1 {
   opacity: 1;
 }
@@ -28,6 +32,9 @@
   position: relative;
   z-index: -1;
   width: 98%;
+}
+.zup {
+  z-index: 2;
 }
 
 .colpm {

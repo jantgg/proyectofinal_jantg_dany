@@ -205,7 +205,10 @@ def get_favorites():
         if favorite.bike is not None:
             favorite_data['bike'] = favorite.bike.serialize()
         if favorite.route is not None:
-            favorite_data['route'] = favorite.route.serialize()
+            route_data = favorite.route.serialize()
+            route_photos = [photo.serialize() for photo in favorite.route.photos]
+            route_data['photos'] = route_photos
+            favorite_data['route'] = route_data
         if favorite.photographer is not None:
             favorite_data['photographer'] = favorite.photographer.serialize()
         favorites_data.append(favorite_data)
@@ -247,6 +250,39 @@ def add_favorite():
 
     return jsonify({'message': f'{favorite_type.capitalize()} added to favorites'}), 201
 
+# DELETE DE FAVORITES -------------------------------------------------------------------------------------------------------->
+
+@api.route('/favorites', methods=['DELETE'])
+@jwt_required()
+def delete_favorite():
+    user_email = get_jwt_identity()
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Obtener los parámetros de la solicitud
+    bike_id = request.json.get('bike_id')
+    route_id = request.json.get('route_id')
+    photographer_id = request.json.get('photographer_id')
+
+    # Validar que al menos un parámetro esté presente
+    if not bike_id and not route_id and not photographer_id:
+        return jsonify({'error': 'At least one parameter like bike_id is required'}), 400
+
+    # Eliminar los favoritos correspondientes al usuario y los parámetros de la solicitud
+    favorites_query = Favorite.query.filter(Favorite.user_id == user.id)
+    if bike_id:
+        favorites_query = favorites_query.filter(Favorite.bike_id == bike_id)
+    if route_id:
+        favorites_query = favorites_query.filter(Favorite.route_id == route_id)
+    if photographer_id:
+        favorites_query = favorites_query.filter(Favorite.photographer_id == photographer_id)
+    deleted_count = favorites_query.delete()
+
+    db.session.commit()
+
+    # Devolver el número de favoritos eliminados
+    return jsonify({'message': f'{deleted_count} favorites deleted'}), 200
 
 # FILTER DE BIKES/ANSWERS -------------------------------------------------------------------------------------------------------->
 @api.route('/answers', methods=['POST'])

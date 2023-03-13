@@ -5,7 +5,7 @@ import { Context } from "../store/appContext";
 
 //<SliderM data={bikesResults} groupSize={1} />
 
-const SilderBikeM = ({ data, groupSize }) => {
+const SilderRouteM = ({ data, groupSize }) => {
   const Navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [startIndex, setStartIndex] = useState(0);
@@ -61,7 +61,7 @@ const SilderBikeM = ({ data, groupSize }) => {
     }, 200);
   };
 
-  const deleteFavoriteBike = async () => {
+  const deleteFavoriteRoute = async () => {
     const response = await fetch(store.backendurl + "favorites", {
       method: "DELETE",
       headers: {
@@ -69,8 +69,8 @@ const SilderBikeM = ({ data, groupSize }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        bike_id: bike.id,
-        favorite_type: "bike",
+        bike_id: route.id,
+        favorite_type: "route",
       }),
     });
     if (response.ok) {
@@ -96,14 +96,14 @@ const SilderBikeM = ({ data, groupSize }) => {
         >
           <i className="fa-solid fa-chevron-left"></i>
         </div>
-        {dataToRender.map((bike, index) => (
+        {dataToRender.map((route, index) => (
           <div
             key={index}
             className={`motocard w100 text-white bordecitoall mx-auto ${
               isVisible ? " show-slider" : " hide-slider"
             }`}
             style={{
-              backgroundImage: `url(${bike.bike_photo})`,
+              backgroundImage: `url(${route.photos[0].path})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
@@ -113,20 +113,18 @@ const SilderBikeM = ({ data, groupSize }) => {
               <div className="free">
                 <div className="headcontent bordecitoall bg-black">
                   <div className="sizehomet spartan text-center">
-                    {bike.model}
+                    {route.name}
                   </div>
                 </div>
               </div>
 
-              <div className=" opa07 bordecitoup col-12 container d-flex flex-column justify-content-between align-items-center">
-                <div className="ms-3 sizehomes">
-                  Hola esto es el texto emergente
-                </div>
+              <div className="opa07 bordecitoup col-12 container d-flex flex-column justify-content-between align-items-center">
+                <div className="ms-3 sizehomes">{route.interest_text}</div>
                 <div className="right-align mb-3 w100">
                   <button
                     key="button"
-                    className="botonaco zup p-2 sizehomes center-align"
-                    onClick={() => deleteFavoriteBike()}
+                    className="botonaco p-2 sizehomes center-align"
+                    onClick={() => deleteFavoriteRoute()}
                   >
                     <span className="mx-auto center-align" style={{ "--i": 1 }}>
                       <i class="fa-solid fa-heart"></i>
@@ -149,4 +147,4 @@ const SilderBikeM = ({ data, groupSize }) => {
   );
 };
 
-export default SilderBikeM;
+export default SilderRouteM;

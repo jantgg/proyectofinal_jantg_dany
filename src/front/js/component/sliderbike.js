@@ -36,7 +36,9 @@ const SilderBike = ({ data, groupSize }) => {
 
   return (
     <div
-      className={`sliderbueno row ${isVisible ? "show-slider" : "hide-slider"}`}
+      className={`sliderbueno mx-auto row ${
+        isVisible ? "show-slider" : "hide-slider"
+      }`}
     >
       <button
         className={` sizehomet sliderbtn text-white${

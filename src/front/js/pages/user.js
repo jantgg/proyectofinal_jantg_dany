@@ -6,15 +6,17 @@ import "../../styles/result.css";
 import "../../styles/forall.css";
 import SliderBike from "../component/sliderbike.js";
 import SliderBikeM from "../component/sliderbikem.js";
+import SliderRoute from "../component/sliderroute.js";
+import SliderRouteM from "../component/sliderroutem.js";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
   const [userFavBikes, setUserFavBikes] = useState([]);
   const bikes = userFavBikes.map((obj) => obj.bike);
   const [userFavRoutes, setUserFavRoutes] = useState([]);
-  const routes = userFavBikes.map((obj) => obj.bike);
+  const routes = userFavRoutes.map((obj) => obj.route);
   const [userFavPhotographers, setUserFavPhotographers] = useState([]);
-  const photographers = userFavBikes.map((obj) => obj.bike);
+  const photographers = userFavPhotographers.map((obj) => obj.photographer);
   const [pPhotos, setPPhoto] = useState([]);
   const [currentPhotographer, setCurrentPhotographer] = useState();
   const isDesktop = window.innerWidth >= 1000;
@@ -61,30 +63,11 @@ export const User = () => {
         <>
           <div className="col-9 mx-auto bordecitor ">
             <div className="right-align sizehome mb-2 me-4">{userName}</div>
-            <div className="right-align sizehomet mb-5 me-5">
-              <Link to="/bestroutesupload">
-                <button className="botonaco px-4">
-                  <span style={{ "--i": 1 }}>S</span>
-                  <span style={{ "--i": 2 }}>u</span>
-                  <span style={{ "--i": 3 }}>b</span>
-                  <span style={{ "--i": 4 }}>i</span>
-                  <span style={{ "--i": 5 }}>r</span>
-                  <span style={{ "--i": 6 }}>&nbsp;</span>
-                  <span style={{ "--i": 7 }}>m</span>
-                  <span style={{ "--i": 8 }}>i</span>
-                  <span style={{ "--i": 9 }}>&nbsp;</span>
-                  <span style={{ "--i": 10 }}>r</span>
-                  <span style={{ "--i": 11 }}>u</span>
-                  <span style={{ "--i": 12 }}>t</span>
-                  <span style={{ "--i": 13 }}>a</span>
-                </button>
-              </Link>
-            </div>
           </div>
 
           {isDesktop ? (
             <>
-              <div className="col-12 bordecitoall pb-2 row mx-auto imagenn">
+              <div className="col-12 bordecitoall pb-4 row mx-auto imagenn">
                 <div className="center-align col-3 sizehomet bordecitob mx-auto mb-4">
                   Mis motos favoritas
                 </div>{" "}
@@ -93,7 +76,7 @@ export const User = () => {
             </>
           ) : (
             <>
-              <div className="col-12 bordecitot bordecitob pb-2 row mx-auto imagenn">
+              <div className="col-12 bordecitot bordecitob pb-4 row mx-auto imagenn">
                 <div className="center-align col-11 sizehomemb mx-auto mt-4 mb-4">
                   Mis motos favoritas
                 </div>{" "}
@@ -104,20 +87,58 @@ export const User = () => {
           <div className="col-9 mx-auto heightborder bordecitol "></div>
           {isDesktop ? (
             <>
-              <div className="col-12 bordecitoall pb-2 row imagenn">
+              <div className="col-12 bordecitoall pb-4 row imagenn">
                 <div className="center-align col-3 sizehomet bordecitob mx-auto mb-4">
                   Mis rutas favoritas
                 </div>{" "}
-                <SliderBike data={bikes} groupSize={3} />
+                <SliderRoute data={routes} groupSize={3} />
+                <div className="center-align sizehomet mt-3 ">
+                  <Link to="/bestroutesupload">
+                    <button className="botonaco mx-auto px-4">
+                      <span style={{ "--i": 1 }}>S</span>
+                      <span style={{ "--i": 2 }}>u</span>
+                      <span style={{ "--i": 3 }}>b</span>
+                      <span style={{ "--i": 4 }}>i</span>
+                      <span style={{ "--i": 5 }}>r</span>
+                      <span style={{ "--i": 6 }}>&nbsp;</span>
+                      <span style={{ "--i": 7 }}>m</span>
+                      <span style={{ "--i": 8 }}>i</span>
+                      <span style={{ "--i": 9 }}>&nbsp;</span>
+                      <span style={{ "--i": 10 }}>r</span>
+                      <span style={{ "--i": 11 }}>u</span>
+                      <span style={{ "--i": 12 }}>t</span>
+                      <span style={{ "--i": 13 }}>a</span>
+                    </button>
+                  </Link>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <div className="col-12 bordecitot bordecitob pb-2 row mx-auto imagenn">
+              <div className="col-12 bordecitot bordecitob pb-4 row mx-auto imagenn">
                 <div className="center-align col-11 sizehomemb mx-auto mt-4 mb-4">
                   Mis rutas favoritas
                 </div>{" "}
-                <SliderBikeM data={bikes} groupSize={1} />
+                <SliderRouteM data={routes} groupSize={1} />
+                <div className="center-align sizehomet mt-3 ">
+                  <Link to="/bestroutesupload">
+                    <button className="botonaco mx-auto px-4">
+                      <span style={{ "--i": 1 }}>S</span>
+                      <span style={{ "--i": 2 }}>u</span>
+                      <span style={{ "--i": 3 }}>b</span>
+                      <span style={{ "--i": 4 }}>i</span>
+                      <span style={{ "--i": 5 }}>r</span>
+                      <span style={{ "--i": 6 }}>&nbsp;</span>
+                      <span style={{ "--i": 7 }}>m</span>
+                      <span style={{ "--i": 8 }}>i</span>
+                      <span style={{ "--i": 9 }}>&nbsp;</span>
+                      <span style={{ "--i": 10 }}>r</span>
+                      <span style={{ "--i": 11 }}>u</span>
+                      <span style={{ "--i": 12 }}>t</span>
+                      <span style={{ "--i": 13 }}>a</span>
+                    </button>
+                  </Link>
+                </div>
               </div>
             </>
           )}
@@ -127,7 +148,7 @@ export const User = () => {
             })}
           </div>
         </>
-      ) : (
+      ) : store.userType == "Photographer" ? (
         <>
           <div>Photographer</div>
           <div>
@@ -141,7 +162,7 @@ export const User = () => {
             })}
           </div>
         </>
-      )}
+      ) : null}
     </div>
   );
 };
