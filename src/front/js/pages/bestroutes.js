@@ -45,6 +45,7 @@ export const Bestroutes = () => {
     const data = await response.json();
     const routesWithPhotos = data.body.map((route) => ({
       ...route,
+      user_id: route.user_id,
       photos: route.photos.map((photo) => ({
         id: photo.id,
         url: photo.path,
@@ -86,37 +87,7 @@ export const Bestroutes = () => {
       body: formData,
     });
     if (response.ok) {
-      console.log(response.data);
       getPhotos(singleroute.id);
-    } else {
-      console.log(response);
-    }
-  };
-
-  const uploadPhoto = async () => {
-    const formData = new FormData();
-    if (photos) {
-      for (let i = 0; i < photos.length; i++) {
-        formData.append("files", photos[i]);
-      }
-    }
-    formData.append("photo_type", "route");
-    formData.append(
-      "route_data",
-      JSON.stringify({
-        name: routeName,
-        interest_text: interest,
-        start_location_name: startName,
-        end_location_name: endName,
-      })
-    );
-    const response = await fetch(store.backendurl + "photos", {
-      method: "POST",
-      body: formData,
-    });
-    if (response.ok) {
-      console.log(response.data);
-      setRouteSend(true);
     } else {
       console.log(response);
     }
@@ -159,24 +130,28 @@ export const Bestroutes = () => {
                 <li>Fin de la ruta: {singleroute.end_location_name}</li>
                 <li>Puntos de interes: {singleroute.interest_text}</li>
               </ul>
-              <div className="text-white">
-                Quieres añadir mas fotos a esta ruta ?
-              </div>
-              <input
-                onChange={(e) => {
-                  setRoutesNewPhotos(e.target.files);
-                }}
-                type="file"
-                accept="image/jpeg, image/png"
-                multiple
-              />
-              <button
-                onClick={() => {
-                  uploadSinglePhotos();
-                }}
-              >
-                Publicar
-              </button>
+              {store.userType == "User" || store.userType == "Photographer" ? (
+                <div>
+                  <div className="text-white">
+                    Quieres añadir mas fotos a esta ruta ?
+                  </div>
+                  <input
+                    onChange={(e) => {
+                      setRoutesNewPhotos(e.target.files);
+                    }}
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    multiple
+                  />
+                  <button
+                    onClick={() => {
+                      uploadSinglePhotos();
+                    }}
+                  >
+                    Publicar
+                  </button>
+                </div>
+              ) : null}
               <RoutesSlider images={selectedRouteImages} />
             </div>
             <div>

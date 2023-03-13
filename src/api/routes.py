@@ -188,8 +188,10 @@ def get_all_routes():
         route_serialized = route.serialize()
         photos = [photo.serialize() for photo in route.photos]
         route_serialized['photos'] = photos
+        route_serialized['user_id'] = str(route.user_id)
         routes_serialized.append(route_serialized) 
     return jsonify({"body": routes_serialized}), 200
+
 
 
 # GET OF FAVORITES --------------------------------------------------------------------------------------------------------------->
@@ -274,7 +276,6 @@ def upload_photo():
     photo_file = request.files.getlist("files")
     photo_type = request.form['photo_type']
     upload_type = request.form['upload_type']
-    user_route_id = int(request.form['user_id'])
     new_photos=[]
     if upload_type == 'single_photo':
         single_photo_route_id = request.form['route_id']
@@ -292,6 +293,7 @@ def upload_photo():
     else: 
         if photo_type == 'route':
             route_data = json.loads(request.form['route_data'])
+            user_route_id = int(request.form['user_id'])
             new_route = Route(
                 name=route_data['name'],
                 interest_text=route_data['interest_text'],
