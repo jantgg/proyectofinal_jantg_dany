@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/registerform.css";
+import "../../styles/login.css";
 import "../../styles/forall.css";
 import { useNavigate } from "react-router-dom";
 
@@ -281,7 +281,7 @@ export const PhotographerRegister = () => {
                 autoFocus
                 className=""
                 type="text"
-                value={service}
+                value={sunday}
                 onChange={(e) => {
                   setSunday(e.target.value);
                 }}

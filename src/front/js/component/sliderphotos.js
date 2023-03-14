@@ -3,7 +3,7 @@ import "../../styles/sliderbueno.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-//<Sliderbueno data={bikesResults} groupSize={4} />
+//<SliderPhotos data={bikesResults} groupSize={4} />
 
 const SliderPhotos = ({ data, groupSize }) => {
   const Navigate = useNavigate();

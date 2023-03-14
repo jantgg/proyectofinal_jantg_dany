@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Context } from "../store/appContext";
-import { RoutesSlider } from "../component/routesslider";
+import SliderPhotos from "../component/sliderphotos.js";
 import "../../styles/forall.css";
 import Maps from "../component/maps";
 
@@ -12,6 +12,7 @@ export const Bestroutes = () => {
   const [singlevision, setSinglevision] = useState(false);
   const [singleroute, setSingleRoute] = useState({});
   const [selectedRouteImages, setSelectedRouteImages] = useState([]);
+  const routeImages = selectedRouteImages.map((obj) => obj.url);
   const [routesNewPhotos, setRoutesNewPhotos] = useState([]);
   const [mapProps, setMapProps] = useState({
     origin: "",
@@ -155,7 +156,7 @@ export const Bestroutes = () => {
                 origin={mapProps.origin}
                 destination={mapProps.destination}
               />
-              <RoutesSlider images={selectedRouteImages} />
+              <SliderPhotos data={routeImages} groupSize={3} />
             </div>
             <div>
               {store.userType == "User" || store.userType == "Photographer" ? (
@@ -170,4 +171,3 @@ export const Bestroutes = () => {
     </div>
   );
 };
-

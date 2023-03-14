@@ -85,9 +85,6 @@ function Map({ data }) {
               }}
               title={marker.name}
               onClick={() => {
-                setSinglevision(true);
-                setSingleRoute(data[index]);
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
                 // Agrega aquí el código que deseas ejecutar cuando se haga clic en el marcador
               }}
             />
