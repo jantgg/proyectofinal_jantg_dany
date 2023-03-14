@@ -82,20 +82,13 @@ const SilderBikeM = ({ data, groupSize }) => {
 
   return (
     <div
-      ref={containerRef}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      // ref={containerRef}
+      // onTouchStart={handleTouchStart}
+      // onTouchMove={handleTouchMove}
+      // onTouchEnd={handleTouchEnd}
       className="sliderbuenom m-0"
     >
       <div className="item-containerm mx-auto px-0">
-        <div
-          className={`izquierda sizehomet boton iconol ms-3 text-white${
-            startIndex === 0 ? " opa0" : " opa1"
-          }`}
-        >
-          <i className="fa-solid fa-chevron-left"></i>
-        </div>
         {dataToRender.map((bike, index) => (
           <div
             key={index}
@@ -111,14 +104,32 @@ const SilderBikeM = ({ data, groupSize }) => {
           >
             <div className="imagen">
               <div className="free">
-                <div className="headcontent bordecitoall bg-black">
-                  <div className="sizehomet spartan text-center">
+                <div className="headcontent row bordecitoall bg-black">
+                  <button
+                    className={` sizehomet boton col-2 text-white${
+                      startIndex === 0 ? " opa0" : " opa1"
+                    }`}
+                    onClick={handlePrevClick}
+                    disabled={startIndex === 0}
+                  >
+                    <i className="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <div className="sizehomet col-8 spartan text-center">
                     {bike.model}
                   </div>
+                  <button
+                    className={` sizehomet boton col-2 text-white${
+                      endIndex >= data.length ? " opa0" : " opa1"
+                    }`}
+                    onClick={handleNextClick}
+                    disabled={endIndex >= data.length}
+                  >
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </button>
                 </div>
               </div>
 
-              <div className=" opa07 bordecitoup col-12 container d-flex flex-column justify-content-between align-items-center">
+              <div className=" opa07 bordecitot col-12 container d-flex flex-column justify-content-between align-items-center">
                 <div className="ms-3 sizehomes">
                   Hola esto es el texto emergente
                 </div>
@@ -137,13 +148,6 @@ const SilderBikeM = ({ data, groupSize }) => {
             </div>
           </div>
         ))}
-        <div
-          className={`last sizehomet derecha iconor boton me-3 text-white${
-            endIndex >= data.length ? " opa0" : " opa1"
-          }`}
-        >
-          <i className="fa-solid fa-chevron-right"></i>
-        </div>
       </div>
     </div>
   );

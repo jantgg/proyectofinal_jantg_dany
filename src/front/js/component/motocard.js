@@ -43,7 +43,7 @@ const Motocard = ({ bike, index }) => {
           </div>
         </div>
 
-        <div className="content bordecitoup col-12 container d-flex flex-column justify-content-between">
+        <div className="content bordecitot col-12 container d-flex flex-column justify-content-between">
           <div className="ms-3 sizehomes center-align">
             Hola esto es el texto emergente
           </div>

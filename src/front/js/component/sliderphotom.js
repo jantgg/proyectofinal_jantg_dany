@@ -5,7 +5,7 @@ import { Context } from "../store/appContext";
 
 //<SliderM data={bikesResults} groupSize={1} />
 
-const SilderRouteM = ({ data, groupSize }) => {
+const SliderPhotosM = ({ data, groupSize }) => {
   const Navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [startIndex, setStartIndex] = useState(0);
@@ -61,25 +61,6 @@ const SilderRouteM = ({ data, groupSize }) => {
     }, 200);
   };
 
-  const deleteFavoriteRoute = async () => {
-    const response = await fetch(store.backendurl + "favorites", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        bike_id: route.id,
-        favorite_type: "route",
-      }),
-    });
-    if (response.ok) {
-      console.log("response ok");
-    } else {
-      console.log("response not ok");
-    }
-  };
-
   return (
     <div
       // ref={containerRef}
@@ -89,24 +70,24 @@ const SilderRouteM = ({ data, groupSize }) => {
       className="sliderbuenom m-0"
     >
       <div className="item-containerm mx-auto px-0">
-        {dataToRender.map((route, index) => (
+        {dataToRender.map((url, index) => (
           <div
             key={index}
             className={`motocard w100 text-white bordecitoall mx-auto ${
               isVisible ? " show-slider" : " hide-slider"
             }`}
             style={{
-              backgroundImage: `url(${route.photos[0].path})`,
+              backgroundImage: `url(${url})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           >
-            <div className="imagen">
-              <div className="free">
-                <div className="headcontent row bordecitoall bg-black">
+            <div className="">
+              <div className="free head-tranlucid">
+                <div className="headcontent  row justify-content-between mt-2">
                   <button
-                    className={` sizehomet boton col-2 text-white${
+                    className={` sizehomet boton-i col-2 text-black ${
                       startIndex === 0 ? " opa0" : " opa1"
                     }`}
                     onClick={handlePrevClick}
@@ -114,32 +95,15 @@ const SilderRouteM = ({ data, groupSize }) => {
                   >
                     <i className="fa-solid fa-chevron-left"></i>
                   </button>
-                  <div className="sizehomet col-8 spartan text-center">
-                    {route.name}
-                  </div>
+
                   <button
-                    className={` sizehomet boton col-2 text-white ${
+                    className={` sizehomet boton-i col-2 text-black ${
                       endIndex >= data.length ? " opa0" : " opa1"
                     }`}
                     onClick={handleNextClick}
                     disabled={endIndex >= data.length}
                   >
                     <i className="fa-solid fa-chevron-right"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div className="opa07 bordecitot col-12 container d-flex flex-column justify-content-between align-items-center">
-                <div className="ms-3 sizehomes">{route.interest_text}</div>
-                <div className="right-align mb-3 w100">
-                  <button
-                    key="button"
-                    className="botonaco p-2 sizehomes center-align"
-                    onClick={() => deleteFavoriteRoute()}
-                  >
-                    <span className="mx-auto center-align" style={{ "--i": 1 }}>
-                      <i class="fa-solid fa-heart"></i>
-                    </span>
                   </button>
                 </div>
               </div>
@@ -151,4 +115,4 @@ const SilderRouteM = ({ data, groupSize }) => {
   );
 };
 
-export default SilderRouteM;
+export default SliderPhotosM;

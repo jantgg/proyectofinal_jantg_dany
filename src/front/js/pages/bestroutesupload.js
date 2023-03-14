@@ -7,6 +7,7 @@ import "../../styles/login.css";
 import SliderRoute from "../component/sliderroute.js";
 import SliderRouteM from "../component/sliderroutem.js";
 import SliderPhotos from "../component/sliderphotos.js";
+import SliderPhotosM from "../component/sliderphotom.js";
 
 export const Bestroutesupload = () => {
   const { store, actions } = useContext(Context);
@@ -106,7 +107,7 @@ export const Bestroutesupload = () => {
       ) : (
         <>
           <div className="col-12 bordecitot bordecitob pb-4 row mx-auto imagenn">
-            <div className="center-align col-11 sizehomemb mx-auto mt-4 mb-4">
+            <div className="center-align col-11 sizehomemb mx-auto mt-4 mb-4 text-white">
               Mis rutas subidas
             </div>{" "}
             <SliderRouteM data={userRoutes} groupSize={1} />
@@ -217,7 +218,11 @@ export const Bestroutesupload = () => {
               <div className="mx-auto col-11 col-xxl-4 col-xl-4 col-lg-4 center-align sizehomet text-white mb-3">
                 Nuevas fotos
               </div>
-              <SliderPhotos data={previewPhotos} groupSize={3} />
+              {isDesktop ? (
+                <SliderPhotos data={previewPhotos} groupSize={3} />
+              ) : (
+                <SliderPhotosM data={previewPhotos} groupSize={1} />
+              )}
             </div>
           ) : null}
         </div>

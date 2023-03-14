@@ -4,8 +4,20 @@
 .boton {
   background-color: rgba(0, 0, 0, 0);
   border: none;
+  text-align: center;
+}
+.boton-i {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
   width: 100px;
   z-index: 1;
+}
+.head-tranlucid {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.266) 0%,
+    rgba(255, 255, 255, 0.266) 100%
+  );
 }
 .w100 {
   width: 100%;
@@ -30,7 +42,6 @@
 }
 .item-containerm {
   position: relative;
-  z-index: -1;
   width: 98%;
 }
 .zup {
