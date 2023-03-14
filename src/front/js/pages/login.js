@@ -28,8 +28,7 @@ export const Login = () => {
       const data = await response.json();
       console.log(response);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("email", email);
-      localStorage.setItem("user_id", data.user_id);
+      localStorage.setItem("user_name", data.user_name);
       await actions.syncuser();
       navigate("/");
     } else {
@@ -47,7 +46,7 @@ export const Login = () => {
               e.prevent.default();
             }}
           >
-            <div className="user-box">
+            <div className="user-box col-6">
               <input
                 type="email"
                 name="email"
@@ -59,7 +58,9 @@ export const Login = () => {
                   setEmail(e.target.value);
                 }}
               />
-              <label htmlFor="email">Email</label>
+              <label className="" htmlFor="email">
+                Email
+              </label>
             </div>
             <div className="user-box">
               <input

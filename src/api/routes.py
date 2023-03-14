@@ -101,11 +101,13 @@ def user_login():
         return jsonify({"error": "This user or photographer does not exist"}), 401
     if user and check_password_hash(user.password, body_password):
         token = create_access_token(identity=user.email)
+        user_name = user.user_name
     elif photographer and check_password_hash(photographer.password, body_password):
         token = create_access_token(identity=photographer.email)
+        user_name = photographer.user_name
     else:
         return jsonify({"error": "The entered password is incorrect."}), 401
-    return jsonify({"token": token}), 200
+    return jsonify({"token": token, "user_name": user_name}), 200
 
 
 # REVIEW TYPE OF USER/PHOTOGRAPHER ----------------------------------------------------------------------------------------------->
@@ -180,6 +182,22 @@ def get_all_answers():
 @api.route('/routes', methods=['GET'])
 def get_all_routes():
     routes = Route.query.all()
+    routes_serialized = []
+    for route in routes:
+        route_serialized = route.serialize()
+        photos = [photo.serialize() for photo in route.photos]
+        route_serialized['photos'] = photos
+        route_serialized['user_id'] = str(route.user_id)
+        routes_serialized.append(route_serialized) 
+    return jsonify({"body": routes_serialized}), 200
+
+@api.route('/userroutes', methods=['GET'])
+@jwt_required()
+def get_all_userroutes():
+    user_email = get_jwt_identity()
+    user = User.query.filter_by(email=user_email).first()
+    user_id = user.id
+    routes = Route.query.filter_by(user_id=user_id).all()
     routes_serialized = []
     for route in routes:
         route_serialized = route.serialize()

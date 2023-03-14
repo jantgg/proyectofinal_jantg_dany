@@ -36,7 +36,7 @@ const SliderPhotos = ({ data, groupSize }) => {
   return (
     <>
       <div
-        className={`sliderbueno mx-auto row ${
+        className={`sliderbueno mx-auto row bordecitoall p-3 ${
           isVisible ? "show-slider" : "hide-slider"
         }`}
       >
