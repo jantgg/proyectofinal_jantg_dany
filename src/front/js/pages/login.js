@@ -38,15 +38,15 @@ export const Login = () => {
 
   return (
     <div className="row ">
-      <div className="bordecitoall col-11 col-xxl-4 col-xl-5 col-lg-6 row mx-auto my-5">
+      <div className="bordecitoall col-11 col-xxl-4 col-xl-5 col-lg-6 row mx-auto my-5 imagenn">
         <div className="login-box col-11 mx-auto mt-3">
-          <p className="bordecito col-4 mx-auto">OnBikes</p>
+          <p className="bordecito col-4 mx-auto sizehomet">OnBikes</p>
           <form
             onSubmit={() => {
               e.prevent.default();
             }}
           >
-            <div className="user-box col-6">
+            <div className="user-box sizehomes">
               <input
                 type="email"
                 name="email"
@@ -62,7 +62,7 @@ export const Login = () => {
                 Email
               </label>
             </div>
-            <div className="user-box">
+            <div className="user-box sizehomes">
               <input
                 type="password"
                 name="password"
@@ -82,7 +82,7 @@ export const Login = () => {
             ) : null}
             <div className="center-align">
               <button
-                className="botonaco mx-auto mb-3 p-2"
+                className="botonaco mx-auto mb-3 p-2 sizehomes px-3"
                 onClick={() => sendLogin()}
               >
                 <span style={{ "--i": 1 }}>I</span>
@@ -102,7 +102,7 @@ export const Login = () => {
               </button>
             </div>
           </form>
-          <p>
+          <p className="center-align">
             ¿No tienes una cuenta aún?{" "}
             <Link to={"/userregister"} className="a2">
               ¡Registrate!

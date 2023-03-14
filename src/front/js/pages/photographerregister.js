@@ -82,305 +82,267 @@ export const PhotographerRegister = () => {
   };
 
   return (
-    <main className="w-100 m-auto">
-      <div className="container mt-3">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h1 className="main-heading">
-                  Registrarte como fotógrafo en OnBikes<br></br> o <br></br>
-                  <Link to={"/userregister"} className="text-center">
-                    Registrate como usario
-                  </Link>
-                </h1>
-                <div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="user"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Usuario
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control"
-                        type="name"
-                        value={user_name}
-                        onChange={(e) => {
-                          setErrorUser("");
-                          setCredentialsError(false);
-                          setUserName(e.target.value);
-                        }}
-                        onClick={() => {
-                          setInputClickedUser(true);
-                        }}
-                        onBlur={() => {
-                          setInputClickedUser(false);
-                        }}
-                        required
-                        autoFocus
-                      />
-                      <div>
-                        {erroruser ==
-                        "The indicated username is already being used by another user or photographer" ? (
-                          <p className="text-danger">
-                            *El nombre de usuario indicado ya está siendo
-                            utilizado por otro usuario o fotógrafo.
-                          </p>
-                        ) : null}
-                        {inputclickeduser ? (
-                          <p className="text-secondary">
-                            El usuario debe estar comprendido entre 5 y 20
-                            caracteres.
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
+    <div className="row">
+      <div className=" col-11 col-xxl-4 col-xl-5 col-lg-6 row mx-auto mb-5 text-white ">
+        <div className="center-align mx-auto sizehomet bordecitoall py-2 mt-3 imagenn sizehomeb spartan">
+          <Link to={"/userregister"} className="link">
+            Registrate
+          </Link>{" "}
+          como usuario normal
+        </div>
+        <div className="login-box col-12 mx-auto mt-3 bordecitoall imagenn px-5">
+          <div className="bordecito mx-auto col-10 sizehomet center-align mb-5 mt-2 spartan">
+            Registro de Fotógrafo
+          </div>
+          <div>
+            <div className="user-box sizehomes ">
+              <input
+                type="name"
+                name="name"
+                required
+                autoFocus
+                value={user_name}
+                onChange={(e) => {
+                  setErrorUser("");
+                  setCredentialsError(false);
+                  setUserName(e.target.value);
+                }}
+                onClick={() => {
+                  setInputClickedUser(true);
+                }}
+                onBlur={() => {
+                  setInputClickedUser(false);
+                }}
+              />
+              <label htmlFor="name" className="row">
+                <div className="col-2">Usuario &nbsp; </div>
+
+                {inputclickeduser ? (
+                  <div className="text-secondary col-10">
+                    *Longitud entre 5 y 20 caracteres
                   </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="email"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      E-mail
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control"
-                        type="email"
-                        required
-                        autoFocus
-                        value={email}
-                        onChange={(e) => {
-                          setErrorEmail("");
-                          setCredentialsError(false);
-                          setEmail(e.target.value);
-                          setInputClickedEmail(true);
-                        }}
-                        onClick={() => {
-                          setInputClickedEmail(true);
-                        }}
-                        onBlur={() => {
-                          setInputClickedEmail(false);
-                        }}
-                      />
-                      <div>
-                        {erroremail ==
-                        "The indicated email is already being used by another user or photographer" ? (
-                          <p className="text-danger">
-                            *El email indicado ya está siendo utilizado por otro
-                            usuario o fotógrafo."
-                          </p>
-                        ) : null}
-                        {inputclickedemail ? (
-                          <p className="text-secondary">
-                            El correo electrónico debe tener un formato correcto
-                            example@example.es
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Contraseña
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control"
-                        type="password"
-                        value={password}
-                        onChange={(e) => {
-                          setPasswordError(false);
-                          setPassword(e.target.value);
-                        }}
-                        onClick={() => {
-                          setInputClickedPassword(true);
-                        }}
-                        onBlur={() => {
-                          setInputClickedPassword(false);
-                        }}
-                        required
-                      />
-                      <div>
-                        {passworderror ==
-                        "The entered password is different, please check the password" ? (
-                          <p className="text-danger">
-                            *Las contraseñas ingresadas son diferentes,
-                            verifique la contraseña.
-                          </p>
-                        ) : null}
-                        {inputclickedpassword ? (
-                          <p className="text-secondary">
-                            *La contraseña debe tener al menos 8 caracteres y
-                            como maximo 50, debe contener al menos una letra
-                            mayúscula, una letra minúscula, un número y un
-                            carácter especial por ejemplo: '! # $ % & * ? @'
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="confirm_password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Confirmar contraseña
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control"
-                        type="password"
-                        value={confirmpassword}
-                        onChange={(e) => {
-                          setConfirmPassword(e.target.value);
-                        }}
-                        required
-                      />
-                      <div>
-                        {passworderror == true ? (
-                          <p className="text-danger">
-                            *La contraseña de confirmación no coincide
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Provincia / Ciudad de trabajo
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control form-control-lg"
-                        placeholder="Localización"
-                        type="text"
-                        value={location}
-                        onChange={(e) => {
-                          setLocation(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Instagram
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control form-control-lg"
-                        placeholder="@Instagram"
-                        type="text"
-                        value={instagram}
-                        onChange={(e) => {
-                          setInstagram(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Servicios
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control form-control-lg"
-                        placeholder="Servicios"
-                        type="text"
-                        value={service}
-                        onChange={(e) => {
-                          setService(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label
-                      htmlFor="password"
-                      className="col-md-4 col-form-label text-md-end"
-                    >
-                      Ubicación exacta
-                    </label>
-                    <div className="col-md-6">
-                      <input
-                        className="form-control form-control-lg"
-                        placeholder="Lugar Favorito"
-                        type="text"
-                        value={sunday}
-                        onChange={(e) => {
-                          setSunday(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <div className="col-md-4 offset-md-4">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="termsAndConditions"
-                          checked={termsAccepted}
-                          onChange={handleCheckbox}
-                          required
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="termsAndConditions"
-                        >
-                          Acepto los terminos y condiciones.
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row mb-0 mt-4">
-                    <div className="col-md-8 offset-md-3">
-                      <button
-                        type="submit"
-                        className="btn btn-warning btn-lg ms-2 text-white"
-                        onClick={() => {
-                          if (!termsAccepted) {
-                            alert(
-                              "Por favor acepta los términos y condiciones."
-                            );
-                            return;
-                          }
-                          if (passworderror == false) {
-                            sendPhotographerRegister();
-                          }
-                        }}
-                      >
-                        <span>Registrarse</span>
-                      </button>
-                      <Link to={"/login"} className="text-decoration-none ps-4">
-                        Tienes una cuenta?
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                ) : null}
+              </label>
+              <div>
+                {erroruser ==
+                "The indicated username is already being used by another user or photographer" ? (
+                  <p className="text-danger">*El nombre se encuentra en uso</p>
+                ) : null}
               </div>
             </div>
-          </div>
+            <div className="user-box sizehomes">
+              <input
+                type="email"
+                name="email"
+                required
+                autoFocus
+                value={email}
+                onChange={(e) => {
+                  setErrorEmail("");
+                  setEmail(e.target.value);
+                  setCredentialsError(false);
+                  setInputClickedEmail(true);
+                }}
+                onClick={() => {
+                  setInputClickedEmail(true);
+                }}
+                onBlur={() => {
+                  setInputClickedEmail(false);
+                }}
+              />
+              <label htmlFor="name" className="row">
+                <div className="col-2">Email &nbsp; &nbsp;&nbsp; </div>
+
+                {inputclickedemail ? (
+                  <div className="text-secondary col-10">
+                    *ejemplo@ejemplo.es
+                  </div>
+                ) : null}
+              </label>
+              <div>
+                {erroremail ==
+                "The indicated email is already being used by another user or photographer" ? (
+                  <p className="text-danger">
+                    *El email indicado ya está siendo utilizado por otro usuario
+                    o fotógrafo."
+                  </p>
+                ) : null}
+              </div>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                name="password"
+                required
+                autoFocus
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPasswordError(false);
+                  setPassword(e.target.value);
+                }}
+                onClick={() => {
+                  setInputClickedPassword(true);
+                }}
+                onBlur={() => {
+                  setInputClickedPassword(false);
+                }}
+              />
+              <label htmlFor="password" className="row">
+                <div className="col-4">Contraseña </div>
+
+                {inputclickedpassword ? (
+                  <div className="text-secondary col-8">
+                    *Ejemplo: Superhero@1
+                  </div>
+                ) : null}
+              </label>
+              <div>
+                {passworderror ==
+                "The entered password is different, please check the password" ? (
+                  <>
+                    <p className="text-danger">*Las contraseñas no coinciden</p>
+                    <p className="text-secondary">
+                      *Longitud minima de 8 caracteres, una mayúscula, un número
+                      y un carácter especial: '! # $ % & * ? @'
+                    </p>
+                  </>
+                ) : null}
+              </div>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                name="password"
+                required
+                autoFocus
+                className=""
+                type="password"
+                value={confirmpassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
+              />
+              <label htmlFor="confirm_password" className="row">
+                <div className="col-12">Confirmar Contraseña </div>
+              </label>
+              <div>
+                {passworderror == true ? (
+                  <p className="text-danger">*La contraseña debe coincidir</p>
+                ) : null}
+              </div>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                required
+                autoFocus
+                className=""
+                type="text"
+                value={location}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                }}
+              />
+              <label htmlFor="text" className="row">
+                <div className="col-12">Provincia</div>
+              </label>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                required
+                autoFocus
+                className=""
+                type="text"
+                value={instagram}
+                onChange={(e) => {
+                  setInstagram(e.target.value);
+                }}
+              />
+              <label htmlFor="text" className="row">
+                <div className="col-12">Instagram</div>
+              </label>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                required
+                autoFocus
+                className=""
+                type="text"
+                value={service}
+                onChange={(e) => {
+                  setService(e.target.value);
+                }}
+              />
+              <label htmlFor="text" className="row">
+                <div className="col-12">Descripción del servicio</div>
+              </label>
+            </div>
+            <div className="user-box sizehomes">
+              <input
+                required
+                autoFocus
+                className=""
+                type="text"
+                value={service}
+                onChange={(e) => {
+                  setSunday(e.target.value);
+                }}
+              />
+              <label htmlFor="text" className="row">
+                <div className="col-12">Ciudad recurrente</div>
+              </label>
+            </div>
+            <div className="sizehomes center-align mb-3">
+              {" "}
+              *Podrás subir fotos en tu perfil más adelante
+            </div>
+            <div className="sizehomes col-12 row mx-auto centrar mb-4">
+              <label class="checkbox-btn ">
+                <label className="" for="checkbox ">
+                  Acepto los términos y condiciones
+                </label>
+                <input
+                  id="checkbox"
+                  type="checkbox"
+                  required
+                  checked={termsAccepted}
+                  onChange={handleCheckbox}
+                />
+                <span class="checkmark mt-1"></span>
+              </label>
+            </div>
+            <div className=" center-align sizehomes">
+              <button
+                className="botonaco px-4 py-1 text-white"
+                onClick={() => {
+                  if (!termsAccepted) {
+                    alert("Por favor acepta los términos y condiciones.");
+                    return;
+                  }
+                  if (passworderror == false) {
+                    sendUserRegister();
+                  }
+                }}
+              >
+                <span style={{ "--i": 1 }}>R</span>
+                <span style={{ "--i": 2 }}>e</span>
+                <span style={{ "--i": 3 }}>g</span>
+                <span style={{ "--i": 4 }}>i</span>
+                <span style={{ "--i": 5 }}>s</span>
+                <span style={{ "--i": 6 }}>t</span>
+                <span style={{ "--i": 7 }}>r</span>
+                <span style={{ "--i": 8 }}>a</span>
+                <span style={{ "--i": 9 }}>r</span>
+                <span style={{ "--i": 10 }}>s</span>
+                <span style={{ "--i": 11 }}>e</span>
+              </button>
+            </div>
+            <div className=" my-2 center-align">
+              <Link className="link" to={"/login"}>
+                ¿Ya tienes una cuenta?
+              </Link>
+            </div>
+          </div>{" "}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
